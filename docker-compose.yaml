@@ -1,9 +1,10 @@
 services:
+
   frontend:
     build:
       context: ./frontend
     ports:
-      - 5173:5173
+      - "5173:5173"
     depends_on:
       - backend
     networks:
@@ -13,7 +14,7 @@ services:
     build:
       context: ./backend
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
       - database
     networks:
@@ -26,14 +27,14 @@ services:
       - mongo_initdb_root_password = fakturki1234
     ports:
       - 27017:27017
-    volumes:
-      - dbdata6:/data/db
+    # volumes:
+    #   - dbdata6:/data/db
     networks:
       - fakturki-network
 
-  volumes:
-    dbdata6:
+  # volumes:
+  #   dbdata6:
 
-  networks:
-    fakturki-network:
-      driver: bridge
+networks:
+  fakturki-network:
+    driver: bridge
