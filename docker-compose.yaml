@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+    networks:
+      - fakturki-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    networks:
+      - fakturki-network
+
+  database:
+    image: mongo:6-jammy
+    environment:
+      - mongo_initdb_root_username = Fakturki
+      - mongo_initdb_root_password = fakturki1234
+    ports:
+      - 27017:27017
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - fakturki-network
+
+  volumes:
+    dbdata6:
+
+  networks:
+    fakturki-network:
+      driver: bridge
