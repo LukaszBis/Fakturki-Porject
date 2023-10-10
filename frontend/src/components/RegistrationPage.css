@@ -1,0 +1,42 @@
+.container-register {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 5em;
+}
+
+.form-container {
+    width: 560px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.leftColumn {
+    float: left;
+}
+.rightColumn {
+    float: left;
+}
+
+.localNr {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#houseNumber {
+    width: 121px;
+}
+#apartmentNumber {
+    width: 121px;
+}
+
+.registrationButton {
+    margin-top: 1em;
+}
+
+.loginButton {
+    padding-top: 1.2em;
+}
