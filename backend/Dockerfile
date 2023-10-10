@@ -11,6 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 RUN npm install express
+RUN npm install mongoose
 
 # Copy the rest of the source files into the image.
 COPY . .
