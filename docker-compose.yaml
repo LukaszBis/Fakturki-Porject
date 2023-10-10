@@ -23,8 +23,12 @@ services:
   database:
     image: mongo:6-jammy
     environment:
-      - mongo_initdb_root_username = Fakturki
-      - mongo_initdb_root_password = fakturki1234
+      - AUTH=yes
+      - MONGODB_ADMIN_USER=admin
+      - MONGODB_ADMIN_PASS=admin123
+      - MONGODB_APPLICATION_DATABASE=FakturkiDB
+      - MONGODB_APPLICATION_USER=Fakturki
+      - MONGODB_APPLICATION_PASS=fakturki1234
     ports:
       - 27017:27017
     # volumes:

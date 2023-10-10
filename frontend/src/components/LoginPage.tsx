@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
       username: username,
       password: password,
     };
-
+    console.log(requestBody)
     fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -41,7 +41,6 @@ const LoginPage: React.FC = () => {
       <div className="login-page">
         <div className="login-container">
           <h1>Zaloguj się</h1>
-          <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="username">Adres e-mail</label><br />
               <input
@@ -62,8 +61,7 @@ const LoginPage: React.FC = () => {
                 required
               />
             </div>
-            <button type="submit">Zaloguj się</button>
-          </form>
+            <button onClick={handleLogin}>Zaloguj się</button>
         </div>
         <div>
           <span>
