@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './HomePage.css';
 import './LoginPage.css';
 import { Link } from 'react-router-dom';
 
@@ -38,6 +37,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
+    <div className='container'>
       <div className="login-page">
         <div className="login-container">
           <h1>Zaloguj się</h1>
@@ -45,6 +45,7 @@ const LoginPage: React.FC = () => {
             <div className="form-group">
               <label htmlFor="username">Adres e-mail</label><br />
               <input
+                placeholder=' example@mail.com'
                 type="text"
                 id="username"
                 value={username}
@@ -55,6 +56,7 @@ const LoginPage: React.FC = () => {
             <div className="form-group">
               <label htmlFor="password">Hasło</label><br />
               <input
+                placeholder=' password'
                 type="password"
                 id="password"
                 value={password}
@@ -62,15 +64,15 @@ const LoginPage: React.FC = () => {
                 required
               />
             </div>
-            <button type="submit">Zaloguj się</button>
+            <button type="submit" className='logIn'>Zaloguj się</button>
           </form>
         </div>
-        <div>
-          <span>
-            Nie masz konta? <Link to="/registration">Zarejestruj się</Link>
-          </span>
+        <div className='plusButton'>
+          <div>Zapomniałeś hasła? <Link to="/resetPassword">Zresetuj hasło</Link></div>
+          <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
         </div>
       </div>
+    </div>
     </>
   );
 };
