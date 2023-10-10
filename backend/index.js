@@ -3,13 +3,14 @@ const bodyParser = require('body-parser')
 const app = express();
 const port = 8080;
 
+//this is new \/
 const cors=require("cors");
 const corsOptions ={
    origin:'*', 
    credentials:true,            //access-control-allow-credentials:true
    optionSuccessStatus:200,
 }
-
+//this is new \/
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
 // Importuj bibliotekę MongoDB
@@ -82,12 +83,13 @@ app.get('/persons', async (req, res) => {
   }
 });
 
+//this is new \/
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.post('/login', async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password; //tu psuje sie
+  const username = req.body.username;//no query instead use body with parser
+  const password = req.body.password;
   let status = 'Nie dodano';
   if (username && password) {
     addPerson(username, password);
@@ -95,11 +97,6 @@ app.post('/login', async (req, res) => {
   }
   res.redirect('/persons?status='+status);
 });
-
-// app.listen(port, 'localhost'); // or server.listen(3001, '0.0.0.0'); for all interfaces
-// app.on('listening', function() {
-//     console.log('Express server started on port %s at %s', server.address().port, server.address().address);
-// });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
