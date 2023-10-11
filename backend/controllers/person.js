@@ -34,6 +34,7 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
         const person = new Person({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber });
         await person.save();
         console.log('Osoba została dodana do bazy danych.');
+        return person;
     } catch (error) {
         console.error('Błąd podczas dodawania osoby:', error);
     }

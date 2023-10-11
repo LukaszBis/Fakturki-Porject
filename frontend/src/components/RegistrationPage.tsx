@@ -60,7 +60,6 @@ const RegistrationPage: React.FC = () => {
         <div className="registration-page">
           <div className="registration-container">
             <h1>Zarejestruj się</h1>
-            <form onSubmit={handleRegistration}>
 
                 <div className='form-container'>
                     <div className='leftColumn'>
@@ -184,8 +183,7 @@ const RegistrationPage: React.FC = () => {
                 </div>
                 
                 
-                <button type="submit" className='registrationButton'>Zarejestruj się</button>
-            </form>
+                <button onClick={handleRegistration} className='registrationButton'>Zarejestruj się</button>
           </div>
           <div className='loginButton'>
             <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>

@@ -60,13 +60,11 @@ app.post('/register', async (req, res) => {
   const houseNumber = req.body.houseNumber;
   const apartmentNumber = req.body.apartmentNumber;
 
-  let status = 'Nie dodano';
   if (firstName && email && password && postalCode && street && lastName && phoneNumber && city && houseNumber) {
-    person.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, houseNumber, apartmentNumber);
-    status = 'Dodano';
-    //res.status(200).send('Register successful');
+    const user = person.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, houseNumber, apartmentNumber);
+    res.status(200).json(user);
   }
-  //res.status(500).send('Register error');
+  res.status(500);
 });
 
 app.listen(port, () => {
