@@ -31,8 +31,8 @@ services:
       - MONGODB_APPLICATION_PASS=fakturki1234
     ports:
       - 27017:27017
-    volumes:
-      - ./database/db:/data/db
+    # volumes:
+    #   - ./database/db:/data/db
     networks:
       - fakturki-network
 

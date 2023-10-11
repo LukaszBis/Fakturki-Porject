@@ -72,7 +72,7 @@ app.post('/register', async (req, res) => {
   }else{
     error_email += "Email musi byc 3 znaki,";
   }
-  res.send({all_errors:{error_firstname, error_email}});
+  //res.send({all_errors:{error_firstname, error_email}});
 
   const password = req.body.password;
   const postalCode = req.body.postalCode;
