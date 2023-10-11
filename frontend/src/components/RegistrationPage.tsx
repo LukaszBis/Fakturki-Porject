@@ -90,7 +90,6 @@ const RegistrationPage: React.FC = () => {
                             id="confirmPassword"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -100,7 +99,6 @@ const RegistrationPage: React.FC = () => {
                             id="firstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -132,7 +130,6 @@ const RegistrationPage: React.FC = () => {
                             id="postalCode"
                             value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -151,7 +148,6 @@ const RegistrationPage: React.FC = () => {
                             id="street"
                             value={street}
                             onChange={(e) => setStreet(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -161,7 +157,6 @@ const RegistrationPage: React.FC = () => {
                             id="buildingNumber"
                             value={buildingNumber}
                             onChange={(e) => setBuildingNumber(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
