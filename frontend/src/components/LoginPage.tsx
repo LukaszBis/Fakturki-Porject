@@ -3,14 +3,14 @@ import './LoginPage.css';
 import { Link } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
 
     const requestBody = {
-      username: username,
+      email: email,
       password: password,
     };
     console.log(requestBody)
@@ -47,8 +47,8 @@ const LoginPage: React.FC = () => {
                 placeholder=' example@mail.com'
                 type="text"
                 id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
