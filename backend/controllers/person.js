@@ -30,14 +30,15 @@ const Person = mongoose.model('Person', personSchema);
 
 
 async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber) {
+    let person;
     try {
-        const person = new Person({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber });
+        person = new Person({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber });
         await person.save();
         console.log('Osoba została dodana do bazy danych.');
-        return person;
     } catch (error) {
         console.error('Błąd podczas dodawania osoby:', error);
     }
+    return person;
 }
 async function displayAll() {
     try {

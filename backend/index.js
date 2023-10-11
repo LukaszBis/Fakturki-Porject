@@ -61,8 +61,12 @@ app.post('/register', async (req, res) => {
   const apartmentNumber = req.body.apartmentNumber;
 
   if (firstName && email && password && postalCode && street && lastName && phoneNumber && city && houseNumber) {
-    const user = person.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, houseNumber, apartmentNumber);
-    res.status(200).json(user);
+    const user = await person.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, houseNumber, apartmentNumber);
+    //response variable
+    //res.status(200).send({user-firstname:firstName});
+    //response json
+    //res.status(200).json({user_data:user});
+    res.status(200);
   }
   res.status(500);
 });
