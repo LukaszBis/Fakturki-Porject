@@ -78,11 +78,11 @@ app.get('/', (req, res) => {
 app.get('/persons', async (req, res) => {
   try {
     let tableHTML = req.query.status+'<br><table>';
-    tableHTML += '<tr><th>Email</th><th>Hasło</th></tr>';
+    tableHTML += '<tr><th>Email</th><th>Imię</th><th>Nazwisko</th></tr>';
 
     const persons = await displayAllPersons();
     persons.forEach((person) => {
-      tableHTML += `<tr><td>${person.email}</td><td>${person.password}</td></tr>`;
+      tableHTML += `<tr><td>${person.email}</td><td>${person.firstName}</td><td>${person.lastName}</td></tr>`;
     });
 
     tableHTML += '</table>';
@@ -110,12 +110,12 @@ app.post('/register', async (req, res) => {
   const apartmentNumber = req.body.apartmentNumber;
 
   let status = 'Nie dodano';
-  if (firstName && email && password && postalCode && street && lastName && phoneNumber && city && houseNumber && apartmentNumber) {
-    addPerson(firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber);
+  if (firstName && email && password && postalCode && street && lastName && phoneNumber && city && houseNumber) {
+    addPerson(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, houseNumber, apartmentNumber);
     status = 'Dodano';
-    res.status(200).send('Register successful');
+    //res.status(200).send('Register successful');
   }
-  res.status(500).send('Register error');
+  //res.status(500).send('Register error');
 });
 
 app.listen(port, () => {
