@@ -72,7 +72,6 @@ const RegistrationPage: React.FC = () => {
                             id="firstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -82,7 +81,6 @@ const RegistrationPage: React.FC = () => {
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -92,7 +90,6 @@ const RegistrationPage: React.FC = () => {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -102,7 +99,6 @@ const RegistrationPage: React.FC = () => {
                             id="postalCode"
                             value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -112,7 +108,6 @@ const RegistrationPage: React.FC = () => {
                             id="street"
                             value={street}
                             onChange={(e) => setStreet(e.target.value)}
-                            required
                             />
                         </div>
                     </div>
@@ -126,7 +121,6 @@ const RegistrationPage: React.FC = () => {
                             id="lastName"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -136,7 +130,6 @@ const RegistrationPage: React.FC = () => {
                             id="phoneNumber"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -146,7 +139,6 @@ const RegistrationPage: React.FC = () => {
                             id="confirmPassword"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
                             />
                         </div>
                         <div className="form-group">
@@ -156,7 +148,6 @@ const RegistrationPage: React.FC = () => {
                             id="city"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
-                            required
                             />
                         </div>
                         <div className='localNr'>
@@ -167,7 +158,6 @@ const RegistrationPage: React.FC = () => {
                                 id="houseNumber"
                                 value={houseNumber}
                                 onChange={(e) => setHouseNumber(e.target.value)}
-                                required
                                 />
                             </div>
                             <div className="form-group">
@@ -190,7 +180,6 @@ const RegistrationPage: React.FC = () => {
                                 id="NIP"
                                 value={NIP}
                                 onChange={(e) => setNIPNumber(e.target.value)}
-                                required
                                 />
                             </div>
                         </div>

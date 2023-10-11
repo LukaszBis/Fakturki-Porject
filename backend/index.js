@@ -41,7 +41,7 @@ app.get('/persons', async (req, res) => {
     res.send(tableHTML);
   } catch (error) {
     console.error('Błąd podczas obsługi ścieżki /login:', error);
-    res.status(500).send('Wystąpił błąd podczas pobierania danych.');
+    res.status(400).send('Wystąpił błąd podczas pobierania danych.');
   }
 });
 
@@ -54,12 +54,30 @@ app.post('/login', async (req, res) => {
   if (user) {
     res.status(200).send({user_id:user._id});
   }
-  res.status(500);
+  res.status(400);
 });
 app.post('/register', async (req, res) => {
   //no query instead use body with parser
+  let error_firstname = '';
+  let error_email = '';
   const firstName = req.body.firstName;
+  if (!firstName){
+    error_firstname + "Puste,";
+  }else{
+    if (firstName < 3){
+      error_firstname + "Imie musi byc 3 znaki,";
+    }
+  }
   const email = req.body.email;
+  if (!email){
+    error_email + "Puste,";
+  }else{
+    if (email < 3){
+      error_email + "Imie musi byc 3 znaki,";
+    }
+  }
+  res.send({all_errors:{error_firstname, error_email}});
+
   const password = req.body.password;
   const postalCode = req.body.postalCode;
   const street = req.body.street;
@@ -78,7 +96,7 @@ app.post('/register', async (req, res) => {
     //res.status(200).json({user_data:user});
     res.status(200).send({user_id:user._id});
   }
-  res.status(500);
+  res.status(400);
 });
 
 app.listen(port, () => {
