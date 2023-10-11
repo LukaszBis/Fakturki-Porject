@@ -12,7 +12,7 @@ const RegistrationPage: React.FC = () => {
   const [postalCode, setPostalCode] = useState('');
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
-  const [houseNumber, setHouseNumber] = useState('');
+  const [buildingNumber, setBuildingNumber] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [NIP, setNIPNumber] = useState('');
 
@@ -29,7 +29,7 @@ const RegistrationPage: React.FC = () => {
       phoneNumber: phoneNumber,
       confirmPassword: confirmPassword,
       city: city,
-      houseNumber: houseNumber,
+      buildingNumber: buildingNumber,
       apartmentNumber: apartmentNumber,
       NIP: NIP,
     };
@@ -66,15 +66,6 @@ const RegistrationPage: React.FC = () => {
                 <div className='form-container'>
                     <div className='leftColumn'>
                         <div className="form-group">
-                            <label htmlFor="firstName">Imię</label><br />
-                            <input
-                            type="text"
-                            id="firstName"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label htmlFor="email">Adres e-mail</label><br />
                             <input
                             type="email"
@@ -93,27 +84,25 @@ const RegistrationPage: React.FC = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="postalCode">Kod pocztowy</label><br />
+                            <label htmlFor="confirmPassword">Powtórz hasło</label><br />
                             <input
-                            type="text"
-                            id="postalCode"
-                            value={postalCode}
-                            onChange={(e) => setPostalCode(e.target.value)}
+                            type="password"
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="street">Ulica</label><br />
+                            <label htmlFor="firstName">Imię</label><br />
                             <input
                             type="text"
-                            id="street"
-                            value={street}
-                            onChange={(e) => setStreet(e.target.value)}
+                            id="firstName"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
                             />
                         </div>
-                    </div>
-
-
-                    <div className='rightColumn'>
                         <div className="form-group">
                             <label htmlFor="lastName">Nazwisko</label><br />
                             <input
@@ -132,13 +121,18 @@ const RegistrationPage: React.FC = () => {
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             />
                         </div>
+                    </div>
+
+
+                    <div className='rightColumn'>
                         <div className="form-group">
-                            <label htmlFor="confirmPassword">Powtórz hasło</label><br />
+                            <label htmlFor="postalCode">Kod pocztowy</label><br />
                             <input
-                            type="password"
-                            id="confirmPassword"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            type="text"
+                            id="postalCode"
+                            value={postalCode}
+                            onChange={(e) => setPostalCode(e.target.value)}
+                            required
                             />
                         </div>
                         <div className="form-group">
@@ -150,28 +144,36 @@ const RegistrationPage: React.FC = () => {
                             onChange={(e) => setCity(e.target.value)}
                             />
                         </div>
-                        <div className='localNr'>
-                            <div className="form-group">
-                                <label htmlFor="houseNumber">Nr domu</label><br />
-                                <input
-                                type="text"
-                                id="houseNumber"
-                                value={houseNumber}
-                                onChange={(e) => setHouseNumber(e.target.value)}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="apartmentNumber">Nr mieszkania</label><br />
-                                <input
-                                className='numberHouse'
-                                type="text"
-                                id="apartmentNumber"
-                                value={apartmentNumber}
-                                onChange={(e) => setApartmentNumber(e.target.value)}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="street">Ulica</label><br />
+                            <input
+                            type="text"
+                            id="street"
+                            value={street}
+                            onChange={(e) => setStreet(e.target.value)}
+                            required
+                            />
                         </div>
-
+                        <div className="form-group">
+                            <label htmlFor="buildingNumber">Nr budynku</label><br />
+                            <input
+                            type="text"
+                            id="buildingNumber"
+                            value={buildingNumber}
+                            onChange={(e) => setBuildingNumber(e.target.value)}
+                            required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="apartmentNumber">Nr lokalu</label><br />
+                            <input
+                            className='numberHouse'
+                            type="text"
+                            id="apartmentNumber"
+                            value={apartmentNumber}
+                            onChange={(e) => setApartmentNumber(e.target.value)}
+                            />
+                        </div>
                         <div className='NrNip'>
                             <div className="form-group">
                                 <label htmlFor="NIP">Nr NIP</label><br />

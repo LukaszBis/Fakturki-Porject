@@ -20,19 +20,6 @@
     float: left;
 }
 
-.localNr {
-    width: 250px;
-    display: flex;
-    justify-content: space-between;
-}
-
-#houseNumber {
-    width: 121px;
-}
-#apartmentNumber {
-    width: 121px;
-}
-
 .registrationButton {
     margin-top: 1em;
 }
