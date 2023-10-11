@@ -62,15 +62,15 @@ app.post('/register', async (req, res) => {
   let error_email = '';
   const firstName = req.body.firstName;
   if (!firstName){
-    error_firstname + "Puste,";
+    error_firstname += "Puste,";
   }else{
-    error_firstname + "Imie musi byc 3 znaki,";
+    error_firstname += "Imie musi byc 3 znaki,";
   }
   const email = req.body.email;
   if (!email){
-    error_email + "Puste,";
+    error_email += "Puste,";
   }else{
-    error_email + "Email musi byc 3 znaki,";
+    error_email += "Email musi byc 3 znaki,";
   }
   res.send({all_errors:{error_firstname, error_email}});
 
