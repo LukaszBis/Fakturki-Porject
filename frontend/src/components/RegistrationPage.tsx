@@ -16,7 +16,32 @@ const RegistrationPage: React.FC = () => {
   const [apartmentNumber, setApartmentNumber] = useState('');
 
   const handleRegistration = () => {
-    // Fetch API
+    const apiUrl = 'http://localhost:8080/register';
+
+    const requestBody = {
+      username: email,
+      password: password,
+    };
+    console.log(requestBody)
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Register failed');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Register successful:', data);
+      })
+      .catch((error) => {
+        console.error('Register error:', error);
+      });
   };
 
   return (

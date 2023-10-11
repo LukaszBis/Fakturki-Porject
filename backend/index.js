@@ -87,7 +87,7 @@ app.get('/persons', async (req, res) => {
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.post('/login', async (req, res) => {
+app.post('/register', async (req, res) => {
   const username = req.body.username;//no query instead use body with parser
   const password = req.body.password;
   let status = 'Nie dodano';
