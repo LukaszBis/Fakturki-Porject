@@ -46,6 +46,16 @@ app.get('/persons', async (req, res) => {
 });
 
 
+app.post('/login', async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const user = await person.get(email, password);
+  if (user) {
+    res.status(200).send({user_id:user._id});
+  }
+  res.status(500);
+});
 app.post('/register', async (req, res) => {
   //no query instead use body with parser
   const firstName = req.body.firstName;
@@ -66,7 +76,7 @@ app.post('/register', async (req, res) => {
     //res.status(200).send({user-firstname:firstName});
     //response json
     //res.status(200).json({user_data:user});
-    res.status(200);
+    res.status(200).send({user_id:user._id});
   }
   res.status(500);
 });

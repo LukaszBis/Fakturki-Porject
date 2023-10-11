@@ -40,6 +40,20 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
     }
     return person;
 }
+async function get(email, password) {
+    try {
+        const user = await Person.findOne({ email: email, password: password }).exec(); // Pobierz wszystkie osoby z bazy danych
+        if (user){
+            console.log('Znaleziony użytkownik:', user);
+        }else{
+            console.log('Nie znaleziono użytkownika: ', email);
+        }
+        return user;
+    } catch (error) {
+        console.error('Błąd podczas pobierania osób:', error);
+        throw error;
+    }
+}
 async function displayAll() {
     try {
         const persons = await Person.find().exec(); // Pobierz wszystkie osoby z bazy danych
@@ -51,4 +65,4 @@ async function displayAll() {
     }
 }
 
-module.exports = { add,displayAll };
+module.exports = { add,get,displayAll };
