@@ -19,9 +19,19 @@ const RegistrationPage: React.FC = () => {
     const apiUrl = 'http://localhost:8080/register';
 
     const requestBody = {
-      username: email,
+      firstName: firstName,
+      email: email,
       password: password,
+      postalCode: postalCode,
+      street: street,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      confirmPassword: confirmPassword,
+      city: city,
+      houseNumber: houseNumber,
+      apartmentNumber: apartmentNumber,
     };
+
     console.log(requestBody)
     fetch(apiUrl, {
       method: 'POST',
@@ -167,7 +177,6 @@ const RegistrationPage: React.FC = () => {
                                 id="apartmentNumber"
                                 value={apartmentNumber}
                                 onChange={(e) => setApartmentNumber(e.target.value)}
-                                required
                                 />
                             </div>
                         </div>

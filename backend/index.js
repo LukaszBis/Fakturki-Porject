@@ -1,7 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
 const app = express();
 const port = 8080;
+// Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
+const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
+
+//this is new \/
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 //this is new \/
 const cors=require("cors");
@@ -12,38 +19,42 @@ const corsOptions ={
 }
 //this is new \/
 app.use(cors(corsOptions)) // Use this after the variable declaration
-
-// Importuj bibliotekę MongoDB
-const mongoose = require('mongoose');
-
-// Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
-const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
-
 // Połączenie z bazą danych
 mongoose.connect(`mongodb://${dbHost}:27017/faktury`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 const db = mongoose.connection;
-
 db.on('error', (error) => {
   console.error('Błąd połączenia z bazą danych:', error);
 });
-
 db.once('open', () => {
   console.log('Połączono z bazą danych MongoDB');
 });
 
 
+
+
+
+
 const personSchema = new mongoose.Schema({
-  login: String,
+  firstName: String,
+  email: String,
   password: String,
+  postalCode: String,
+  street: String,
+  lastName: String,
+  phoneNumber: Number,
+  city: String,
+  houseNumber: String,
+  apartmentNumber: String,
 });
 const Person = mongoose.model('Person', personSchema);
-async function addPerson(login, password) {
+
+
+async function addPerson(firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber) {
   try {
-    const person = new Person({ login, password });
+    const person = new Person({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber });
     await person.save();
     console.log('Osoba została dodana do bazy danych.');
   } catch (error) {
@@ -67,11 +78,11 @@ app.get('/', (req, res) => {
 app.get('/persons', async (req, res) => {
   try {
     let tableHTML = req.query.status+'<br><table>';
-    tableHTML += '<tr><th>Login</th><th>Hasło</th></tr>';
+    tableHTML += '<tr><th>Email</th><th>Hasło</th></tr>';
 
     const persons = await displayAllPersons();
     persons.forEach((person) => {
-      tableHTML += `<tr><td>${person.login}</td><td>${person.password}</td></tr>`;
+      tableHTML += `<tr><td>${person.email}</td><td>${person.password}</td></tr>`;
     });
 
     tableHTML += '</table>';
@@ -83,19 +94,28 @@ app.get('/persons', async (req, res) => {
   }
 });
 
-//this is new \/
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.post('/register', async (req, res) => {
-  const username = req.body.username;//no query instead use body with parser
+  //no query instead use body with parser
+  const firstName = req.body.firstName;
+  const email = req.body.email;
   const password = req.body.password;
+  const postalCode = req.body.postalCode;
+  const street = req.body.street;
+  const lastName = req.body.lastName;
+  const phoneNumber = req.body.phoneNumber;
+  const confirmPassword = req.body.confirmPassword;
+  const city = req.body.city;
+  const houseNumber = req.body.houseNumber;
+  const apartmentNumber = req.body.apartmentNumber;
+
   let status = 'Nie dodano';
-  if (username && password) {
-    addPerson(username, password);
+  if (firstName && email && password && postalCode && street && lastName && phoneNumber && city && houseNumber && apartmentNumber) {
+    addPerson(firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber);
     status = 'Dodano';
+    res.status(200).send('Register successful');
   }
-  res.redirect('/persons?status='+status);
+  res.status(500).send('Register error');
 });
 
 app.listen(port, () => {
