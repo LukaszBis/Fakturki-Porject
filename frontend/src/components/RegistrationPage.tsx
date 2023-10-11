@@ -14,6 +14,7 @@ const RegistrationPage: React.FC = () => {
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
+  const [NIP, setNIPNumber] = useState('');
 
   const handleRegistration = () => {
     const apiUrl = 'http://localhost:8080/register';
@@ -30,6 +31,7 @@ const RegistrationPage: React.FC = () => {
       city: city,
       houseNumber: houseNumber,
       apartmentNumber: apartmentNumber,
+      NIP: NIP,
     };
 
     console.log(requestBody)
@@ -176,6 +178,19 @@ const RegistrationPage: React.FC = () => {
                                 id="apartmentNumber"
                                 value={apartmentNumber}
                                 onChange={(e) => setApartmentNumber(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className='NrNip'>
+                            <div className="form-group">
+                                <label htmlFor="NIP">Nr NIP</label><br />
+                                <input
+                                type="text"
+                                id="NIP"
+                                value={NIP}
+                                onChange={(e) => setNIPNumber(e.target.value)}
+                                required
                                 />
                             </div>
                         </div>
