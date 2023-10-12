@@ -37,8 +37,8 @@ const ResetPasswordPage: React.FC = () => {
   return (
     <>
     <div className="container-reset">
-      <div className="form-container">
-          <label htmlFor="email">Email:</label>
+      <div className="form-container-reset">
+          <label htmlFor="email">Email:</label><br/>
           <input
               type="email"
               id="email"
@@ -47,7 +47,7 @@ const ResetPasswordPage: React.FC = () => {
               value={email}
               onChange={(e) => setResetEmail(e.target.value)}
               required
-          />
+          /><br/>
           <button onClick={handleResetPasswordPage} className='resetButton'>Resetuj hasło</button>
       </div>
     </div>
