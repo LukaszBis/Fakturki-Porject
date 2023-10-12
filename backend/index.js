@@ -122,7 +122,7 @@ app.post('/register', async (req, res) => {
   validation.equal(errors.NIP,NIP,10)?err=true:null;
   await user.NIPUnique(errors.NIP,NIP)?err=true:null;
   if (err){
-    res.status(200).json({ errors });
+    res.json({ errors });
     return;
   }
 
@@ -131,7 +131,7 @@ app.post('/register', async (req, res) => {
   //res.status(200).send({user-firstname:firstName});
   //response json
   //res.status(200).json({user_data:user});
-  res.status(200).send({user_id:get_user._id});
+  res.send({user_id:get_user._id});
 });
 
 app.listen(port, () => {
