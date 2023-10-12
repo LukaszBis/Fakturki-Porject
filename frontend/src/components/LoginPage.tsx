@@ -66,7 +66,7 @@ const LoginPage: React.FC = () => {
             <button onClick={handleLogin} className='logIn'>Zaloguj się</button>
         </div>
         <div className='plusButton'>
-          <div>Zapomniałeś hasła? <Link to="/resetPassword">Zresetuj hasło</Link></div>
+          <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
           <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
         </div>
       </div>

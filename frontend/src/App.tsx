@@ -3,6 +3,7 @@ import './App.css';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
+import ResetPasswordPage from './components/ResetPasswordPage';
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
       <Route index element={<HomePage />} />
       <Route path="login" element={<LoginPage/>} /> 
       <Route path="registration" element={<RegistrationPage/>} /> 
-      {/* <Route path="ressetPassword" element={<essetPassword/>} /> */}
+      <Route path="reset" element={<ResetPasswordPage/>} />
     </Routes>
   </BrowserRouter>
   );
