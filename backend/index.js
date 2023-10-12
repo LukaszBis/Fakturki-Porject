@@ -48,7 +48,7 @@ app.get('/', async (req, res) => {
 app.post('/resetPassword', async (req, res) => {
   const email = req.body.email;
 
-  const get_user = await user.get(email);
+  const get_user = await user.emailUnique(email);
   if (get_user) {
     res.send({success:"Email znaleziony"});
   }
