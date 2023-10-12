@@ -14,7 +14,7 @@ db.once('open', () => {
   console.log('Połączono z bazą danych MongoDB');
 });
 
-const personSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     firstName: String,
     email: String,
     password: String,
@@ -23,26 +23,27 @@ const personSchema = new mongoose.Schema({
     lastName: String,
     phoneNumber: Number,
     city: String,
-    houseNumber: String,
+    buildingNumber: String,
     apartmentNumber: String,
+    NIP: Number,
 });
-const Person = mongoose.model('Person', personSchema);
+const User = mongoose.model('User', userSchema);
 
 
-async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber) {
-    let person;
+async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP) {
+    let user;
     try {
-        person = new Person({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, houseNumber, apartmentNumber });
-        await person.save();
+        user = new User({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP });
+        await user.save();
         console.log('Osoba została dodana do bazy danych.');
     } catch (error) {
         console.error('Błąd podczas dodawania osoby:', error);
     }
-    return person;
+    return user;
 }
 async function get(email, password) {
     try {
-        const user = await Person.findOne({ email: email, password: password }).exec(); // Pobierz wszystkie osoby z bazy danych
+        const user = await User.findOne({ email: email, password: password }).exec(); // Pobierz wszystkie osoby z bazy danych
         if (user){
             console.log('Znaleziony użytkownik:', user);
         }else{
@@ -56,9 +57,9 @@ async function get(email, password) {
 }
 async function displayAll() {
     try {
-        const persons = await Person.find().exec(); // Pobierz wszystkie osoby z bazy danych
-        console.log('Wszystkie osoby w bazie danych:', persons);
-        return persons;
+        const users = await User.find().exec(); // Pobierz wszystkie osoby z bazy danych
+        console.log('Wszystkie osoby w bazie danych:', users);
+        return users;
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
         throw error;

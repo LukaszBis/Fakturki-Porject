@@ -73,6 +73,7 @@ const RegistrationPage: React.FC = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             />
+                            <span className="error"></span>
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Hasło</label><br />
