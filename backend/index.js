@@ -88,6 +88,7 @@ app.post('/register', async (req, res) => {
   };
   validation.check(errors.email,email)?err=true:null;
   validation.email(errors.email,email)?err=true:null;
+  await user.emailUnique(errors.email,email)?err=true:null;
 
   validation.check(errors.password,password)?err=true:null;
   validation.min(errors.password,password,8)?err=true:null;
@@ -119,6 +120,7 @@ app.post('/register', async (req, res) => {
   validation.check(errors.NIP,NIP)?err=true:null;
   validation.number(errors.NIP,NIP)?err=true:null;
   validation.equal(errors.NIP,NIP,10)?err=true:null;
+  await user.NIPUnique(errors.NIP,NIP)?err=true:null;
   if (err){
     res.status(200).json({ errors });
     return;

@@ -56,5 +56,12 @@ function compare(arr, value, value2) {
     }
     return false;
 }
+function unique(arr, value, value2) {
+    if (value != value2){
+        arr.push("Podane dane różnią się od siebie");
+        return true;
+    }
+    return false;
+}
 
 module.exports = { check, text, email, number, equal, min, max, compare };
