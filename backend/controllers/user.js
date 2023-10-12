@@ -55,6 +55,20 @@ async function get(email, password) {
         throw error;
     }
 }
+async function checkEmail(email) {
+    try {
+        const user = await User.findOne({ email: email, password: password }).exec();
+        if (user){
+            console.log('Znaleziony użytkownik:', user);
+        }else{
+            console.log('Nie znaleziono użytkownika: ', email);
+        }
+        return user;
+    } catch (error) {
+        console.error('Błąd podczas pobierania osób:', error);
+        throw error;
+    }
+}
 async function NIPUnique(arr, NIP) {
     try {
         arr.push("Konto z podanym NIP już istnieje.");
@@ -68,9 +82,8 @@ async function NIPUnique(arr, NIP) {
         throw error;
     }
 }
-async function emailUnique(arr, email) {
+async function emailUnique(email) {
     try {
-        arr.push("Konto z podanym adresem email już istnieje.");
         const user = await User.findOne({ email: email }).exec();
         if(user){
             return true;
@@ -92,4 +105,4 @@ async function displayAll() {
     }
 }
 
-module.exports = { add,get,displayAll,NIPUnique,emailUnique };
+module.exports = { add,get,displayAll,checkEmail,NIPUnique,emailUnique };
