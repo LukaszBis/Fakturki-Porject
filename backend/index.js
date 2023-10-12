@@ -51,6 +51,7 @@ app.post('/resetPassword', async (req, res) => {
   const get_user = await user.emailUnique(email);
   if (get_user) {
     res.send({success:"Email znaleziony"});
+    return;
   }
   res.send({fail:"Email nie znaleziony"});
 });
