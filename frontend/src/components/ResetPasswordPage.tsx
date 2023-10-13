@@ -30,7 +30,7 @@ const ResetPasswordPage: React.FC = () => {
         console.log('Password reset successful:', data);
         // console.log(data.success)
         // console.log(data.fail)
-        if(data.success === "Email znaleziony") {
+        if(data.success) {
           console.log('moja stara najebana')
           setShowModal(true);
           //ustawiac validated true albo false blad czy nie

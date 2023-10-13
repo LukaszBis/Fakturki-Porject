@@ -22,8 +22,7 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 
 const user = require("./controllers/user");
 const validation = require("./controllers/validation");
-const mail = require("./controllers/mail");
-
+const passwordReset = require("./controllers/passwordReset");
 
 
 
@@ -49,10 +48,14 @@ app.get('/', async (req, res) => {
 app.post('/resetPassword', async (req, res) => {
   const email = req.body.email;
 
-  const get_user = await user.emailUnique(email);
+  const get_user = await user.checkEmail(email);
   if (get_user) {
-    mail.send(email);
-    res.send({success:"Email znaleziony"});
+    const check = passwordReset.add(email);
+    if (check){
+      res.send({success:"Email wysłany"});
+      return;
+    }
+    res.send({fail:"Email nie został wysłany"});
     return;
   }
   res.send({fail:"Email nie znaleziony"});

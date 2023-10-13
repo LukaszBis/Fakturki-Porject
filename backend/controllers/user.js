@@ -74,11 +74,6 @@ async function passwordCompare(passwordHash, password) {
 async function checkEmail(email) {
     try {
         const user = await User.findOne({ email: email }).exec();
-        if (user){
-            console.log('Znaleziony użytkownik:', user);
-        }else{
-            console.log('Nie znaleziono użytkownika: ', email);
-        }
         return user;
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
