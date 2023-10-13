@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const app = express();
 const port = 8080;
 
@@ -22,6 +22,7 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 
 const user = require("./controllers/user");
 const validation = require("./controllers/validation");
+const mail = require("./controllers/mail");
 
 
 
@@ -50,7 +51,9 @@ app.post('/resetPassword', async (req, res) => {
 
   const get_user = await user.emailUnique(email);
   if (get_user) {
+    mail.send(email);
     res.send({success:"Email znaleziony"});
+    return;
   }
   res.send({fail:"Email nie znaleziony"});
 });
@@ -58,12 +61,21 @@ app.post('/resetPassword', async (req, res) => {
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  const get_user = await user.get(email, password);
-  if (get_user) {
-    res.status(200).send({user_id:get_user._id});
+  if (email.trim() == ''){
+    return;
   }
-  res.status(400);
+
+  const get_user = await user.checkEmail(email);
+  if (get_user) {
+    const passwordHash = get_user.passwordHash;
+    if (await user.passwordCompare(passwordHash, password)){
+      res.send({success:get_user._id});
+      return;
+    }
+    res.send({fail:"Niepoprawne hasło."});
+    return;
+  }
+  res.send({fail:"Niepoprawny adres email."});
 });
 
 app.post('/register', async (req, res) => {
@@ -141,7 +153,7 @@ app.post('/register', async (req, res) => {
   //res.status(200).send({user-firstname:firstName});
   //response json
   //res.status(200).json({user_data:user});
-  res.send({user_id:get_user._id});
+  res.send({success:get_user._id});
 });
 
 app.listen(port, () => {
