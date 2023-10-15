@@ -1,0 +1,59 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .logo {
+    width: 20em;
+    height: auto;
+  }
+  
+  .buttonsContainer {
+    display: flex;
+  }
+  
+.loginButton,.registrationButton{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .lockIcon {
+    width: 35px;
+    margin-right: 5px;
+  }
+  .body p{
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+ 
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+.row p{
+    font-size: 1.5em;
+}
+
+.column {
+    text-align: center;
+}
+  
+.laptopContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px; 
+  }
+  
+  .laptop {
+    width: 60%; 
+    height: auto;
+  }
+
+
