@@ -3,6 +3,7 @@ import styles from './ResetPasswordPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { Link } from 'react-router-dom';
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
@@ -64,6 +65,9 @@ const ResetPasswordPage: React.FC = () => {
             <button onClick={handleResetPasswordPage} className={styles.resetButton}>Resetuj hasło</button>
         </div>
             {/* <p className="error-message">{errorMessage}</p> */}
+            <div className={styles.loginButton}>
+              <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
+            </div>
     </div>
       
     </div>
