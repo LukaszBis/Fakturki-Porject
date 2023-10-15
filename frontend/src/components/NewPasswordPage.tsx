@@ -14,6 +14,7 @@ const NewPasswordPage: React.FC = () => {
 
     const requestBody = {
         password: password,
+        confirmPassword: confirmPassword,
     };
     console.log(requestBody)
 
