@@ -11,6 +11,8 @@ RUN npm install express
 RUN npm install mongoose
 RUN npm install cors
 RUN npm install body-parser
+RUN npm install nodemailer
+RUN npm install bcrypt
 
 # Copy the rest of the source files into the image.
 COPY . .

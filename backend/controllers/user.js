@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 // Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
 const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
 // Połączenie z bazą danych
@@ -15,25 +16,43 @@ db.once('open', () => {
 });
 
 const userSchema = new mongoose.Schema({
-    firstName: String,
     email: String,
-    password: String,
-    postalCode: String,
-    street: String,
+    passwordHash: String,
+    firstName: String,
     lastName: String,
     phoneNumber: Number,
+    NIP: Number,
+    postalCode: String,
     city: String,
+    street: String,
     buildingNumber: String,
     apartmentNumber: String,
-    NIP: Number,
+    created_at: Date,
+    updated_at: Date,
 });
 const User = mongoose.model('User', userSchema);
-
 
 async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP) {
     let user;
     try {
-        user = new User({ firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP });
+        const created_at = new Date();
+        const updated_at = new Date();
+        const passwordHash = await bcrypt.hash(password, 10);
+        user = new User({ 
+            email, 
+            passwordHash, 
+            firstName, 
+            lastName, 
+            phoneNumber, 
+            NIP, 
+            postalCode, 
+            city, 
+            street, 
+            buildingNumber, 
+            apartmentNumber, 
+            created_at, 
+            updated_at 
+        });
         await user.save();
         console.log('Osoba została dodana do bazy danych.');
     } catch (error) {
@@ -41,15 +60,12 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
     }
     return user;
 }
-async function get(email, password) {
+async function passwordCompare(passwordHash, password) {
     try {
-        const user = await User.findOne({ email: email, password: password }).exec();
-        if (user){
-            console.log('Znaleziony użytkownik:', user);
-        }else{
-            console.log('Nie znaleziono użytkownika: ', email);
+        if (await bcrypt.compare(password, passwordHash)){
+            return true;
         }
-        return user;
+        return false;
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
         throw error;
@@ -57,12 +73,7 @@ async function get(email, password) {
 }
 async function checkEmail(email) {
     try {
-        const user = await User.findOne({ email: email, password: password }).exec();
-        if (user){
-            console.log('Znaleziony użytkownik:', user);
-        }else{
-            console.log('Nie znaleziono użytkownika: ', email);
-        }
+        const user = await User.findOne({ email: email }).exec();
         return user;
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
@@ -71,26 +82,27 @@ async function checkEmail(email) {
 }
 async function NIPUnique(arr, NIP) {
     try {
-        arr.push("Konto z podanym NIP już istnieje.");
         const user = await User.findOne({ NIP: NIP }).exec();
         if(user){
+            arr.push("Konto z podanym NIP już istnieje.");
             return true;
         }
         return false;
     } catch (error) {
-        console.error('Błąd podczas sprawdzania unikalności:', error);
+        console.error('Błąd podczas sprawdzania unikalności NIP:', error);
         throw error;
     }
 }
-async function emailUnique(email) {
+async function emailUnique(arr, email) {
     try {
         const user = await User.findOne({ email: email }).exec();
         if(user){
+            arr.push("Konto z podanym adresem email już istnieje.");
             return true;
         }
         return false;
     } catch (error) {
-        console.error('Błąd podczas sprawdzania unikalności:', error);
+        console.error('Błąd podczas sprawdzania unikalności adresu email:', error);
         throw error;
     }
 }
@@ -105,4 +117,4 @@ async function displayAll() {
     }
 }
 
-module.exports = { add,get,displayAll,checkEmail,NIPUnique,emailUnique };
+module.exports = { add,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
