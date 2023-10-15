@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import './ResetPasswordPage.css';
+import styles from './ResetPasswordPage.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { InputGroup } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  // const [errorMessage, setErrorMessage] = useState('');
+  const [validatedEmail, setValidatedEmail] = useState(false);
 
   const handleResetPasswordPage = () => {
     const apiUrl = 'http://localhost:8080/resetPassword';
@@ -27,42 +31,59 @@ const ResetPasswordPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Password reset successful:', data);
-        // console.log(data.success)
-        // console.log(data.fail)
-        if(data.success === "Email znaleziony") {
-          console.log('moja stara najebana')
-          setShowModal(true);
-          //ustawiac validated true albo false blad czy nie
+        if(data.success === "") {
+          console.log('Correct email:', data);
+          //showmodal
         }else {
-          console.log('Brak emaila w bazie danych.');
-          setErrorMessage('Brak emaila w bazie danych.');
+          if(data.errors.email != "") {
+            setValidatedEmail(true);
+          }
         }
-        // data.errors.email[0]
-        // if(data.succes)
-      })
-      .catch((error) => {
-        console.error('Password reset error:', error);
       });
+      //   console.log('Password reset successful:', data);
+      //   // console.log(data.success)
+      //   // console.log(data.fail)
+      //   if(data.success === "Email znaleziony") {
+      //     console.log('moja stara najebana')
+      //     setShowModal(true);
+      //     //ustawiac validated true albo false blad czy nie
+      //   }else {
+      //     console.log('Brak emaila w bazie danych.');
+      //     setErrorMessage('Brak emaila w bazie danych.');
+      //   }
+      //   // data.errors.email[0]
+      //   // if(data.succes)
+      // })
+      // .catch((error) => {
+      //   console.error('Password reset error:', error);
+      // });
   };
 
   return (
     <>
-    <div className="container-reset">
-      <div className="form-container-reset">
-          <label htmlFor="email">Email:</label><br/>
-          <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder=' example@mail.com'
-              value={email}
-              onChange={(e) => setResetEmail(e.target.value)}
-              required
-          /><br/>
-          <button onClick={handleResetPasswordPage} className='resetButton'>Resetuj hasło</button>
-      </div>
-          <p className="error-message">{errorMessage}</p>
+    <div className={styles.container_reset}>
+    <h1>Zresetuj hasło</h1><br />
+    <div className={styles.resetStyle}>
+      <div className={styles.form_container_reset}>
+            <label htmlFor="email">Email:</label><br/>
+            <InputGroup className={styles.inputText} hasValidation>
+              <Form.Control
+                type="email"
+                id="email"
+                placeholder='example@mail.com'
+                value={email}
+                isInvalid={validatedEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+              />
+              <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                Wprowadź poprawny email.
+              </Form.Control.Feedback>
+            </InputGroup><br/>
+            <button onClick={handleResetPasswordPage} className={styles.resetButton}>Resetuj hasło</button>
+        </div>
+            {/* <p className="error-message">{errorMessage}</p> */}
+    </div>
+      
     </div>
     {showModal && (
         <div className="modal">

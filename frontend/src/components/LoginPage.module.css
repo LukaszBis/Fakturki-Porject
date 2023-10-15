@@ -6,22 +6,32 @@
     text-align: center;
     margin-top: 8em;
 }
+
+.loginStyle {
+    float: left;
+    width: 18.75em;
+}
+
+.inputText {
+    height: 3.9em;
+}
+
 .logIn {
     margin-top: 1em;
 }
 
-.form-group {
+.form_group {
     padding-top: 0.8em;
     text-align: left;
 }
 
-input {
+/* input {
     background-color: rgba(256, 256, 256, 0.87);
     color: black;
     width: 250px;
     height: 30px;
     border-radius: 7px;
-}
+} */
 
 .plusButton {
     padding-top: 1.2em;

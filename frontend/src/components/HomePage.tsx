@@ -1,5 +1,5 @@
 import React from 'react';
-import "./HomePage.css";
+import styles from "./HomePage.module.css";
 import user from "../assets/user.png";
 import { Link } from 'react-router-dom';
 
@@ -23,31 +23,31 @@ const HomePage: React.FC = () => {
 
       
       <div className='main'>
-        <div className='banner'>
-          <div className='titlePage'>Fakturki Home</div>
-          <span className='companyName'>
+        <div className={styles.banner}>
+          <div className={styles.titlePage}>Fakturki Home</div>
+          <span className={styles.companyName}>
             Nazwa firmy...
           </span>
-          <span className='signUpIn'>            
+          <span className={styles.signUpIn}>            
             <Link to="/login"><img src={user} alt="user" width={42} height={42}/></Link>
           </span>
         </div>
-        <div className='addInvoice'>
+        <div className={styles.addInvoice}>
           <button>Dodaj nową fakturę</button>
         </div>
-        <div className='content'>
-          <div className='menu'>
-            <div className='menuButton'>
+        <div className={styles.content}>
+          <div className={styles.menu}>
+            <div className={styles.menuButton}>
               <button>Faktury</button>
             </div>
-            <div className='menuButton'>
+            <div className={styles.menuButton}>
               <button>Paragony</button>
             </div>
-            <div className='menuButton'>
+            <div className={styles.menuButton}>
               <button>Zaliczki</button>
             </div>
           </div>
-          <div className='invoiceTable'>
+          <div className={styles.invoiceTable}>
           <h2>Lista Faktur</h2>
           <table>
             <thead>

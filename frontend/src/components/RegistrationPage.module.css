@@ -1,4 +1,4 @@
-.container-register {
+.container_register {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -7,17 +7,34 @@
     margin-top: 5em;
 }
 
-.form-container {
-    width: 560px;
+.labelStyle {
+    text-align: left;
+}
+
+.inputText {
+    height: 3.9em;
+}
+
+.inputText input {
+    margin-right: 4em;
+
+}
+
+.form_container {
+    /* width: 600px; */
     display: flex;
     justify-content: space-around;
 }
 
 .leftColumn {
     float: left;
+    width: 18.75em;
+    margin-left: 4em;
 }
 .rightColumn {
     float: left;
+    width: 18.75em;
+    margin-left: 4em;
 }
 
 .registrationButton {

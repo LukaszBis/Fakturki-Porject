@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import './LoginPage.css';
+import styles from './LoginPage.module.css';
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { InputGroup } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedPassword, setValidatedPassword] = useState(false);
 
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
@@ -28,48 +33,63 @@ const LoginPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Login successful:', data);
-      })
-      .catch((error) => {
-        console.error('Login error:', error);
-      });
+        if(data.success === "") {
+          console.log('Login successful:', data);
+          //showmodal
+        }else {
+          if(data.errors.email != "") {
+            setValidatedEmail(true);
+          }else if(data.errors.password != "") {
+            setValidatedPassword(true);
+          }
+      }
+    });
   };
 
   return (
     <>
-    <div className='container'>
-      <div className="login-page">
-        <div className="login-container">
+    <div className={styles.container}>
           <h1>Zaloguj się</h1>
-            <div className="form-group">
-              <label htmlFor="username">Adres e-mail</label><br />
-              <input
-                placeholder=' example@mail.com'
-                type="text"
-                id="username"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+          
+            <div className={styles.loginStyle}>
+              <div className={styles.form_group}>
+                <label htmlFor="username">Adres e-mail</label><br />
+                <InputGroup className={styles.inputText} hasValidation>
+                  <Form.Control
+                    type="email"
+                    id="email"
+                    placeholder='example@mail.com'
+                    value={email}
+                    isInvalid={validatedEmail}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                    Wprowadź poprawny email.
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </div>
+              <div className={styles.form_group}>
+                <label htmlFor="password">Hasło</label><br />
+                <InputGroup className={styles.inputText} hasValidation>
+                  <Form.Control
+                    type="password"
+                    id="password"
+                    placeholder='********'
+                    value={password}
+                    isInvalid={validatedPassword}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                    Wprowadź poprawne hasło.
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Hasło</label><br />
-              <input
-                placeholder=' password'
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <button onClick={handleLogin} className='logIn'>Zaloguj się</button>
-        </div>
-        <div className='plusButton'>
+            <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
+        <div className={styles.plusButton}>
           <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
           <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
         </div>
-      </div>
     </div>
     </>
   );
