@@ -85,6 +85,7 @@ const LoginPage: React.FC = () => {
         <div className={styles.plusButton}>
           <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
           <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
+          <div><Link to="/">Strona Powitalna</Link></div>
         </div>
     </div>
     </>
