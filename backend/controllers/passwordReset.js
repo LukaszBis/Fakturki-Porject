@@ -81,5 +81,16 @@ async function getEmailByToken(token) {
         console.error('Błąd podczas wyszukiwania adresu email:', error);
     }
 }
+async function checkToken(token) {
+    try {
+        const findToken = await PasswordReset.findOne({ token: token }).exec();
+        if (findToken){
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Błąd podczas wyszukiwania adresu email:', error);
+    }
+}
 
-module.exports = { add,getTokenByEmail,getEmailByToken };
+module.exports = { add,getTokenByEmail,getEmailByToken,checkToken };

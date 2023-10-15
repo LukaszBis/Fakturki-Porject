@@ -37,14 +37,10 @@ const LoginPage: React.FC = () => {
           console.log('Login successful:', data);
           //showmodal
         }else {
-          if(data.errors.email != "") {
-            setValidatedEmail(true);
-          }else if(data.errors.password != "") {
-            setValidatedPassword(true);
-          }
-      }
-    });
-  };
+          console.log(data.fail, setValidatedEmail, setValidatedPassword);
+        }
+      });
+    };
 
   return (
     <>

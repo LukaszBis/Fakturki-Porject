@@ -5,6 +5,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 
+let firstNameFeedback:string;
+let lastNameFeedback:string;
+let emailFeedback:string;
+let phoneNumberFeedback:string;
+let passwordFeedback:string;
+let confirmPasswordFeedback:string;
+let postalCodeFeedback:string;
+let cityFeedback:string;
+let streetFeedback:string;
+let buildingNumberFeedback:string;
+let apartmentNumberFeedback:string;
+let NIPFeedback:string;
+
 const RegistrationPage: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -69,30 +82,89 @@ const RegistrationPage: React.FC = () => {
           console.log('Register successful:', data);
           //showmodal
         }else {
+          console.log(data.errors);
           if(data.errors.email != "") {
             setValidatedEmail(true);
-          }else if(data.errors.password != "") {
+            emailFeedback = data.errors.email[0]
+          }else{
+            setValidatedEmail(false);
+          }
+
+          if(data.errors.password != "") {
             setValidatedPassword(true);
-          }else if(data.errors.confirmPassword != "") {
+            passwordFeedback = data.errors.password[0]
+          }else{
+            setValidatedPassword(false);
+          }
+
+          if(data.errors.confirmPassword != "") {
             setValidatedConfirmPassword(true);
-          }else if(data.errors.firstName != "") {
+            confirmPasswordFeedback = data.errors.confirmPassword[0]
+          }else{
+            setValidatedConfirmPassword(false);
+          }
+
+          if(data.errors.firstName != "") {
             setValidatedFirstName(true);
-          }else if(data.errors.lastName != "") {
+            firstNameFeedback = data.errors.firstName[0]
+          }else{
+            setValidatedFirstName(false);
+          }
+
+          if(data.errors.lastName != "") {
             setValidatedLastName(true);
-          }else if(data.errors.phoneNumber != "") {
+            lastNameFeedback = data.errors.lastName[0]
+          }else{
+            setValidatedLastName(false);
+          }
+
+          if(data.errors.phoneNumber != "") {
             setValidatedPhoneNumber(true);
-          }else if(data.errors.postalCode != "") {
+            phoneNumberFeedback = data.errors.phoneNumber[0]
+          }else{
+            setValidatedPhoneNumber(false);
+          }
+
+          if(data.errors.postalCode != "") {
             setValidatedPostalCode(true);
-          }else if(data.errors.city != "") {
+            postalCodeFeedback = data.errors.postalCode[0]
+          }else{
+            setValidatedPostalCode(false);
+          }
+
+          if(data.errors.city != "") {
             setValidatedCity(true);
-          }else if(data.errors.street != "") {
+            cityFeedback = data.errors.city[0]
+          }else{
+            setValidatedCity(false);
+          }
+
+          if(data.errors.street != "") {
             setValidatedStreet(true);
-          }else if(data.errors.buildingNumber != "") {
+            streetFeedback = data.errors.street[0]
+          }else{
+            setValidatedStreet(false);
+          }
+
+          if(data.errors.buildingNumber != "") {
             setValidatedBuildingNumber(true);
-          }else if(data.errors.apartmentNumber != "") {   // nie ma backend
+            buildingNumberFeedback = data.errors.buildingNumber[0]
+          }else{
+            setValidatedBuildingNumber(false);
+          }
+
+          if(data.errors.apartmentNumber != "") {   // nie ma backend
             setValidatedApartmentNumber(true);
-          }else if(data.errors.NIP != "") {
+            apartmentNumberFeedback = data.errors.apartmentNumber[0]
+          }else{
+            setValidatedApartmentNumber(false);
+          }
+
+          if(data.errors.NIP != "") {
             setValidatedNIP(true);
+            NIPFeedback = data.errors.NIP[0]
+          }else{
+            setValidatedNIP(false);
           }
         }
       });
@@ -117,7 +189,7 @@ const RegistrationPage: React.FC = () => {
                               onChange={(e) => setEmail(e.target.value)}
                             />
                             <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                              Wprowadź poprawny email.
+                              {emailFeedback}
                             </Form.Control.Feedback>
                           </InputGroup>
                           </div>
@@ -132,7 +204,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setPassword(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź poprawne hasło.
+                                  {passwordFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -147,7 +219,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź hasło podane wcześniej.
+                                  {confirmPasswordFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -162,7 +234,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setFirstName(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź imię.
+                                 {firstNameFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -177,7 +249,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setLastName(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź nazwisko.
+                                  {lastNameFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -192,7 +264,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setPhoneNumber(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź numer telefonu.
+                                  {phoneNumberFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -211,7 +283,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setPostalCode(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź kod pocztowy.
+                                  {postalCodeFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -226,7 +298,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setCity(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź nazwę miasta.
+                                  {cityFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -241,7 +313,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setStreet(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź nazwę ulicy.
+                                  {streetFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -256,7 +328,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setBuildingNumber(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź numer budynku.
+                                  {buildingNumberFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -271,7 +343,7 @@ const RegistrationPage: React.FC = () => {
                                   onChange={(e) => setApartmentNumber(e.target.value)}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                  Wprowadź numer lokalu.
+                                  {apartmentNumberFeedback}
                                 </Form.Control.Feedback>
                               </InputGroup>
                           </div>
@@ -287,7 +359,7 @@ const RegistrationPage: React.FC = () => {
                                       onChange={(e) => setNIP(e.target.value)}
                                     />
                                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                                      Wprowadź NIP.
+                                      {NIPFeedback}
                                     </Form.Control.Feedback>
                                   </InputGroup>
                               </div>
