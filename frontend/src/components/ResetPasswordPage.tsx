@@ -8,7 +8,7 @@ const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
   const [showModal, setShowModal] = useState(false);
   // const [errorMessage, setErrorMessage] = useState('');
-  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedEmail, ] = useState(false);
 
   const handleResetPasswordPage = () => {
     const apiUrl = 'http://localhost:8080/resetPassword';
@@ -31,13 +31,11 @@ const ResetPasswordPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        if(data.success === "") {
-          console.log('Correct email:', data);
+        if(data.success) {
+          console.log('Correct email:', data.success);
           //showmodal
         }else {
-          if(data.errors.email != "") {
-            setValidatedEmail(true);
-          }
+          console.log(data.fail);
         }
       });
       //   console.log('Password reset successful:', data);

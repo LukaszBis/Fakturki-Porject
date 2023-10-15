@@ -62,12 +62,37 @@ app.post('/resetPassword', async (req, res) => {
 });
 
 app.post('/setNewPassword', async (req, res) => {
+  const token = "token";//req.body.token;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
-  const get_user = await user.checkEmail(email);
+  let err = false;
+  let errors = {
+    token:[],
+    password:[],
+    confirmPassword:[],
+  };
+
+  if(!passwordReset.checkToken(token)){
+    errors.token.push("Nie można zmienić hasła, spróbuj ponownie.");
+  }
+
+  validation.check(errors.password,password)?err=true:null;
+  validation.min(errors.password,password,8)?err=true:null;
+  validation.max(errors.password,password,20)?err=true:null;
+ 
+  validation.check(errors.confirmPassword,confirmPassword)?err=true:null;
+  validation.compare(errors.confirmPassword,confirmPassword,password)?err=true:null;
+
+  if (err){
+    res.json({ errors });
+    return;
+  }
+
+  const get_email = await passwordReset.getEmailByToken(token);
+  const get_user = await user.checkEmail(get_email);
   if (get_user) {
-    const check = passwordReset.add(email);
+    
     if (check){
       res.send({success:"Hasło pomyślnie zmienione"});
       return;
@@ -81,9 +106,6 @@ app.post('/setNewPassword', async (req, res) => {
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  if (email.trim() == ''){
-    return;
-  }
 
   const get_user = await user.checkEmail(email);
   if (get_user) {
@@ -95,7 +117,7 @@ app.post('/login', async (req, res) => {
     res.send({fail:"Niepoprawne hasło."});
     return;
   }
-  res.send({fail:"Niepoprawny adres email."});
+  res.send({fail:"Konto nie istnieje."});
 });
 
 app.post('/register', async (req, res) => {
@@ -133,6 +155,7 @@ app.post('/register', async (req, res) => {
   await user.emailUnique(errors.email,email)?err=true:null;
 
   validation.check(errors.password,password)?err=true:null;
+  validation.password(errors.password,password)?err=true:null;
   validation.min(errors.password,password,8)?err=true:null;
   validation.max(errors.password,password,20)?err=true:null;
 
