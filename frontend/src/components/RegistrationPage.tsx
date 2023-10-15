@@ -81,7 +81,7 @@ const RegistrationPage: React.FC = () => {
       .then((data) => {
         if(data.success) {
           console.log('Register successful:', data);
-          //showmodal
+          document.location.href = '/login';
         }else {
           console.log(data.errors);
           if(data.errors.email != "") {

@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
             Nazwa firmy...
           </span>
           <span className={styles.signUpIn}>            
-            <Link to="/login"><img src={user} alt="user" width={42} height={42}/></Link>
+            <Link to="/HomePage"><img src={user} alt="user" width={42} height={42}/></Link>
           </span>
         </div>
         <div className={styles.addInvoice}>

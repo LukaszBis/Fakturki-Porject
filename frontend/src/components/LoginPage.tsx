@@ -12,6 +12,7 @@ const LoginPage: React.FC = () => {
   const [validatedEmail,] = useState(false);
   const [validatedPassword,] = useState(false);
 
+
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
 
@@ -36,7 +37,7 @@ const LoginPage: React.FC = () => {
       .then((data) => {
         if(data.success) {
           console.log('Login successful:', data);
-          //showmodal
+          document.location.href = '/HomePage';
         }else {
           console.log(data.fail);
         }
