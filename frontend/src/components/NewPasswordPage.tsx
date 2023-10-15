@@ -33,6 +33,14 @@ const NewPasswordPage: React.FC = () => {
         }
         return response.json();
       })
+      .then((data) => {
+        if(data.success) {
+          console.log('Password changed:', data.success);
+          //showmodal
+        }else {
+          console.log('Cos sie pospuslo:', data.fail);
+        }
+      });
   };
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);

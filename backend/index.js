@@ -73,8 +73,10 @@ app.post('/setNewPassword', async (req, res) => {
     confirmPassword:[],
   };
   
-  if(!passwordReset.checkToken(token)){
+  if(!await passwordReset.checkToken(token)){
     fail.token.push("Nie można zmienić hasła, spróbuj ponownie.");
+    res.json({ fail });
+    return;
   }
 
   validation.check(fail.password,password)?err=true:null;
@@ -84,7 +86,7 @@ app.post('/setNewPassword', async (req, res) => {
  
   validation.check(fail.confirmPassword,confirmPassword)?err=true:null;
   validation.compare(fail.confirmPassword,confirmPassword,password)?err=true:null;
-
+  console.log(fail);
   if (err){
     res.json({ fail });
     return;
@@ -93,11 +95,12 @@ app.post('/setNewPassword', async (req, res) => {
   const get_email = await passwordReset.getEmailByToken(token);
   const get_user = await user.checkEmail(get_email);
   if (get_user) {
-    if(user.passwordCompare(get_user.passwordHash, password)){
+    if(await user.passwordCompare(get_user.passwordHash, password)){
       fail.password.push("Hasło nie może być takie samo jak stare hasło.");
       res.json({ fail });
       return;
     }
+    passwordReset.removeToken(get_email);
     await user.changePassword(get_user, password);
     res.send({success:"Hasło pomyślnie zmienione"});
     return;

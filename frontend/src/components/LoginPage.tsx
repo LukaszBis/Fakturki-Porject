@@ -8,8 +8,8 @@ import Form from 'react-bootstrap/Form';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [validatedEmail, setValidatedEmail] = useState(false);
-  const [validatedPassword, setValidatedPassword] = useState(false);
+  const [validatedEmail,] = useState(false);
+  const [validatedPassword,] = useState(false);
 
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
@@ -33,11 +33,11 @@ const LoginPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        if(data.success === "") {
+        if(data.success) {
           console.log('Login successful:', data);
           //showmodal
         }else {
-          console.log(data.fail, setValidatedEmail, setValidatedPassword);
+          console.log(data.fail);
         }
       });
     };

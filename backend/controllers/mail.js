@@ -3,17 +3,20 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'ochraniacze1@gmail.com', 
-    pass: 'kspnhixlzcalpyzn'
+    user: 'TwojeFakturki@gmail.com', 
+    pass: 'hnfpxunonbpivtsg'
   }
 });
 
-async function send(email, token) {
+async function sendPasswordResetLink(email, token) {
   const mailOptions = {
     from: 'fakturki@gmail.com',
     to: email,
     subject: 'Fakturki - Resetowanie hasła',
-    html: `<a href="http://localhost:5173/newPassword?token=${token}">To jest przykładowa treść wiadomości.</a>`,
+    html: `
+    <a href="http://localhost:5173/newPassword?token=${token}">To jest przykładowa treść wiadomości.</a>
+    <button style="color:red;">przycisk</button>
+    `,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -25,4 +28,4 @@ async function send(email, token) {
   });
 }
 
-module.exports = { send };
+module.exports = { sendPasswordResetLink };

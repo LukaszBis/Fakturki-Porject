@@ -84,6 +84,7 @@ async function passwordCompare(passwordHash, password) {
 async function checkEmail(email) {
     try {
         const user = await User.findOne({ email: email }).exec();
+        console.log('Użytkownik znaleziony:', email);
         return user;
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);

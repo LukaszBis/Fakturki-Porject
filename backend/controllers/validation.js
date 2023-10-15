@@ -22,31 +22,10 @@ function email(arr, value) {
     return false;
 }
 function password(arr, value) {
-    const patternL = /^(?=.*[A-Z]).+$/;
-    const patternl = /^(?=.*[a-z]).+$/;
-    const patternd = /^(?=.*\d).+$/;
-    const patterns = /^(?=.*\W).+$/;
+    const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).+$/;
 
-    let error = false;
-    let errorString = "Hasło musi składać zwierać przynajmniej ";
-    if (patternL.test(value)){
-        errorString += "jedną dużą literę, ";
-        error = true;
-    }
-    if (patternl.test(value)){
-        errorString += "jedną małą literę, ";
-        error = true;
-    }
-    if (patternd.test(value)){
-        errorString += "jedną cyfre, ";
-        error = true;
-    }
-    if (patterns.test(value)){
-        errorString += "jeden znak specjalny, ";
-        error = true;
-    }
-    if (error){
-        arr.push(errorString);
+    if (!pattern.test(value)){
+        arr.push("Hasło musi składać zwierać przynajmniej jedną dużą literę, jedną małą literę, jedną cyfre, jeden znak specjalny.");
         return true;
     }
     
