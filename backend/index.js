@@ -62,45 +62,47 @@ app.post('/resetPassword', async (req, res) => {
 });
 
 app.post('/setNewPassword', async (req, res) => {
-  const token = "token";//req.body.token;
+  const token = req.body.token;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
   let err = false;
-  let errors = {
+  let fail = {
     token:[],
     password:[],
     confirmPassword:[],
   };
-
+  
   if(!passwordReset.checkToken(token)){
-    errors.token.push("Nie można zmienić hasła, spróbuj ponownie.");
+    fail.token.push("Nie można zmienić hasła, spróbuj ponownie.");
   }
 
-  validation.check(errors.password,password)?err=true:null;
-  validation.min(errors.password,password,8)?err=true:null;
-  validation.max(errors.password,password,20)?err=true:null;
+  validation.check(fail.password,password)?err=true:null;
+  validation.password(fail.password,password)?err=true:null;
+  validation.min(fail.password,password,8)?err=true:null;
+  validation.max(fail.password,password,20)?err=true:null;
  
-  validation.check(errors.confirmPassword,confirmPassword)?err=true:null;
-  validation.compare(errors.confirmPassword,confirmPassword,password)?err=true:null;
+  validation.check(fail.confirmPassword,confirmPassword)?err=true:null;
+  validation.compare(fail.confirmPassword,confirmPassword,password)?err=true:null;
 
   if (err){
-    res.json({ errors });
+    res.json({ fail });
     return;
   }
 
   const get_email = await passwordReset.getEmailByToken(token);
   const get_user = await user.checkEmail(get_email);
   if (get_user) {
-    
-    if (check){
-      res.send({success:"Hasło pomyślnie zmienione"});
+    if(user.passwordCompare(get_user.passwordHash, password)){
+      fail.password.push("Hasło nie może być takie samo jak stare hasło.");
+      res.json({ fail });
       return;
     }
-    res.send({fail:"Nie udało się zmienić hasła"});
+    await user.changePassword(get_user, password);
+    res.send({success:"Hasło pomyślnie zmienione"});
     return;
   }
-  res.send({fail:"Email nie znaleziony"});
+  res.send({fail:"Nie udało się zmienić hasła"});
 });
 
 app.post('/login', async (req, res) => {

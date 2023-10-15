@@ -42,8 +42,6 @@ const NewPasswordPage: React.FC = () => {
         setToken(decodeURIComponent(tokenParam));
         }
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
-
-    console.log(token)
   return (
     <div className={styles.container_new}>
       <h1>Wprowadź nowe hasło</h1>

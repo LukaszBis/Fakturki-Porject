@@ -60,6 +60,16 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
     }
     return user;
 }
+async function changePassword(user, password) {
+    try {
+        user.passwordHash = await bcrypt.hash(password, 10);
+        await user.save();
+        return true;
+    } catch (error) {
+        console.error('Błąd podczas pobierania osób:', error);
+        throw error;
+    }
+}
 async function passwordCompare(passwordHash, password) {
     try {
         if (await bcrypt.compare(password, passwordHash)){
@@ -117,4 +127,4 @@ async function displayAll() {
     }
 }
 
-module.exports = { add,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
+module.exports = { add,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
