@@ -3,7 +3,8 @@ import styles from './NewPasswordPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
-
+import { Link } from 'react-router-dom';
+import fakturki from "../assets/fakturki.png";
 
 const NewPasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -51,6 +52,12 @@ const NewPasswordPage: React.FC = () => {
         }
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
   return (
+    <>
+    <div className={styles.logoContainer}>
+      <Link to="/welcome" className={styles.logoLink}>
+        <img src={fakturki} alt="Fakturki" className={styles.logo} />
+      </Link>
+    </div>
     <div className={styles.container_new}>
       <h1>Wprowadź nowe hasło</h1>
       <div className={styles.newStyle}>
@@ -91,6 +98,7 @@ const NewPasswordPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
