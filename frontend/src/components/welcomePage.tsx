@@ -1,4 +1,3 @@
-import React from 'react';
 import fakturki from "../assets/fakturki.png";
 import laptop from "../assets/laptop.png";
 import { Link } from 'react-router-dom';
