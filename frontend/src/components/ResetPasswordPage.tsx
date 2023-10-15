@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
+import fakturki from "../assets/fakturki.png";
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
@@ -44,6 +45,11 @@ const ResetPasswordPage: React.FC = () => {
 
   return (
     <>
+    <div className={styles.logoContainer}>
+      <Link to="/welcome" className={styles.logoLink}>
+        <img src={fakturki} alt="Fakturki" className={styles.logo} />
+      </Link>
+    </div>
     <div className={styles.container_reset}>
     <h1>Zresetuj hasło</h1><br />
     <div className={styles.resetStyle}>
