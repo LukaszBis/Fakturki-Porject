@@ -123,7 +123,7 @@ async function checkTokens(){
 }
 async function checkTokens() {
     const time = new Date();
-    time.setMinutes(time.getMinutes() - 5);
+    time.setMinutes(time.getMinutes() - 10);
   
     try {
         const wynik = await PasswordReset.deleteMany({ created_at: { $lt: time } });
