@@ -33,6 +33,14 @@ const NewPasswordPage: React.FC = () => {
         }
         return response.json();
       })
+      .then((data) => {
+        if(data.success) {
+          console.log('Password changed:', data.success);
+          //showmodal
+        }else {
+          console.log('Cos sie pospuslo:', data.fail);
+        }
+      });
   };
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -42,8 +50,6 @@ const NewPasswordPage: React.FC = () => {
         setToken(decodeURIComponent(tokenParam));
         }
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
-
-    console.log(token)
   return (
     <div className={styles.container_new}>
       <h1>Wprowadź nowe hasło</h1>

@@ -78,7 +78,7 @@ const RegistrationPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        if(data.success === "") {
+        if(data.success) {
           console.log('Register successful:', data);
           //showmodal
         }else {

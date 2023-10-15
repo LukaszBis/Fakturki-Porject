@@ -25,20 +25,13 @@ const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
 
 function add(email) {
     try {
-        const token = "token :D";
+        let token = generateToken();
+        // while(checkToken(token)){
+        //     token = generateToken();
+        // }
         const created_at = new Date();
         const updated_at = new Date();
-        PasswordReset.findOneAndRemove({ email: email })
-            .then((doc) => {
-                if (doc) {
-                    console.log('Usunięto element o adresie e-mail:', email);
-                } else {
-                    console.log('Nie znaleziono elementu o adresie e-mail:', email);
-                }
-            })
-            .catch((err) => {
-                console.error('Błąd podczas usuwania elementu:', err);
-            });
+        removeToken(email);
             
         newToken = new PasswordReset({ 
             email, 
@@ -48,13 +41,40 @@ function add(email) {
         });
         newToken.save();
         console.log('Token resetowania hasła został dodany.');
-        mail.send(email, token);
+        mail.sendPasswordResetLink(email, token);
         return true;
     } catch (error) {
         console.error('Błąd podczas dodawania tokenu:', error);
         return false;
     }
 }
+function removeToken(email) {
+    PasswordReset.findOneAndRemove({ email: email })
+        .then((doc) => {
+            if (doc) {
+                console.log('Usunięto element o adresie e-mail:', email);
+                return true;
+            } else {
+                console.log('Nie znaleziono elementu o adresie e-mail:', email);
+                return false;
+            }
+        })
+        .catch((err) => {
+            console.error('Błąd podczas usuwania elementu:', err);
+            return false;
+        });
+}
+function generateToken() {
+    const signs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let token = '';
+  
+    for (let i = 0; i < 30; i++) {
+      const randomIndex = Math.floor(Math.random() * signs.length);
+      token += signs.charAt(randomIndex);
+    }
+  
+    return token;
+  }
 async function getTokenByEmail(email) {
     try {
         const findToken = await PasswordReset.findOne({ email: email }).exec();
@@ -93,4 +113,4 @@ async function checkToken(token) {
     }
 }
 
-module.exports = { add,getTokenByEmail,getEmailByToken,checkToken };
+module.exports = { add,getTokenByEmail,getEmailByToken,checkToken,removeToken };
