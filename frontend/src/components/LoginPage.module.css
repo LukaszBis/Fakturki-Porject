@@ -6,6 +6,18 @@
     text-align: center;
     margin-top: 8em;
 }
+.logo {
+    width: 30em;
+    height: auto;
+  }
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    margin-top: 2em;
+    margin-bottom: -5em;
+  }
 
 .loginStyle {
     float: left;

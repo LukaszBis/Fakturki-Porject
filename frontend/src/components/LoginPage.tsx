@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import fakturki from "../assets/fakturki.png";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,11 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
+    <div className={styles.logoContainer}>
+      <Link to="/welcome" className={styles.logoLink}>
+        <img src={fakturki} alt="Fakturki" className={styles.logo} />
+      </Link>
+    </div>
     <div className={styles.container}>
           <h1>Zaloguj się</h1>
           

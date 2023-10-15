@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import fakturki from "../assets/fakturki.png";
 
 let firstNameFeedback:string;
 let lastNameFeedback:string;
@@ -172,6 +173,11 @@ const RegistrationPage: React.FC = () => {
 
   return (
     <>
+    <div className={styles.logoContainer}>
+      <Link to="/welcome" className={styles.logoLink}>
+        <img src={fakturki} alt="Fakturki" className={styles.logo} />
+      </Link>
+    </div>
       <div className={styles.container_register}>
 
             <h1>Zarejestruj się</h1>
