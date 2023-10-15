@@ -18,12 +18,19 @@ const corsOptions ={
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
 
-
-
 const user = require("./controllers/user");
 const validation = require("./controllers/validation");
 const passwordReset = require("./controllers/passwordReset");
 
+
+async function checkTokens(){
+  passwordReset.checkTokens();
+  setTimeout(function () {
+    checkTokens();
+  }, 10000);
+  return;
+}
+checkTokens();
 
 
 app.get('/', async (req, res) => {

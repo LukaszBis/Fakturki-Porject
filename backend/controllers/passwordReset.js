@@ -23,15 +23,16 @@ const passwordResetSchema = new mongoose.Schema({
 });
 const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
 
-function add(email) {
+async function add(email) {
     try {
+        await removeToken(email);
+
         let token = generateToken();
-        // while(checkToken(token)){
-        //     token = generateToken();
-        // }
+        while(await checkToken(token)){
+            token = generateToken();
+        }
         const created_at = new Date();
         const updated_at = new Date();
-        removeToken(email);
             
         newToken = new PasswordReset({ 
             email, 
@@ -39,7 +40,7 @@ function add(email) {
             created_at, 
             updated_at 
         });
-        newToken.save();
+        await newToken.save();
         console.log('Token resetowania hasła został dodany.');
         mail.sendPasswordResetLink(email, token);
         return true;
@@ -53,15 +54,12 @@ function removeToken(email) {
         .then((doc) => {
             if (doc) {
                 console.log('Usunięto element o adresie e-mail:', email);
-                return true;
             } else {
                 console.log('Nie znaleziono elementu o adresie e-mail:', email);
-                return false;
             }
         })
         .catch((err) => {
             console.error('Błąd podczas usuwania elementu:', err);
-            return false;
         });
 }
 function generateToken() {
@@ -112,5 +110,27 @@ async function checkToken(token) {
         console.error('Błąd podczas wyszukiwania adresu email:', error);
     }
 }
+async function checkTokens(){
+    try {
+        const findToken = await PasswordReset.findOne({ token: token }).exec();
+        if (findToken){
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Błąd podczas wyszukiwania adresu email:', error);
+    }
+}
+async function checkTokens() {
+    const time = new Date();
+    time.setMinutes(time.getMinutes() - 5);
+  
+    try {
+        const wynik = await PasswordReset.deleteMany({ created_at: { $lt: time } });
+        wynik>0?console.log('Usunięto', wynik.deletedCount, 'elementów.'):null;
+    } catch (error) {
+        console.error('Błąd podczas usuwania elementów:', error);
+    }
+}
 
-module.exports = { add,getTokenByEmail,getEmailByToken,checkToken,removeToken };
+module.exports = { add,getTokenByEmail,getEmailByToken,checkToken,removeToken,checkTokens };
