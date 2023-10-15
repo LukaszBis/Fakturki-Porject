@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
+import NewPasswordPage from './components/NewPasswordPage';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Route path="login" element={<LoginPage/>} /> 
       <Route path="registration" element={<RegistrationPage/>} /> 
       <Route path="reset" element={<ResetPasswordPage/>} />
+      <Route path="newPassword" element={<NewPasswordPage/>} />
     </Routes>
   </BrowserRouter>
   );
