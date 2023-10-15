@@ -61,6 +61,23 @@ app.post('/resetPassword', async (req, res) => {
   res.send({fail:"Email nie znaleziony"});
 });
 
+app.post('/setNewPassword', async (req, res) => {
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+
+  const get_user = await user.checkEmail(email);
+  if (get_user) {
+    const check = passwordReset.add(email);
+    if (check){
+      res.send({success:"Hasło pomyślnie zmienione"});
+      return;
+    }
+    res.send({fail:"Nie udało się zmienić hasła"});
+    return;
+  }
+  res.send({fail:"Email nie znaleziony"});
+});
+
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;

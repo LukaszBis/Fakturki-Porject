@@ -13,7 +13,7 @@ async function send(email, token) {
     from: 'fakturki@gmail.com',
     to: email,
     subject: 'Fakturki - Resetowanie hasła',
-    html: `<a href="http://localhost:5173/reset?token=${token}">To jest przykładowa treść wiadomości.</a>`,
+    html: `<a href="http://localhost:5173/newPassword?token=${token}">To jest przykładowa treść wiadomości.</a>`,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
