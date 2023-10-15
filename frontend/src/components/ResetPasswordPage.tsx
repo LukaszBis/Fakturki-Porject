@@ -6,9 +6,8 @@ import Form from 'react-bootstrap/Form';
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
-  const [showModal, setShowModal] = useState(false);
   // const [errorMessage, setErrorMessage] = useState('');
-  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedEmail,] = useState(false);
 
   const handleResetPasswordPage = () => {
     const apiUrl = 'http://localhost:8080/resetPassword';
@@ -31,32 +30,15 @@ const ResetPasswordPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        if(data.success === "") {
-          console.log('Correct email:', data);
-          //showmodal
-        }else {
-          if(data.errors.email != "") {
-            setValidatedEmail(true);
-          }
+        if(data.success) 
+        {
+          console.log('Correct email:', data.success);
+        }
+        else
+        {
+          console.log('Correct email:', data.fail);
         }
       });
-      //   console.log('Password reset successful:', data);
-      //   // console.log(data.success)
-      //   // console.log(data.fail)
-      //   if(data.success === "Email znaleziony") {
-      //     console.log('moja stara najebana')
-      //     setShowModal(true);
-      //     //ustawiac validated true albo false blad czy nie
-      //   }else {
-      //     console.log('Brak emaila w bazie danych.');
-      //     setErrorMessage('Brak emaila w bazie danych.');
-      //   }
-      //   // data.errors.email[0]
-      //   // if(data.succes)
-      // })
-      // .catch((error) => {
-      //   console.error('Password reset error:', error);
-      // });
   };
 
   return (
@@ -85,13 +67,6 @@ const ResetPasswordPage: React.FC = () => {
     </div>
       
     </div>
-    {showModal && (
-        <div className="modal">
-          <h2>Resetowanie hasła</h2>
-          <p>Twoje hasło zostało zresetowane.</p>
-          <button onClick={() => setShowModal(false)}>Zamknij</button>
-        </div>
-      )}
     </>
   );
 };
