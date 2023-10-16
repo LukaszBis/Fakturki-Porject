@@ -173,13 +173,13 @@ const RegistrationPage: React.FC = () => {
 
   return (
     <>
-    <div className={styles.logoContainer}>
-      <Link to="/welcome" className={styles.logoLink}>
-        <img src={fakturki} alt="Fakturki" className={styles.logo} />
-      </Link>
-    </div>
+    
       <div className={styles.container_register}>
-
+        <div className={styles.logoContainer}>
+          <Link to="/welcome" className={styles.logoLink}>
+            <img src={fakturki} alt="Fakturki" className={styles.logo} />
+          </Link>
+        </div>
             <h1>Zarejestruj się</h1>
                 <div className={styles.labelStyle}>
                   <div className={styles.form_container}>

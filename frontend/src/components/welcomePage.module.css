@@ -20,14 +20,47 @@
     margin-right: 10px;
   }
 
+  .loginButton :Link,.registrationButton :Link {
+    text-decoration: none;
+    color: white;
+  }
+
+  .loginButton :visited,.registrationButton :visited {
+    text-decoration: none;
+    color: white;
+  }
+
   .lockIcon {
     width: 35px;
     margin-right: 5px;
   }
-  .body p{
+
+  .background_bottom {
+    background-color: rgba(36, 36, 36, 0.85);
+    border-radius: 20px;
+    margin-top: 1em;
+  }
+
+  .background_bottom p{    
     font-size: 3em;
     text-align: center;
-    margin-bottom: 1em;
+  }
+
+  #pStyle {
+    padding: 1em;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+.background_bottomm {
+  background-color: rgba(36, 36, 36, 0.85);
+  border-radius: 20px;
+  padding: 1em;
+}
+
+  .background_bottomm p{    
+    font-size: 3em;
+    text-align: center;
   }
  
 .row {
@@ -55,5 +88,3 @@
     width: 60%; 
     height: auto;
   }
-
-

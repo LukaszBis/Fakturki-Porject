@@ -87,12 +87,13 @@ const ResetPasswordPage: React.FC = () => {
 
   return (
     <>
+    <div className={styles.UserContainer}>
     <div className={styles.logoContainer}>
       <Link to="/HomePage" className={styles.logoLink}>
         <img src={fakturki} alt="Fakturki" className={styles.logo} />
       </Link>
     </div>
-    <div className={styles.labelStyle}>
+    
                   <div className={styles.form_container}>
                       <div className={styles.leftColumn}>
                           <div className={styles.form_group}>
@@ -269,11 +270,12 @@ const ResetPasswordPage: React.FC = () => {
                           </div>
                       </div>
                   </div>
-                </div>      
+                      
                 <div className={styles.functionalButton}>
                     <button onClick={handleGetInfoUserPage} className={styles.registrationButton}>Zapisz zmiany</button>
                     <button  className={styles.backButton}><Link to="/HomePage">Powrót</Link></button>
                     <button  className={styles.logOutButton}><Link to="/Login">Wyloguj</Link></button>
+                </div>
                 </div>
     </>
   );

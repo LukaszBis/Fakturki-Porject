@@ -2,35 +2,43 @@
     width: 30em;
     height: auto;
   }
-  .logoContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%; 
-    margin-top: 2em;
-    margin-bottom: -5em;
-  }
-.form_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-top: 5em;
-}
-
+ 
 .leftColumn {
     float: left;
     width: 18.75em;
     margin-left: 4em;
+    
 }
 .rightColumn {
     float: left;
     width: 18.75em;
     margin-left: 4em;
+    margin-right: 4em;
+    
 }
-.labelStyle {
-    text-align: left;
+.UserContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(36, 36, 36, 0.85);
+    width: 50em;
+    height: 45em;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    margin-top: 1.4em;
+    
 }
+.logoContainer {
+    display: block;
+    position: absolute;
+    align-items: center;
+    margin-bottom: 47.5em;
+  }
 .functionalButton{
     margin-top: 2em;
     display: flex;
@@ -39,5 +47,5 @@
     text-align: center;
 }
 .functionalButton button {
-    margin-right: 1em; /* Dodaj odstęp z prawej strony przycisku */
+    margin-right: 1em; 
 }

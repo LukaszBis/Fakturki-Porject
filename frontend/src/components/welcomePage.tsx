@@ -6,6 +6,7 @@ import styles from './welcomePage.module.css';
 const welcomePage = () => {
     return (
       <>
+      <div className={styles.background_bottom}>
       <div className={styles.header}>
             <img src={fakturki} alt="Fakturki" className={styles.logo} />
             <div className={styles.buttonsContainer}>
@@ -18,14 +19,13 @@ const welcomePage = () => {
                 </button>
             </div>
         </div>
-        <div className={styles.body}>
-            <p>Aplikacja Fakturki</p>
-            <p>Finanse i księgowość w jednym miejscu. Zobacz, co jeszcze możesz zyskać.</p>
-
+                <p>Aplikacja Fakturki</p>
+                <p id={styles.pStyle}>Finanse i księgowość w jednym miejscu. Zobacz, co jeszcze możesz zyskać.</p>
+            </div>
             <div className={styles.laptopContainer}>
                 <img src={laptop} alt="Laptop" className={styles.laptop}></img>
             </div>
-
+        <div className={styles.background_bottomm}>
             <p className={styles.help}>Jak aplikacja Fakturki pomoże Twojej firmie?</p>
             
             <div className={styles.row}>
@@ -48,6 +48,7 @@ const welcomePage = () => {
                 </div>
             </div>
         </div>
+        
         </>
     
     );
