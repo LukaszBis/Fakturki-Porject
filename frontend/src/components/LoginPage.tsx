@@ -16,11 +16,37 @@ const LoginPage: React.FC = () => {
   const [validatedPassword] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
-  useEffect(() => {
-    const user = Cookies.get('success');
+  useEffect( () => {
+    const user = Cookies.get('user');
     if (user) {
       setLoggedInUser(JSON.parse(user));
     }
+    // const auth = async () => {
+    //   const apiUrl = 'http://localhost:8080/auth';
+    //   await fetch(apiUrl, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   })
+    //     .then((response) => {
+    //       if (!response.ok) {
+    //         throw new Error('Nie ma autoryzacji');
+    //       }
+    //       return response.json();
+    //     })
+    //     .then((data) => {
+    //       if(data.fail) {
+    //         document.location.href = '/';
+    //       }
+          
+    //     });     
+    // }
+    // try{
+    //   auth();
+    // }catch(error){
+    //   console.log(error);
+    // }
   }, []);
 
   const handleLogin = () => {
@@ -45,10 +71,11 @@ const LoginPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
+        console.log('user: ', Cookies.get('user'))
         if(data.success) {
           console.log('Login successful:', data);
           Cookies.set('user', JSON.stringify(data.success), { expires: 7 });
-          console.log('USER: ', data.success)
+          console.log('user: ', Cookies.get('user'))
           setLoggedInUser(data.success);
           if (loggedInUser) {
             console.log(data.success);
