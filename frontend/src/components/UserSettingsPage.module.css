@@ -1,0 +1,43 @@
+.logo {
+    width: 30em;
+    height: auto;
+  }
+  .logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    margin-top: 2em;
+    margin-bottom: -5em;
+  }
+.form_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 5em;
+}
+
+.leftColumn {
+    float: left;
+    width: 18.75em;
+    margin-left: 4em;
+}
+.rightColumn {
+    float: left;
+    width: 18.75em;
+    margin-left: 4em;
+}
+.labelStyle {
+    text-align: left;
+}
+.functionalButton{
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.functionalButton button {
+    margin-right: 1em; /* Dodaj odstęp z prawej strony przycisku */
+}
