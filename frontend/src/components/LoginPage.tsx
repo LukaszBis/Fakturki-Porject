@@ -51,12 +51,13 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
+    
+    <div className={styles.container}>
     <div className={styles.logoContainer}>
       <Link to="/welcome" className={styles.logoLink}>
         <img src={fakturki} alt="Fakturki" className={styles.logo} />
       </Link>
     </div>
-    <div className={styles.container}>
           <h1>Zaloguj się</h1>
           
             <div className={styles.loginStyle}>
@@ -97,7 +98,6 @@ const LoginPage: React.FC = () => {
         <div className={styles.plusButton}>
           <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
           <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
-          <div><Link to="/welcome">Strona Powitalna</Link></div>
         </div>
     </div>
     </>

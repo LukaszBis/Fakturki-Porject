@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import logo_home from "../assets/logo_home.png";
 import styles from "./HomePage.module.css";
 import user from "../assets/user.png";
 import { Link } from 'react-router-dom';
@@ -58,9 +59,9 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <div className='main'>
+      <div className={styles.main}>
         <div className={styles.banner}>
-          <div className={styles.titlePage}>Fakturki Home</div>
+        <img src={logo_home} alt="Fakturki" className={styles.logo} />
           <span className={styles.companyName}>
             Nazwa firmy...
           </span>

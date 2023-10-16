@@ -1,14 +1,21 @@
+.main {
+  background-color: rgba(36, 36, 36, 0.85);
+  display: block;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 22%;
+  
+  border-radius: 20px 20px 20px 0px;
+}
+
 .banner {
   display: flex;
-  padding-top: 1em;
   padding-bottom: 0.5em;
 }
 
-.titlePage {
-  font-size: 2em;
-  font-weight: bolder;
-  width: 10em;
-  /* background-color: green; */
+.logo {
+  width: 20em;
+  height: auto;
 }
 
 .companyName {
@@ -41,18 +48,19 @@ span.signUpIn a img {
 .menu {
   float: left;
   /* background-color: purple; */
-  padding-right: 5em;
+  /* padding-right: 3em; */
 }
 
 .menuButton button {
-  width: 14.5em;
+  width: 20em;
   text-align: left;
   border-radius: 0;
 }
 
 .invoiceTable {
   float: left;
-  /* background-color: green; */
+  padding-left: 3em;
+  background-color: #3b3b3b;
 }
 
 table tr {

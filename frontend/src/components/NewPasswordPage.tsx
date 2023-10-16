@@ -53,13 +53,14 @@ const NewPasswordPage: React.FC = () => {
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
   return (
     <>
+    
+    <div className={styles.container_new}>
     <div className={styles.logoContainer}>
       <Link to="/welcome" className={styles.logoLink}>
         <img src={fakturki} alt="Fakturki" className={styles.logo} />
       </Link>
     </div>
-    <div className={styles.container_new}>
-      <h1>Wprowadź nowe hasło</h1>
+      <h1 className={styles.newPasswordH1}>Wprowadź nowe hasło</h1>
       <div className={styles.newStyle}>
         <div className={styles.form_container_new}>
           <label htmlFor="password">Nowe Hasło:</label>

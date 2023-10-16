@@ -45,13 +45,14 @@ const ResetPasswordPage: React.FC = () => {
 
   return (
     <>
-    <div className={styles.logoContainer}>
-      <Link to="/welcome" className={styles.logoLink}>
-        <img src={fakturki} alt="Fakturki" className={styles.logo} />
-      </Link>
-    </div>
+    
     <div className={styles.container_reset}>
-    <h1>Zresetuj hasło</h1><br />
+      <div className={styles.logoContainer}>
+        <Link to="/welcome" className={styles.logoLink}>
+          <img src={fakturki} alt="Fakturki" className={styles.logo} />
+        </Link>
+      </div>
+      <h1>Zresetuj hasło</h1>
     <div className={styles.resetStyle}>
       <div className={styles.form_container_reset}>
             <label htmlFor="email">Email:</label><br/>

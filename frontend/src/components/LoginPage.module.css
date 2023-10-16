@@ -4,19 +4,26 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-top: 8em;
+    background-color: rgba(36, 36, 36, 0.85);
+    width: 30em;
+    height: 40em;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    
 }
 .logo {
     width: 30em;
     height: auto;
   }
   .logoContainer {
-    display: flex;
-    justify-content: center;
+    display: block;
+    position: absolute;
     align-items: center;
-    height: 100%; 
-    margin-top: 2em;
-    margin-bottom: -5em;
+    margin-bottom: 42.4em;
+    
   }
 
 .loginStyle {
@@ -36,14 +43,6 @@
     padding-top: 0.8em;
     text-align: left;
 }
-
-/* input {
-    background-color: rgba(256, 256, 256, 0.87);
-    color: black;
-    width: 250px;
-    height: 30px;
-    border-radius: 7px;
-} */
 
 .plusButton {
     padding-top: 1.2em;
