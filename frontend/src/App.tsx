@@ -6,6 +6,7 @@ import RegistrationPage from './components/RegistrationPage';
 import ResetPasswordPage from './components/ResetPasswordPage';
 import NewPasswordPage from './components/NewPasswordPage';
 import WelcomePage from './components/welcomePage';
+import UserSettings from './components/UserSettingsPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path="newPassword" element={<NewPasswordPage/>} />
       <Route path="welcome" element={<WelcomePage/>} />
       <Route path="homePage" element={<HomePage/>} />
+      <Route path="userSettings" element={<UserSettings/>} />
     </Routes>
   </BrowserRouter>
   );
