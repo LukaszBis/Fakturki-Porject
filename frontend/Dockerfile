@@ -9,6 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
+RUN npm install js-cookie
 
 # Copy the rest of the source files into the image.
 COPY . .

@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './LoginPage.module.css';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
+import Cookies from "js-cookie";
 
 var failFeedback:string;
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [validatedEmail,] = useState(false);
-  const [validatedPassword,setvalidatedPassword] = useState(false);
+  const [validatedEmail] = useState(false);
+  const [validatedPassword] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
+  useEffect(() => {
+    const user = Cookies.get('success');
+    if (user) {
+      setLoggedInUser(JSON.parse(user));
+    }
+  }, []);
 
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
@@ -39,11 +47,20 @@ const LoginPage: React.FC = () => {
       .then((data) => {
         if(data.success) {
           console.log('Login successful:', data);
-          document.location.href = '/HomePage';
-          setvalidatedPassword(false)
+          Cookies.set('user', JSON.stringify(data.success), { expires: 7 });
+          console.log('USER: ', data.success)
+          setLoggedInUser(data.success);
+          if (loggedInUser) {
+            console.log(data.success);
+            //document.location.href = '/HomePage';
+          } else {
+            //document.location.href = '/login';
+          }
         }else {
-          setvalidatedPassword(true)
-          failFeedback = data.fail
+          console.log(data.fail);
+            if(data.fail){
+              failFeedback = data.fail
+            }
         }
       });
     };
