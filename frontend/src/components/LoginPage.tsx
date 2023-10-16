@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validatedEmail,] = useState(false);
-  const [validatedPassword,] = useState(false);
+  const [validatedPassword,setvalidatedPassword] = useState(false);
 
 
   const handleLogin = () => {
@@ -40,11 +40,10 @@ const LoginPage: React.FC = () => {
         if(data.success) {
           console.log('Login successful:', data);
           document.location.href = '/HomePage';
+          setvalidatedPassword(false)
         }else {
-          console.log(data.fail);
-            if(data.fail){
-              failFeedback = data.fail
-            }
+          setvalidatedPassword(true)
+          failFeedback = data.fail
         }
       });
     };
