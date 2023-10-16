@@ -6,6 +6,8 @@ import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
 
+var failFeedback:string;
+
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,6 +42,9 @@ const LoginPage: React.FC = () => {
           document.location.href = '/HomePage';
         }else {
           console.log(data.fail);
+            if(data.fail){
+              failFeedback = data.fail
+            }
         }
       });
     };
@@ -83,7 +88,7 @@ const LoginPage: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    Wprowadź poprawne hasło.
+                    {failFeedback}
                   </Form.Control.Feedback>
                 </InputGroup>
               </div>

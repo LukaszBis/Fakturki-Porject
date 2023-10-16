@@ -37,7 +37,7 @@ const NewPasswordPage: React.FC = () => {
       .then((data) => {
         if(data.success) {
           console.log('Password changed:', data.success);
-          //showmodal
+          document.location.href = '/login';
         }else {
           console.log('Cos sie pospuslo:', data.fail);
         }
