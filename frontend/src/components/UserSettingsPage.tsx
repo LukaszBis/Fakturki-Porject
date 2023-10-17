@@ -311,8 +311,8 @@ const ResetPasswordPage: React.FC = () => {
 
         <div className={styles.functionalButton}>
           <button onClick={handleGetInfoUserPage} className={styles.registrationButton}>Zapisz zmiany</button>
-          <button className={styles.backButton}><Link to="/HomePage">Powrót</Link></button>
-          <button onClick={handleLogOff} className={styles.logOutButton}><Link to="/Login">Wyloguj</Link></button>
+          <Link to="/HomePage"><button className={styles.backButton}>Powrót</button></Link>
+          <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}>Wyloguj</button></Link>
         </div>
       </div>
     </>

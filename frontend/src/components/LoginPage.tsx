@@ -75,9 +75,9 @@ const LoginPage: React.FC = () => {
           setLoggedInUser(data.success);
           if (loggedInUser) {
             console.log(data.success);
-            //document.location.href = '/HomePage';
+            document.location.href = '/HomePage';
           } else {
-            //document.location.href = '/login';
+            document.location.href = '/login';
           }
         }else {
           console.log(data.fail);
