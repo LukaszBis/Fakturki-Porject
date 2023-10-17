@@ -33,7 +33,9 @@ async function sendActivationLink(email, token) {
     to: email,
     subject: 'Fakturki - Aktywacja adresu email',
     html: `
-    <a href="http://localhost:5173/confirmEmail?token=${token}">Naciśnij aby aktywować adres email.</a>
+    <a href="http://localhost:5173/confirmEmail?token=${token}">
+      Naciśnij aby aktywować adres email.
+    </a>
     `,
   };
 
