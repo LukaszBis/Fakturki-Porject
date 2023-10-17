@@ -60,6 +60,18 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
     }
     return user;
 }
+async function auth(id){
+    try {
+        const user = await User.findOne({ _id: isObjectId(id) }).exec();
+        if (user){
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Błąd podczas pobierania osób:', error);
+        throw error;
+    }
+}
 async function changePassword(user, password) {
     try {
         user.passwordHash = await bcrypt.hash(password, 10);
@@ -128,4 +140,4 @@ async function displayAll() {
     }
 }
 
-module.exports = { add,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
+module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
