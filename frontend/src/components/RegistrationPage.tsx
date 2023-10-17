@@ -173,7 +173,7 @@ const RegistrationPage: React.FC = () => {
 
   return (
     <>
-    
+      
       <div className={styles.container_register}>
         <div className={styles.logoContainer}>
           <Link to="/welcome" className={styles.logoLink}>
