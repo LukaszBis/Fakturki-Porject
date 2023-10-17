@@ -7,20 +7,17 @@ import fakturki from "../assets/fakturki.png";
 var success = false;
 
 const NewPasswordPage: React.FC = () => {
-  const [token, setToken] = useState<string>('');
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const tokenParam = params.get('token');
-        
         if (tokenParam) {
         // Jeśli token został znaleziony w adresie URL, ustaw go w stanie komponentu
-        setToken(decodeURIComponent(tokenParam));
 
         const apiUrl = 'http://localhost:8080/active';
 
         const requestBody = {
-            token: token,
+            token: tokenParam,
         };
         console.log(requestBody)
         
