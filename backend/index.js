@@ -35,6 +35,119 @@ async function checkTokens(){
 checkTokens();
 
 
+const { PDFDocument, rgb } = require('pdf-lib');
+const fs = require('fs');
+const htmlToPdf = require('html-pdf');
+
+async function generatePdfFromHtml(htmlCode, res) {
+  // Skonwertuj kod HTML na plik PDF za pomocą html-pdf
+  htmlToPdf.create(htmlCode, {}).toStream((err, stream) => {
+    if (err) {
+      console.error('Błąd konwersji HTML na PDF:', err);
+      res.status(500).send('Błąd generowania pliku PDF');
+      return;
+    }
+
+    // Odczytaj plik PDF jako strumień i przekieruj go do odpowiedzi HTTP
+    res.setHeader('Content-Disposition', 'attachment; filename=przykladowy.pdf');
+    res.setHeader('Content-Type', 'application/pdf');
+    stream.pipe(res);
+  });
+}
+app.get('/pdf', async (req, res) => {
+  try {
+    // Przykładowy kod HTML
+const htmlCode = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Przykładowy PDF</title>
+  </head>
+  <style>
+  body{
+    background-color:red;
+  }
+  </style>
+  <body>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+  </body>
+</html>
+`;
+
+    generatePdfFromHtml(htmlCode, res);
+  } catch (error) {
+    console.error('Błąd podczas obsługi ścieżki :', error);
+    res.status(400).send('Wystąpił błąd podczas pobierania danych.');
+  }
+});
+
+
+
 app.get('/', async (req, res) => {
   try {
     let tableHTML = req.query.status+'<br><table>';
@@ -49,7 +162,7 @@ app.get('/', async (req, res) => {
 
     res.send(tableHTML);
   } catch (error) {
-    console.error('Błąd podczas obsługi ścieżki /login:', error);
+    console.error('Błąd podczas obsługi ścieżk:', error);
     res.status(400).send('Wystąpił błąd podczas pobierania danych.');
   }
 });
