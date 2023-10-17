@@ -115,6 +115,22 @@ app.post('/setNewPassword', async (req, res) => {
   res.send({fail:"Nie udało się zmienić hasła"});
 });
 
+app.post('/active', async (req, res) => {
+  const email = req.body.email;
+
+  const get_user = await user.checkEmail(email);
+  if (get_user) {
+    const check = passwordReset.add(email);
+    if (check){
+      res.send({success:"Email wysłany"});
+      return;
+    }
+    res.send({fail:"Email nie został wysłany"});
+    return;
+  }
+  res.send({fail:"Email nie znaleziony"});
+});
+
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   if(id && await user.auth(id)){
