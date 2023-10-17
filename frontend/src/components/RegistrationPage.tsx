@@ -173,211 +173,212 @@ const RegistrationPage: React.FC = () => {
 
   return (
     <>
-      
-      <div className={styles.container_register}>
-        <div className={styles.logoContainer}>
-          <Link to="/welcome" className={styles.logoLink}>
-            <img src={fakturki} alt="Fakturki" className={styles.logo} />
-          </Link>
-        </div>
-        <h1>Zarejestruj się</h1>
-        <div className={styles.labelStyle}>
-          <div className={styles.form_container}>
-            <div className={styles.leftColumn}>
-              <div className={styles.form_group}>
-                <label htmlFor="email">Adres e-mail</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="email"
-                    id="email"
-                    value={email}
-                    isInvalid={validatedEmail}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {emailFeedback}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </div>
+      <div className={styles.container}>  
+        <div className={styles.container_register}>
+          <div className={styles.logoContainer}>
+            <Link to="/welcome" className={styles.logoLink}>
+              <img src={fakturki} alt="Fakturki" className={styles.logo} />
+            </Link>
+          </div>
+          <h1>Zarejestruj się</h1>
+          <div className={styles.labelStyle}>
+            <div className={styles.form_container}>
+              <div className={styles.leftColumn}>
                 <div className={styles.form_group}>
-                  <label htmlFor="password">Hasło</label><br />
+                  <label htmlFor="email">Adres e-mail</label><br />
                   <InputGroup className={styles.inputText} hasValidation>
                     <Form.Control
-                      type="password"
-                      id="password"
-                      value={password}
-                      isInvalid={validatedPassword}
-                      onChange={(e) => setPassword(e.target.value)}
+                      type="email"
+                      id="email"
+                      value={email}
+                      isInvalid={validatedEmail}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {passwordFeedback}
+                      {emailFeedback}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="confirmPassword">Powtórz hasło</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="password"
-                      id="confirmPassword"
-                      value={confirmPassword}
-                      isInvalid={validatedConfirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {confirmPasswordFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="firstName">Imię</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="firstName"
-                      value={firstName}
-                      isInvalid={validatedFirstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {firstNameFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="lastName">Nazwisko</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="lastName"
-                      value={lastName}
-                      isInvalid={validatedLastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {lastNameFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="phoneNumber">Nr telefonu</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="phoneNumber"
-                      value={phoneNumber}
-                      isInvalid={validatedPhoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {phoneNumberFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-            </div>
-
-
-              <div className={styles.rightColumn}>
-                <div className={styles.form_group}>
-                  <label htmlFor="postalCode">Kod pocztowy</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="postalCode"
-                      value={postalCode}
-                      isInvalid={validatedPostalCode}
-                      onChange={(e) => setPostalCode(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {postalCodeFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="city">Miasto</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="city"
-                      value={city}
-                      isInvalid={validatedCity}
-                      onChange={(e) => setCity(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {cityFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="street">Ulica</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="street"
-                      value={street}
-                      isInvalid={validatedStreet}
-                      onChange={(e) => setStreet(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {streetFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="buildingNumber">Nr budynku</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="buildingNumber"
-                      value={buildingNumber}
-                      isInvalid={validatedBuildingNumber}
-                      onChange={(e) => setBuildingNumber(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {buildingNumberFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className={styles.form_group}>
-                  <label htmlFor="apartmentNumber">Nr lokalu</label><br />
-                  <InputGroup className={styles.inputText} hasValidation>
-                    <Form.Control
-                      type="text"
-                      id="apartmentNumber"
-                      value={apartmentNumber}
-                      isInvalid={validatedApartmentNumber}
-                      onChange={(e) => setApartmentNumber(e.target.value)}
-                    />
-                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {apartmentNumberFeedback}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </div>
-                <div className='NrNip'>
                   <div className={styles.form_group}>
-                    <label htmlFor="NIP">NIP</label><br />
+                    <label htmlFor="password">Hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>
                       <Form.Control
-                        type="text"
-                        id="NIP"
-                        value={NIP}
-                        isInvalid={validatedNIP}
-                        onChange={(e) => setNIP(e.target.value)}
+                        type="password"
+                        id="password"
+                        value={password}
+                        isInvalid={validatedPassword}
+                        onChange={(e) => setPassword(e.target.value)}
                       />
                       <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {NIPFeedback}
+                        {passwordFeedback}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </div>
-                </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="confirmPassword">Powtórz hasło</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="password"
+                        id="confirmPassword"
+                        value={confirmPassword}
+                        isInvalid={validatedConfirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {confirmPasswordFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="firstName">Imię</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="firstName"
+                        value={firstName}
+                        isInvalid={validatedFirstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {firstNameFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="lastName">Nazwisko</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="lastName"
+                        value={lastName}
+                        isInvalid={validatedLastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {lastNameFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="phoneNumber">Nr telefonu</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="phoneNumber"
+                        value={phoneNumber}
+                        isInvalid={validatedPhoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {phoneNumberFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
               </div>
-          </div>
-        </div>      
-                
+
+
+                <div className={styles.rightColumn}>
+                  <div className={styles.form_group}>
+                    <label htmlFor="postalCode">Kod pocztowy</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="postalCode"
+                        value={postalCode}
+                        isInvalid={validatedPostalCode}
+                        onChange={(e) => setPostalCode(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {postalCodeFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="city">Miasto</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="city"
+                        value={city}
+                        isInvalid={validatedCity}
+                        onChange={(e) => setCity(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {cityFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="street">Ulica</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="street"
+                        value={street}
+                        isInvalid={validatedStreet}
+                        onChange={(e) => setStreet(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {streetFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="buildingNumber">Nr budynku</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="buildingNumber"
+                        value={buildingNumber}
+                        isInvalid={validatedBuildingNumber}
+                        onChange={(e) => setBuildingNumber(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {buildingNumberFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="apartmentNumber">Nr lokalu</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="apartmentNumber"
+                        value={apartmentNumber}
+                        isInvalid={validatedApartmentNumber}
+                        onChange={(e) => setApartmentNumber(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {apartmentNumberFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className='NrNip'>
+                    <div className={styles.form_group}>
+                      <label htmlFor="NIP">NIP</label><br />
+                      <InputGroup className={styles.inputText} hasValidation>
+                        <Form.Control
+                          type="text"
+                          id="NIP"
+                          value={NIP}
+                          isInvalid={validatedNIP}
+                          onChange={(e) => setNIP(e.target.value)}
+                        />
+                        <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                          {NIPFeedback}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>      
+          
         <button onClick={handleRegistration} className={styles.registrationButton}>Zarejestruj się</button>
 
-        <div className={styles.loginButton}>
-          <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
+          <div className={styles.loginButton}>
+            <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
+          </div>
         </div>
       </div>
     </>
