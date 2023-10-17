@@ -27,4 +27,23 @@ async function sendPasswordResetLink(email, token) {
   });
 }
 
-module.exports = { sendPasswordResetLink };
+async function sendActivationLink(email, token) {
+  const mailOptions = {
+    from: 'fakturki@gmail.com',
+    to: email,
+    subject: 'Fakturki - Aktywacja adresu email',
+    html: `
+    <a href="http://localhost:5173/confirmEmail?token=${token}">Naciśnij aby aktywować adres email.</a>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log('Błąd wysyłania wiadomości:', error);
+    } else {
+      console.log('Wiadomość została wysłana: ' + info.response);
+    }
+  });
+}
+
+module.exports = { sendPasswordResetLink,sendActivationLink };

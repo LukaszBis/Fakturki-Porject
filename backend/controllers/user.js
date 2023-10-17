@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     apartmentNumber: String,
     created_at: Date,
     updated_at: Date,
+    emailActivated_at: Date,
 });
 const User = mongoose.model('User', userSchema);
 
@@ -37,6 +38,7 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
     try {
         const created_at = new Date();
         const updated_at = new Date();
+        const emailActivated_at = null;
         const passwordHash = await bcrypt.hash(password, 10);
         user = new User({ 
             email, 
@@ -49,7 +51,8 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
             city, 
             street, 
             buildingNumber, 
-            apartmentNumber, 
+            apartmentNumber,
+            emailActivated_at,
             created_at, 
             updated_at 
         });
@@ -139,5 +142,15 @@ async function displayAll() {
         throw error;
     }
 }
+async function active(email){
+    const user = await checkEmail(email);
+    console.log(user);
+    if (user){
+        user.emailActivated_at = new Date();
+        await user.save();
+        return true;
+    }
+    return false;
+}
 
-module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll };
+module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll,active };

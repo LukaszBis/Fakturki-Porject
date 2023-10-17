@@ -21,10 +21,12 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 const user = require("./controllers/user");
 const validation = require("./controllers/validation");
 const passwordReset = require("./controllers/passwordReset");
+const active = require("./controllers/acitve");
 
 
 async function checkTokens(){
   passwordReset.checkTokens();
+  //active.checkTokens();
   setTimeout(function () {
     checkTokens();
   }, 10000);
@@ -116,19 +118,20 @@ app.post('/setNewPassword', async (req, res) => {
 });
 
 app.post('/active', async (req, res) => {
-  const email = req.body.email;
-
-  const get_user = await user.checkEmail(email);
-  if (get_user) {
-    const check = passwordReset.add(email);
-    if (check){
-      res.send({success:"Email wysłany"});
-      return;
-    }
-    res.send({fail:"Email nie został wysłany"});
+  const token = req.body.token;
+  
+  if(!await active.checkToken(token)){
+    res.json({ fail:"Link nie jest aktualny." });
     return;
   }
-  res.send({fail:"Email nie znaleziony"});
+
+  const email = await active.getEmailByToken(token);
+  if (email && await user.active(email)) {
+    active.removeToken(email);
+    res.send({success:"Konto aktywowane pomyślnie"});
+    return;
+  }
+  res.send({fail:"Konto nie istnieje"});
 });
 
 app.post('/auth', async (req, res) => {
@@ -233,7 +236,17 @@ app.post('/register', async (req, res) => {
   //res.status(200).send({user-firstname:firstName});
   //response json
   //res.status(200).json({user_data:user});
-  res.send({success:get_user._id});
+  
+  if(get_user){
+    const check = active.add(email);
+    if (check){
+      res.send({success:get_user._id});
+      return;
+    }
+    res.send({fail:"Email nie został wysłany"});
+    return;
+  }
+  res.send({fail:"Użytkownik nie został utworzony"});
 });
 
 app.listen(port, () => {
