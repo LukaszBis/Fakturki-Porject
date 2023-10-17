@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import logo_home from "../assets/logo_home.png";
 import styles from "./HomePage.module.css";
 import user from "../assets/user.png";
+import log_out from "../assets/log_out.png";
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";
+import Table from 'react-bootstrap/Table';
 
 interface Invoice {
   id: number;
@@ -86,56 +88,71 @@ const HomePage: React.FC = () => {
     }
   }, [selectedTab]);
 
+  const handleLogOff = () => {
+    const user = Cookies.get('user');
+    if (user){
+      Cookies.remove('user', { path: '/', domain: 'localhost' });
+      document.location.href = '/welcome';
+    }
+  };
+
   return (
     <>
-      <div className={styles.main}>
-        <div className={styles.banner}>
-        <img src={logo_home} alt="Fakturki" className={styles.logo} />
-          <span className={styles.companyName}>
-            Nazwa firmy...
-          </span>
-          <span className={styles.signUpIn}>            
-            <Link to="/userSettings"><img src={user} alt="user" width={42} height={42}/></Link>
-          </span>
+      <div className={styles.banner}>
+      <img src={logo_home} alt="Fakturki" className={styles.logo} />
+        <div className={styles.companyName}>
+          {/* miejsce na nazwe firmy */}
+          Fuszerka Sp. z o.o. 
         </div>
+        <span className={styles.optionsButton}>
+          <Link to="/userSettings"><img src={user} alt="user" width={42} height={42}/></Link>
+          <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><img src={log_out} alt="log_out" width={82} height={82}/></button></Link>
+        </span>
+      </div>
+      
+      <div className={styles.contentHome}>
+        <div className={styles.menu}>
+          <div className={styles.menuButton}>
+            <button onClick={() => setSelectedTab('invoices')}>Faktury</button>
+          </div>
+          <div className={styles.menuButton}>
+            <button onClick={() => setSelectedTab('receipts')}>Paragony</button>
+          </div>
+          <div className={styles.menuButton}>
+            <button onClick={() => setSelectedTab('advances')}>Zaliczki</button>
+          </div>
+        </div>
+
+        <div className={styles.invoiceTable}>
+          <h2>Lista {selectedTab === 'invoices' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
+          <div className="table-responsive">
+            <Table striped bordered>
+              <thead>
+                <tr>
+                  <th>Numer Faktury</th>
+                  <th>Data</th>
+                  <th>Kwota</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayedContent.map((invoice) => (
+                  <tr key={invoice.id}>
+                    <td>{invoice.number}</td>
+                    <td>{invoice.date}</td>
+                    <td>${invoice.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </div>
+
         <div className={styles.addInvoice}>
-          <button>Dodaj nową fakturę</button>
-        </div>
-
-      <div className={styles.menu}>
-        <div className={styles.menuButton}>
-          <button onClick={() => setSelectedTab('invoices')}>Faktury</button>
-        </div>
-        <div className={styles.menuButton}>
-          <button onClick={() => setSelectedTab('receipts')}>Paragony</button>
-        </div>
-        <div className={styles.menuButton}>
-          <button onClick={() => setSelectedTab('advances')}>Zaliczki</button>
+          <button className={styles.addInvoiceButton}>
+            <Link to="/addInvoice">Dodaj nową fakturę</Link>
+          </button>
         </div>
       </div>
-
-      <div className={styles.invoiceTable}>
-        <h2>Lista {selectedTab === 'invoices' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Numer Faktury</th>
-              <th>Data</th>
-              <th>Kwota</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedContent.map((invoice) => (
-              <tr key={invoice.id}>
-                <td>{invoice.number}</td>
-                <td>{invoice.date}</td>
-                <td>${invoice.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
   </>
   );
 };
