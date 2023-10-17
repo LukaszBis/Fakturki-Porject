@@ -63,7 +63,76 @@ const htmlCode = `
   <head>
     <title>Przykładowy PDF</title>
   </head>
+  <style>
+  body{
+    background-color:red;
+  }
+  </style>
   <body>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
+    <h1>Przykładowy PDF</h1>
+    <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
     <h1>Przykładowy PDF</h1>
     <p>To jest przykład pliku PDF utworzonego z kodu HTML.</p>
   </body>
