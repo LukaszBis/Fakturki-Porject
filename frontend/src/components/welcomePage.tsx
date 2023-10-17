@@ -1,23 +1,52 @@
 import fakturki from "../assets/fakturki.png";
 import laptop from "../assets/laptop.png";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import styles from './welcomePage.module.css';
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import ButtonsLayoutLogout from "../layouts/ButtonsLayoutLogout";
+import ButtonsLayoutLogin from "../layouts/ButtonsLayoutLogin";
+
+var buttons = false;
 
 const welcomePage = () => {
+
+    useEffect(() => {
+        const user = Cookies.get('user');
+        if(user){
+            const apiUrl = 'http://localhost:8080/auth';
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            })
+            .then((response) => {
+            if (!response.ok) {
+                throw new Error('Nie ma autoryzacji');
+            }
+            return response.json();
+            })
+            .then((data) => {
+            if(data.fail) {
+                document.location.href = '/welcome';
+            }else{
+                buttons = true;
+            }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }, []);
+
     return (
       <>
       <div className={styles.background_bottom}>
       <div className={styles.header}>
             <img src={fakturki} alt="Fakturki" className={styles.logo} />
-            <div className={styles.buttonsContainer}>
-                <button className={styles.loginButton}>
-                <i className="fa-solid fa-lock" style={{ fontSize:'1em', marginRight: '0.5em'}} ></i>
-                    <Link to="/login">Logowanie</Link>
-                </button>
-                <button className={styles.registrationButton}>
-                    <Link to="/registration">Rejestracja</Link>
-                </button>
-            </div>
+            {buttons?<ButtonsLayoutLogout/>:<ButtonsLayoutLogin/>}
         </div>
                 <p>Aplikacja Fakturki</p>
                 <p id={styles.pStyle}>Finanse i księgowość w jednym miejscu. Zobacz, co jeszcze możesz zyskać.</p>

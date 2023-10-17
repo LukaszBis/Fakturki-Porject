@@ -13,14 +13,15 @@
   .buttonsContainer {
     display: flex;
   }
-  
+
 .loginButton,.registrationButton{
     display: flex;
     align-items: center;
     margin-right: 10px;
+    text-decoration: none;
   }
 
-  .loginButton :Link,.registrationButton :Link {
+  .loginButton :link,.registrationButton :link {
     text-decoration: none;
     color: white;
   }
@@ -28,6 +29,10 @@
   .loginButton :visited,.registrationButton :visited {
     text-decoration: none;
     color: white;
+  }
+
+  .buttonsContainer a{
+    text-decoration: none;
   }
 
   .lockIcon {
