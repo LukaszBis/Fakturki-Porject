@@ -72,6 +72,14 @@ const ResetPasswordPage: React.FC = () => {
       document.location.href = '/welcome';
     }
   }, []);
+
+  const handleLogOff = () => {
+    const user = Cookies.get('user');
+    if (user){
+      Cookies.remove('user', { path: '/', domain: 'localhost' });
+      document.location.href = '/welcome';
+    }
+  };
   
   const handleGetInfoUserPage = () => {
     const apiUrl = 'http://localhost:8080/setUserSettings';
@@ -303,8 +311,8 @@ const ResetPasswordPage: React.FC = () => {
 
         <div className={styles.functionalButton}>
           <button onClick={handleGetInfoUserPage} className={styles.registrationButton}>Zapisz zmiany</button>
-          <button  className={styles.backButton}><Link to="/HomePage">Powrót</Link></button>
-          <button  className={styles.logOutButton}><Link to="/Login">Wyloguj</Link></button>
+          <button className={styles.backButton}><Link to="/HomePage">Powrót</Link></button>
+          <button onClick={handleLogOff} className={styles.logOutButton}><Link to="/Login">Wyloguj</Link></button>
         </div>
       </div>
     </>
