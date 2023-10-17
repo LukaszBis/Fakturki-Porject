@@ -1,26 +1,33 @@
 import fakturki from "../assets/fakturki.png";
 import laptop from "../assets/laptop.png";
-// import { Link } from 'react-router-dom';
 import styles from './welcomePage.module.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import ButtonsLayoutLogout from "../layouts/ButtonsLayoutLogout";
-import ButtonsLayoutLogin from "../layouts/ButtonsLayoutLogin";
+import ButtonsLayoutLogout from "../layouts/ButtonsLayoutLogout.tsx";
+import ButtonsLayoutLogin from "../layouts/ButtonsLayoutLogin.tsx";
 
-var buttons = false;
-
-const welcomePage = () => {
+const welcomePage: React.FC = () => {
+const [buttons, setButtons] = useState(true);
 
     useEffect(() => {
         const user = Cookies.get('user');
+        console.log(user)
+        console.log(JSON.stringify(user))
         if(user){
             const apiUrl = 'http://localhost:8080/auth';
+            
+            // const requestBody = {
+            //     user: user,
+            //   };
+            
             fetch(apiUrl, {
                 method: 'POST',
+                mode: 'no-cors',
+                credentials: 'include',
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(user),
+                body: user,
             })
             .then((response) => {
             if (!response.ok) {
@@ -29,24 +36,27 @@ const welcomePage = () => {
             return response.json();
             })
             .then((data) => {
-            if(data.fail) {
-                document.location.href = '/welcome';
+                console.log(data)
+            if(data.success) {
+                setButtons(false);
             }else{
-                buttons = true;
+                setButtons(true);
+                document.location.href = '/welcome';
             }
             })
             .catch((error) => {
                 console.log(error);
             });
         }
+        console.log(buttons)
     }, []);
-
+    
     return (
       <>
       <div className={styles.background_bottom}>
       <div className={styles.header}>
             <img src={fakturki} alt="Fakturki" className={styles.logo} />
-            {buttons?<ButtonsLayoutLogout/>:<ButtonsLayoutLogin/>}
+            {buttons===true?<ButtonsLayoutLogout/>:<ButtonsLayoutLogin/>}
         </div>
                 <p>Aplikacja Fakturki</p>
                 <p id={styles.pStyle}>Finanse i księgowość w jednym miejscu. Zobacz, co jeszcze możesz zyskać.</p>

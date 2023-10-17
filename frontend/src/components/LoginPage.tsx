@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
           
         });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 

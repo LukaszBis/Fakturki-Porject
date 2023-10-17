@@ -9,7 +9,7 @@ RUN npm install
 
 RUN npm install express
 RUN npm install mongoose
-RUN npm install cors
+RUN npm install cors --save
 RUN npm install body-parser
 RUN npm install nodemailer
 RUN npm install bcrypt
