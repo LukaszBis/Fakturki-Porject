@@ -14,8 +14,7 @@ async function sendPasswordResetLink(email, token) {
     to: email,
     subject: 'Fakturki - Resetowanie hasła',
     html: `
-    <a href="http://localhost:5173/newPassword?token=${token}">To jest przykładowa treść wiadomości.</a>
-    <button style="color:red;">przycisk</button>
+    <a href="http://localhost:5173/newPassword?token=${token}">Naciśnij aby zmienić hasło.</a>
     `,
   };
 
