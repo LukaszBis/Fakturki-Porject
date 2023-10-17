@@ -3,6 +3,7 @@ import logo_home from "../assets/logo_home.png";
 import styles from "./HomePage.module.css";
 import user from "../assets/user.png";
 import { Link } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 interface Invoice {
   id: number;
@@ -46,6 +47,34 @@ const advances: Invoice[] = [
 const HomePage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('invoices');
   const [displayedContent, setDisplayedContent] = useState<Invoice[]>(invoices);
+
+  useEffect( () => {
+    const user = Cookies.get('user');
+    if (user) {
+      const apiUrl = 'http://localhost:8080/auth';
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Nie ma autoryzacji');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if(data.fail) {
+            document.location.href = '/welcome';
+          }
+          
+        });
+    }else{
+      document.location.href = '/welcome';
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedTab === 'invoices') {

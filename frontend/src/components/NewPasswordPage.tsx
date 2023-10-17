@@ -11,6 +11,7 @@ const NewPasswordPage: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [validatedPassword, setValidatedPassword] = useState(false);
   const [token, setToken] = useState<string>('');
+
   const handleSetNewPassword = () => {
     const apiUrl = 'http://localhost:8080/setNewPassword';
 
@@ -49,6 +50,8 @@ const NewPasswordPage: React.FC = () => {
         if (tokenParam) {
         // Jeśli token został znaleziony w adresie URL, ustaw go w stanie komponentu
         setToken(decodeURIComponent(tokenParam));
+        }else{
+          document.location.href = '/welcome';
         }
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
   return (

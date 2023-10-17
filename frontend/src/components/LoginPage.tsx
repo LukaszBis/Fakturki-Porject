@@ -20,33 +20,29 @@ const LoginPage: React.FC = () => {
     const user = Cookies.get('user');
     if (user) {
       setLoggedInUser(JSON.parse(user));
-    }
-    // const auth = async () => {
-    //   const apiUrl = 'http://localhost:8080/auth';
-    //   await fetch(apiUrl, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //     .then((response) => {
-    //       if (!response.ok) {
-    //         throw new Error('Nie ma autoryzacji');
-    //       }
-    //       return response.json();
-    //     })
-    //     .then((data) => {
-    //       if(data.fail) {
-    //         document.location.href = '/';
-    //       }
+      const apiUrl = 'http://localhost:8080/auth';
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Nie ma autoryzacji');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if(data.fail) {
+            document.location.href = '/welcome';
+          }
           
-    //     });     
-    // }
-    // try{
-    //   auth();
-    // }catch(error){
-    //   console.log(error);
-    // }
+        });
+    }else{
+      document.location.href = '/welcome';
+    }
   }, []);
 
   const handleLogin = () => {

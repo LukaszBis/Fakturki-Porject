@@ -44,6 +44,7 @@ const NewPasswordPage: React.FC = () => {
               document.location.href = '/homePage',{success};
             }else {
               console.log('Cos sie pospuslo:', data.fail);
+              document.location.href = '/welcome';
             }
           });
         }
