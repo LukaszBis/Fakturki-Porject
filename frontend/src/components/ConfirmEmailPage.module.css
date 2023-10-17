@@ -1,0 +1,50 @@
+.container_new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    flex-direction: column;
+    background-color: rgba(36, 36, 36, 0.85);
+    width: 38em;
+    height: 40em;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.logo {
+    width: 30em;
+    height: auto;
+  }
+  .logoContainer {
+    display: block;
+    position: absolute;
+    align-items: center;
+  }
+.newStyle {
+    float: left;
+    width: 18.75em;
+}
+
+.inputText {
+    height: 3.9em;
+}
+  
+.form_container_new {
+    text-align: left;
+}
+  
+.newPasswordButton {
+    margin-top: 0.5em;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .newPasswordH1 {
+    display: block;
+    position: absolute;
+    align-items: center;
+    margin-bottom: 8em;
+  }
