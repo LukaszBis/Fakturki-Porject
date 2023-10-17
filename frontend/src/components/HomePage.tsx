@@ -98,59 +98,61 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.banner}>
-      <img src={logo_home} alt="Fakturki" className={styles.logo} />
-        <div className={styles.companyName}>
-          {/* miejsce na nazwe firmy */}
-          Fuszerka Sp. z o.o. 
+      <div className={styles.mainContent}>
+        <div className={styles.banner}>
+        <img src={logo_home} alt="Fakturki" className={styles.logo} />
+          <div className={styles.companyName}>
+            {/* miejsce na nazwe firmy */}
+            Fuszerka Sp. z o.o. 
+          </div>
+          <span className={styles.optionsButton}>
+            <Link to="/userSettings"><img src={user} alt="user" width={42} height={42}/></Link>
+            <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><img src={log_out} alt="log_out" width={82} height={82}/></button></Link>
+          </span>
         </div>
-        <span className={styles.optionsButton}>
-          <Link to="/userSettings"><img src={user} alt="user" width={42} height={42}/></Link>
-          <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><img src={log_out} alt="log_out" width={82} height={82}/></button></Link>
-        </span>
-      </div>
-      
-      <div className={styles.contentHome}>
-        <div className={styles.menu}>
-          <div className={styles.menuButton}>
-            <button onClick={() => setSelectedTab('invoices')}>Faktury</button>
+        
+        <div className={styles.contentHome}>
+          <div className={styles.menu}>
+            <div className={styles.menuButton}>
+              <button onClick={() => setSelectedTab('invoices')}>Faktury</button>
+            </div>
+            <div className={styles.menuButton}>
+              <button onClick={() => setSelectedTab('receipts')}>Paragony</button>
+            </div>
+            <div className={styles.menuButton}>
+              <button onClick={() => setSelectedTab('advances')}>Zaliczki</button>
+            </div>
           </div>
-          <div className={styles.menuButton}>
-            <button onClick={() => setSelectedTab('receipts')}>Paragony</button>
-          </div>
-          <div className={styles.menuButton}>
-            <button onClick={() => setSelectedTab('advances')}>Zaliczki</button>
-          </div>
-        </div>
 
-        <div className={styles.invoiceTable}>
-          <h2>Lista {selectedTab === 'invoices' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
-          <div className="table-responsive">
-            <Table striped bordered>
-              <thead>
-                <tr>
-                  <th>Numer Faktury</th>
-                  <th>Data</th>
-                  <th>Kwota</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayedContent.map((invoice) => (
-                  <tr key={invoice.id}>
-                    <td>{invoice.number}</td>
-                    <td>{invoice.date}</td>
-                    <td>${invoice.amount}</td>
+          <div className={styles.invoiceTable}>
+            <h2>Lista {selectedTab === 'invoices' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
+            <div className="table-responsive">
+              <Table striped bordered>
+                <thead>
+                  <tr>
+                    <th>Numer Faktury</th>
+                    <th>Data</th>
+                    <th>Kwota</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {displayedContent.map((invoice) => (
+                    <tr key={invoice.id}>
+                      <td>{invoice.number}</td>
+                      <td>{invoice.date}</td>
+                      <td>${invoice.amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.addInvoice}>
-          <button className={styles.addInvoiceButton}>
-            <Link to="/addInvoice">Dodaj nową fakturę</Link>
-          </button>
+          <div className={styles.addInvoice}>
+            <button className={styles.addInvoiceButton}>
+              <Link to="/addInvoice">Dodaj nową fakturę</Link>
+            </button>
+          </div>
         </div>
       </div>
   </>
