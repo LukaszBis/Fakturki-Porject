@@ -30,7 +30,9 @@ a:hover {
   color: white;
 }
 
-
+body {
+  min-width: 1000px;
+}
 
 h1 {
   font-size: 3.2em;
