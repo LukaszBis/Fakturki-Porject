@@ -33,7 +33,17 @@ async function sendActivationLink(email, token) {
     to: email,
     subject: 'Fakturki - Aktywacja adresu email',
     html: `
-    <a href="http://localhost:5173/confirmEmail?token=${token}">Naciśnij aby aktywować adres email.</a>
+    <a href="http://localhost:5173" targer="_blank" style="display:inline-block;">
+      <img src="https://drive.google.com/uc?export=view&id=12F9dzuCyRdE7Ov7G2iuwzHdtef63XJoC" style="width: 15em;"></img>
+    </a>
+    <h1 style="text-align: center; font-size:200%;">Potwierdź swój email</h1>
+    <p><b>Witaj!</b></p><br/>
+    <p><b>Adres <i style="font-weight:900;">${email}</i> został wybrany jako Twój email do logowania na stornie Fakturki. Aby potwierdzić, że ten email należy do Ciebie kliknij wponiższy link.</b></p><br/>
+    <a href="http://localhost:5173/confirmEmail?token=${token}" style="color:blue" targer="_blank">
+        <b>Naciśnij aby aktywować adres email.</b>
+    </a><br/><br/>
+    <p><b>Pozdrawiamy,</b></p><br/>
+    <p><b>Zespół Fakturki</b></p>
     `,
   };
 
