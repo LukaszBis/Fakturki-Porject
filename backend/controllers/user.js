@@ -65,7 +65,6 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
 }
 async function auth(id){
     try {
-        const user = await User.findOne({ _id: isObjectId(id) }).exec();
         if (user){
             return true;
         }

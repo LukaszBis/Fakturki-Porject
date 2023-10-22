@@ -13,7 +13,7 @@ RUN npm install cors --save
 RUN npm install body-parser
 RUN npm install nodemailer
 RUN npm install bcrypt
-RUN npm install pdf-lib html-pdf
+RUN npm install html-pdf
 RUN npm install open
 
 # Copy the rest of the source files into the image.
