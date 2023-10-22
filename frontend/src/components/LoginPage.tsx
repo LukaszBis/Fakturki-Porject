@@ -14,34 +14,38 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [validatedEmail] = useState(false);
   const [validatedPassword] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  //const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect( () => {
     const user = Cookies.get('user');
-    if (user) {
-      setLoggedInUser(JSON.parse(user));
-      const apiUrl = 'http://localhost:8080/auth';
-      fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      })
+    if(user){
+        const apiUrl = 'http://localhost:8080/auth';
+        
+        const requestBody = {
+            user: user,
+        };
+        console.log(requestBody)
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error('Nie ma autoryzacji');
-          }
-          return response.json();
+            if (!response.ok) {
+                throw new Error('Nie ma autoryzacji');
+            }
+            return response.json();
         })
         .then((data) => {
-          if(data.fail) {
-            document.location.href = '/welcome';
-          }
-          
+            if(data.success) {
+              document.location.href = '/HomePage';
+            }
+        })
+        .catch((error) => {
+            console.log(error);
         });
-    }else{
-      // document.location.href = '/welcome';
     }
   }, []);
 
@@ -67,18 +71,18 @@ const LoginPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('user: ', Cookies.get('user'))
+        //console.log('user: ', Cookies.get('user'))
         if(data.success) {
-          console.log('Login successful:', data);
-          Cookies.set('user', JSON.stringify(data.success), { expires: 7 });
-          console.log('user: ', Cookies.get('user'))
-          setLoggedInUser(data.success);
-          if (loggedInUser) {
-            console.log(data.success);
+          //console.log('Login successful:', data);
+          Cookies.set('user', data.success, { expires: 7 });
+          //console.log('user: ', Cookies.get('user'))
+          //setLoggedInUser(data.success);
+          //if (loggedInUser) {
+            //console.log(data.success);
             document.location.href = '/HomePage';
-          } else {
-            document.location.href = '/login';
-          }
+          //} else {
+            //document.location.href = '/login';
+          //}
         }else {
           console.log(data.fail);
             if(data.fail){

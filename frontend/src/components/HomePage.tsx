@@ -52,26 +52,33 @@ const HomePage: React.FC = () => {
 
   useEffect( () => {
     const user = Cookies.get('user');
-    if (user) {
-      const apiUrl = 'http://localhost:8080/auth';
-      fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      })
+    if(user){
+        const apiUrl = 'http://localhost:8080/auth';
+        
+        const requestBody = {
+            user: user,
+        };
+        console.log(requestBody)
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
         .then((response) => {
-          if (!response.ok) {
-            throw new Error('Nie ma autoryzacji');
-          }
-          return response.json();
+            if (!response.ok) {
+                throw new Error('Nie ma autoryzacji');
+            }
+            return response.json();
         })
         .then((data) => {
-          if(data.fail) {
-            document.location.href = '/welcome';
-          }
-          
+            if(!data.success) {
+                document.location.href = '/welcome';
+            }
+        })
+        .catch((error) => {
+            console.log(error);
         });
     }else{
       document.location.href = '/welcome';

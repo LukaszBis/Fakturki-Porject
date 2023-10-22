@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './RegistrationPage.module.css';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
+import Cookies from "js-cookie";
 
 let firstNameFeedback:string;
 let lastNameFeedback:string;
@@ -45,6 +46,39 @@ const RegistrationPage: React.FC = () => {
   const [validatedBuildingNumber, setValidatedBuildingNumber] = useState(false);
   const [validatedApartmentNumber, setValidatedApartmentNumber] = useState(false);
   const [validatedNIP, setValidatedNIP] = useState(false);
+
+  useEffect( () => {
+    const user = Cookies.get('user');
+    if(user){
+        const apiUrl = 'http://localhost:8080/auth';
+        
+        const requestBody = {
+            user: user,
+        };
+        console.log(requestBody)
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Nie ma autoryzacji');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if(data.success) {
+              document.location.href = '/HomePage';
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+  }, []);
 
   const handleRegistration = () => {
     const apiUrl = 'http://localhost:8080/register';

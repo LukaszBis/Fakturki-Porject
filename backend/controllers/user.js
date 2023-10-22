@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
 // Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
 const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
@@ -65,7 +66,7 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
 }
 async function auth(id){
     try {
-        if (user){
+        if (User.find({_id : new ObjectId(id)})){
             return true;
         }
         return false;

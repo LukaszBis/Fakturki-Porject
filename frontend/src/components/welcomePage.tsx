@@ -11,44 +11,38 @@ const [buttons, setButtons] = useState(true);
 
     useEffect(() => {
         const user = Cookies.get('user');
-        console.log(user)
-        console.log(JSON.stringify(user))
         if(user){
             const apiUrl = 'http://localhost:8080/auth';
             
-            // const requestBody = {
-            //     user: user,
-            //   };
-            
+            const requestBody = {
+                user: user,
+            };
+            console.log(requestBody)
             fetch(apiUrl, {
                 method: 'POST',
-                mode: 'no-cors',
-                credentials: 'include',
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: user,
+                body: JSON.stringify(requestBody),
             })
             .then((response) => {
-            if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
-            }
-            return response.json();
+                if (!response.ok) {
+                    throw new Error('Nie ma autoryzacji');
+                }
+                return response.json();
             })
             .then((data) => {
-                console.log(data)
-            if(data.success) {
-                setButtons(false);
-            }else{
-                setButtons(true);
-                document.location.href = '/welcome';
-            }
+                if(data.success) {
+                    setButtons(false);
+                }else{
+                    setButtons(true);
+                    //document.location.href = '/welcome';
+                }
             })
             .catch((error) => {
                 console.log(error);
             });
         }
-        console.log(buttons)
     }, []);
     
     return (

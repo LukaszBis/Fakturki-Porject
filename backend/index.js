@@ -6,6 +6,19 @@ const port = 8080;
 //this is new \/
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Adres klienta
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Włącz przekazywanie ciasteczek
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Obsługa preflight requests
+  if (req.method === 'OPTIONS') {
+    res.status(200).send();
+  } else {
+    next();
+  }
+});
 
 //this is new \/
 const cors=require("cors");
@@ -392,10 +405,10 @@ app.post('/active', async (req, res) => {
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   console.log("user")
-  // if(id && await user.auth(id)){
-  //   res.send({success:"gratulacje użytkowniku"})
-  //   return;
-  // }
+  if(id && await user.auth(id)){
+    res.send({success:"gratulacje użytkowniku"})
+    return;
+  }
   res.send({fail:"Error"});
 });
 

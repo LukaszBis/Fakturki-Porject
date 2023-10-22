@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import fakturki from "../assets/fakturki.png";
+// import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+// import fakturki from "../assets/fakturki.png";
 import styles from './AddNewInvoicePage.module.css';
 
 const InvoiceForm = () => {

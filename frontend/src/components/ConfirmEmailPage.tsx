@@ -44,6 +44,8 @@ const NewPasswordPage: React.FC = () => {
               document.location.href = '/welcome';
             }
           });
+        }else{
+          document.location.href = '/welcome';
         }
     }, []); // useEffect zostanie uruchomiony tylko raz po pierwszym renderowaniu komponentu
   return (
