@@ -90,55 +90,54 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-    
-    <div className={styles.container}>
-    <div className={styles.logoContainer}>
-      <Link to="/welcome" className={styles.logoLink}>
-        <img src={fakturki} alt="Fakturki" className={styles.logo} />
-      </Link>
-    </div>
-          <h1>Zaloguj się</h1>
-          
-            <div className={styles.loginStyle}>
-              <div className={styles.form_group}>
-                <label htmlFor="username">Adres e-mail</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="email"
-                    id="email"
-                    placeholder='example@mail.com'
-                    value={email}
-                    isInvalid={validatedEmail}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    Wprowadź poprawny email.
-                  </Form.Control.Feedback>
-                </InputGroup>
+      <div className={styles.container}>
+      <div className={styles.logoContainer}>
+        <Link to="/welcome" className={styles.logoLink}>
+          <img src={fakturki} alt="Fakturki" className={styles.logo} />
+        </Link>
+      </div>
+            <h1>Zaloguj się</h1>
+            
+              <div className={styles.loginStyle}>
+                <div className={styles.form_group}>
+                  <label htmlFor="username">Adres e-mail</label><br />
+                  <InputGroup className={styles.inputText} hasValidation>
+                    <Form.Control
+                      type="email"
+                      id="email"
+                      placeholder='example@mail.com'
+                      value={email}
+                      isInvalid={validatedEmail}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                      Wprowadź poprawny email.
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </div>
+                <div className={styles.form_group}>
+                  <label htmlFor="password">Hasło</label><br />
+                  <InputGroup className={styles.inputText} hasValidation>
+                    <Form.Control
+                      type="password"
+                      id="password"
+                      placeholder='********'
+                      value={password}
+                      isInvalid={validatedPassword}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                      {failFeedback}
+                    </Form.Control.Feedback>
+                  </InputGroup>
+                </div>
               </div>
-              <div className={styles.form_group}>
-                <label htmlFor="password">Hasło</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="password"
-                    id="password"
-                    placeholder='********'
-                    value={password}
-                    isInvalid={validatedPassword}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {failFeedback}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </div>
-            </div>
-            <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
-        <div className={styles.plusButton}>
-          <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
-          <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
-        </div>
-    </div>
+              <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
+          <div className={styles.plusButton}>
+            <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
+            <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
+          </div>
+      </div>
     </>
   );
 };

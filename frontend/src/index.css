@@ -26,12 +26,11 @@ a:hover {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  /* background-color: white; */
   color: white;
 }
 
 body {
-  min-width: 1000px;
+  min-height: 100vh;
 }
 
 h1 {

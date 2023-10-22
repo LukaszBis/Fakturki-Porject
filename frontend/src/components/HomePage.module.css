@@ -1,7 +1,12 @@
+.mainContent {
+  min-width: 1000px;
+}
+
 .contentHome {
   background-color: #3b3b3b; 
   min-height: 80vh;
   border-radius: 0px 0px 20px 20px;
+  min-width: 1000px;
 }
 
 .banner {
@@ -55,7 +60,7 @@ span.optionsButton a img {
 }
 
 .menuButton button {
-  width: 21em;
+  width: 15em;
   text-align: left;
   border-radius: 0;
   padding-left: 1.8em;
@@ -64,7 +69,7 @@ span.optionsButton a img {
 .invoiceTable {
   float: left;
   margin-top: 2em;
-  margin-left: 5em;
+  margin-left: 8em;
 }
 
 table th {
