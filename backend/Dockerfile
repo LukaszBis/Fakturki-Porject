@@ -15,6 +15,7 @@ RUN npm install nodemailer
 RUN npm install bcrypt
 RUN npm install html-pdf
 RUN npm install open
+RUN npm install axios
 
 # Copy the rest of the source files into the image.
 COPY . .

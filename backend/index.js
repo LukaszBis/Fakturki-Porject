@@ -301,6 +301,10 @@ app.get('/pdf', async (req, res) => {
   }
 });
 
+app.get('/nip', async (req, res) => {
+  
+});
+
 
 
 app.get('/', async (req, res) => {
@@ -443,6 +447,7 @@ app.post('/register', async (req, res) => {
   const buildingNumber = req.body.buildingNumber;
   const apartmentNumber = req.body.apartmentNumber;
   const NIP = req.body.NIP;
+  const accountNumber = req.body.accountNumber;
 
   let err = false;
   let errors = {
@@ -457,7 +462,8 @@ app.post('/register', async (req, res) => {
     street:[],
     buildingNumber:[],
     apartmentNumber:[],
-    NIP:[]
+    NIP:[],
+    accountNumber:[]
   };
   validation.check(errors.email,email)?err=true:null;
   validation.email(errors.email,email)?err=true:null;
@@ -494,7 +500,13 @@ app.post('/register', async (req, res) => {
   validation.check(errors.NIP,NIP)?err=true:null;
   validation.number(errors.NIP,NIP)?err=true:null;
   validation.equal(errors.NIP,NIP,10)?err=true:null;
+  validation.nip(errors.NIP,NIP)?err=true:null;
   await user.NIPUnique(errors.NIP,NIP)?err=true:null;
+
+  validation.check(errors.accountNumber,accountNumber)?err=true:null;
+  validation.number(errors.accountNumber,accountNumber)?err=true:null;
+  validation.equal(errors.accountNumber,accountNumber,26)?err=true:null;
+  await user.accountNumberUnique(errors.accountNumber,accountNumber)?err=true:null;
   if (err){
     res.json({ errors });
     return;
