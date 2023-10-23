@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
+import google from "../assets/google.png";
 import Cookies from "js-cookie";
 
 let firstNameFeedback:string;
@@ -19,6 +20,7 @@ let streetFeedback:string;
 let buildingNumberFeedback:string;
 let apartmentNumberFeedback:string;
 let NIPFeedback:string;
+let accountNumberFeedback:string;
 
 const RegistrationPage: React.FC = () => {
   const [firstName, setFirstName] = useState('');
@@ -33,6 +35,7 @@ const RegistrationPage: React.FC = () => {
   const [buildingNumber, setBuildingNumber] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [NIP, setNIP] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
   // const [validated, setValidated] = useState(false);
   const [validatedFirstName, setValidatedFirstName] = useState(false);
   const [validatedEmail, setValidatedEmail] = useState(false);
@@ -46,6 +49,7 @@ const RegistrationPage: React.FC = () => {
   const [validatedBuildingNumber, setValidatedBuildingNumber] = useState(false);
   const [validatedApartmentNumber, setValidatedApartmentNumber] = useState(false);
   const [validatedNIP, setValidatedNIP] = useState(false);
+  const [validatedAccountNumber, setValidatedAccountNumber] = useState(false);
 
   useEffect( () => {
     const user = Cookies.get('user');
@@ -96,6 +100,7 @@ const RegistrationPage: React.FC = () => {
       buildingNumber: buildingNumber,
       apartmentNumber: apartmentNumber,
       NIP: NIP,
+      accountNumber: accountNumber,
     };
 
     console.log(requestBody)
@@ -200,6 +205,13 @@ const RegistrationPage: React.FC = () => {
             NIPFeedback = data.errors.NIP[0]
           }else{
             setValidatedNIP(false);
+          }
+
+          if(data.errors.accountNumber != "") {
+            setValidatedAccountNumber(true);
+            accountNumberFeedback = data.errors.accountNumber[0]
+          }else{
+            setValidatedAccountNumber(false);
           }
         }
       });
@@ -357,59 +369,85 @@ const RegistrationPage: React.FC = () => {
                       </Form.Control.Feedback>
                     </InputGroup>
                   </div>
-                  <div className={styles.form_group}>
-                    <label htmlFor="buildingNumber">Nr budynku</label><br />
-                    <InputGroup className={styles.inputText} hasValidation>
-                      <Form.Control
-                        type="text"
-                        id="buildingNumber"
-                        value={buildingNumber}
-                        isInvalid={validatedBuildingNumber}
-                        onChange={(e) => setBuildingNumber(e.target.value)}
-                      />
-                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {buildingNumberFeedback}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </div>
-                  <div className={styles.form_group}>
-                    <label htmlFor="apartmentNumber">Nr lokalu</label><br />
-                    <InputGroup className={styles.inputText} hasValidation>
-                      <Form.Control
-                        type="text"
-                        id="apartmentNumber"
-                        value={apartmentNumber}
-                        isInvalid={validatedApartmentNumber}
-                        onChange={(e) => setApartmentNumber(e.target.value)}
-                      />
-                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {apartmentNumberFeedback}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </div>
-                  <div className='NrNip'>
-                    <div className={styles.form_group}>
-                      <label htmlFor="NIP">NIP</label><br />
-                      <InputGroup className={styles.inputText} hasValidation>
-                        <Form.Control
-                          type="text"
-                          id="NIP"
-                          value={NIP}
-                          isInvalid={validatedNIP}
-                          onChange={(e) => setNIP(e.target.value)}
-                        />
-                        <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                          {NIPFeedback}
-                        </Form.Control.Feedback>
-                      </InputGroup>
+                  <div className={styles.buildingClass}>
+                    <div className={styles.buildingNumber}>
+                      <div className={styles.form_group}>
+                        <label htmlFor="buildingNumber">Nr budynku</label><br />
+                        <InputGroup className={styles.inputText} hasValidation>
+                          <Form.Control
+                            type="text"
+                            id="buildingNumber"
+                            value={buildingNumber}
+                            isInvalid={validatedBuildingNumber}
+                            onChange={(e) => setBuildingNumber(e.target.value)}
+                          />
+                          <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                            {buildingNumberFeedback}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </div>
                     </div>
+                    <div className={styles.apartmentNumber}>
+                      <div className={styles.form_group}>
+                        <label htmlFor="apartmentNumber">Nr lokalu</label><br />
+                        <InputGroup className={styles.inputText} hasValidation>
+                          <Form.Control
+                            type="text"
+                            id="apartmentNumber"
+                            value={apartmentNumber}
+                            isInvalid={validatedApartmentNumber}
+                            onChange={(e) => setApartmentNumber(e.target.value)}
+                          />
+                          <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                            {apartmentNumberFeedback}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="NIP">NIP</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="NIP"
+                        value={NIP}
+                        isInvalid={validatedNIP}
+                        onChange={(e) => setNIP(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {NIPFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </div>
+                  <div className={styles.form_group}>
+                    <label htmlFor="accountNumber">Nr konta</label><br />
+                    <InputGroup className={styles.inputText} hasValidation>
+                      <Form.Control
+                        type="text"
+                        id="accountNumber"
+                        value={accountNumber}
+                        isInvalid={validatedAccountNumber}
+                        onChange={(e) => setAccountNumber(e.target.value)}
+                      />
+                      <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                        {accountNumberFeedback}
+                      </Form.Control.Feedback>
+                    </InputGroup>
                   </div>
                 </div>
             </div>
           </div>      
           
         <button onClick={handleRegistration} className={styles.registrationButton}>Zarejestruj się</button>
-
+        <div>
+          <span className={styles.textGoogle}>
+            Zarejestruj się przez 
+          </span>
+            <Link to="">
+              <img src={google} alt="Google" className={styles.logoGoogle} />
+            </Link>
+        </div>
           <div className={styles.loginButton}>
             <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
           </div>

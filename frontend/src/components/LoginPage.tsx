@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
+import google from "../assets/google.png";
 import Cookies from "js-cookie";
 
 var failFeedback:string;
@@ -137,6 +138,14 @@ const LoginPage: React.FC = () => {
                 </div>
               </div>
               <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
+              <div>
+                <span className={styles.textGoogle}>
+                  Zaloguj się przez 
+                </span>
+                  <Link to="">
+                    <img src={google} alt="Google" className={styles.logoGoogle} />
+                  </Link>
+              </div>
           <div className={styles.plusButton}>
             <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
             <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>

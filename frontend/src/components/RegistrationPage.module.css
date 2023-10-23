@@ -53,8 +53,33 @@
     margin-left: 4em;
 }
 
+.buildingClass {
+    width: 18.8em;
+    display: flex;
+    justify-content: space-around;
+}
+
+.buildingNumber input{
+    width: 7em;
+    float: left;
+}
+
+.apartmentNumber input {
+    width: 7em;
+    float: left;
+}
+
 .registrationButton {
     margin-top: 1em;
+}
+
+.textGoogle {
+    margin-right: 1em;
+    
+}
+
+.logoGoogle {
+    width: 6em;
 }
 
 .loginButton {
