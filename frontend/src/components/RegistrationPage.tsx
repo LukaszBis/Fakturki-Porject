@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
-import google from "../assets/google.png";
 import Cookies from "js-cookie";
 
 let firstNameFeedback:string;
@@ -440,14 +439,6 @@ const RegistrationPage: React.FC = () => {
           </div>      
           
         <button onClick={handleRegistration} className={styles.registrationButton}>Zarejestruj się</button>
-        <div>
-          <span className={styles.textGoogle}>
-            Zarejestruj się przez 
-          </span>
-            <Link to="">
-              <img src={google} alt="Google" className={styles.logoGoogle} />
-            </Link>
-        </div>
           <div className={styles.loginButton}>
             <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
           </div>

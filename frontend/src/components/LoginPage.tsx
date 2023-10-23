@@ -5,17 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
-import google from "../assets/google.png";
 import Cookies from "js-cookie";
 
-var failFeedback:string;
+let emailFeedback:string;
+let passwordFeedback:string;
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [validatedEmail] = useState(false);
-  const [validatedPassword] = useState(false);
   //const [loggedInUser, setLoggedInUser] = useState(null);
+  
+  const [validatedEmail, setValidatedEmail] = useState(false);
+  const [validatedPassword, setValidatedPassword] = useState(false);
 
   useEffect( () => {
     const user = Cookies.get('user');
@@ -85,10 +86,20 @@ const LoginPage: React.FC = () => {
             //document.location.href = '/login';
           //}
         }else {
-          console.log(data.fail);
-            if(data.fail){
-              failFeedback = data.fail
-            }
+          console.log(data.errors);
+          if(data.errors.email != "") {
+            setValidatedEmail(true);
+            emailFeedback = data.errors.email[0]
+          }else{
+            setValidatedEmail(false);
+          }
+
+          if(data.errors.password != "") {
+            setValidatedPassword(true);
+            passwordFeedback = data.errors.password[0]
+          }else{
+            setValidatedPassword(false);
+          }
         }
       });
     };
@@ -105,7 +116,7 @@ const LoginPage: React.FC = () => {
             
               <div className={styles.loginStyle}>
                 <div className={styles.form_group}>
-                  <label htmlFor="username">Adres e-mail</label><br />
+                  <label htmlFor="email">Adres e-mail</label><br />
                   <InputGroup className={styles.inputText} hasValidation>
                     <Form.Control
                       type="email"
@@ -116,7 +127,7 @@ const LoginPage: React.FC = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      Wprowadź poprawny email.
+                      {emailFeedback}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -132,20 +143,12 @@ const LoginPage: React.FC = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {failFeedback}
+                      {passwordFeedback}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
               </div>
               <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
-              <div>
-                <span className={styles.textGoogle}>
-                  Zaloguj się przez 
-                </span>
-                  <Link to="">
-                    <img src={google} alt="Google" className={styles.logoGoogle} />
-                  </Link>
-              </div>
           <div className={styles.plusButton}>
             <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
             <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
