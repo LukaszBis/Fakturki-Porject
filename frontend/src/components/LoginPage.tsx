@@ -138,14 +138,6 @@ const LoginPage: React.FC = () => {
                 </div>
               </div>
               <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
-              <div>
-                <span className={styles.textGoogle}>
-                  Zaloguj się przez 
-                </span>
-                  <Link to="">
-                    <img src={google} alt="Google" className={styles.logoGoogle} />
-                  </Link>
-              </div>
           <div className={styles.plusButton}>
             <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
             <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>

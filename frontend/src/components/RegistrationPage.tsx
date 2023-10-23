@@ -440,14 +440,6 @@ const RegistrationPage: React.FC = () => {
           </div>      
           
         <button onClick={handleRegistration} className={styles.registrationButton}>Zarejestruj się</button>
-        <div>
-          <span className={styles.textGoogle}>
-            Zarejestruj się przez 
-          </span>
-            <Link to="">
-              <img src={google} alt="Google" className={styles.logoGoogle} />
-            </Link>
-        </div>
           <div className={styles.loginButton}>
             <div>Masz konto? <Link to="/login">Zaloguj się</Link></div>
           </div>
