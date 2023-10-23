@@ -40,7 +40,10 @@
     display: flex;
     justify-content: space-around;
 }
-
+.ErrorInput{
+    position: absolute;
+    top: 2.8em;
+}
 .leftColumn {
     float: left;
     width: 18.75em;
