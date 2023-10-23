@@ -1,3 +1,4 @@
+const axios = require('axios');
 function check(arr, value) {
     if (value == null || value.trim() == ''){
         arr.push("Warość nie może być pusta");
@@ -66,5 +67,30 @@ function compare(arr, value, value2) {
     }
     return false;
 }
+function nip(arr, nip){
+    const inputDate = new Date();
+    const year = inputDate.getFullYear();
+    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = inputDate.getDate().toString().padStart(2, '0');
 
-module.exports = { check, text, email, password, number, equal, min, max, compare };
+    const formattedDate = `${year}-${month}-${day}`;
+    console.log(nip, formattedDate);
+
+    const apiUrl = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${formattedDate}`;
+
+    axios.get(apiUrl)
+        .then(response => {
+            if(response.data){
+                return false;
+            }else{
+                arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
+                return true;
+            }
+        })
+        .catch(() => {
+            arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
+            return true;
+        });
+}
+
+module.exports = { check, text, email, password, number, equal, min, max, compare, nip };

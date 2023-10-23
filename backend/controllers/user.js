@@ -119,6 +119,19 @@ async function NIPUnique(arr, NIP) {
         throw error;
     }
 }
+async function accountNumberUnique(arr, accountNumber) {
+    try {
+        const user = await User.findOne({ accountNumber: accountNumber }).exec();
+        if(user){
+            arr.push("Konto z podanym numerze konta już istnieje.");
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Błąd podczas sprawdzania unikalności numeru konta:', error);
+        throw error;
+    }
+}
 async function emailUnique(arr, email) {
     try {
         const user = await User.findOne({ email: email }).exec();
@@ -153,4 +166,4 @@ async function active(email){
     return false;
 }
 
-module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,emailUnique,displayAll,active };
+module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,accountNumberUnique,emailUnique,displayAll,active };
