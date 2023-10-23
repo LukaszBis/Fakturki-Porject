@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
-import google from "../assets/google.png";
 import Cookies from "js-cookie";
 
 let firstNameFeedback:string;
