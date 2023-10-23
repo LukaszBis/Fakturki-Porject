@@ -7,16 +7,14 @@ import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
 import Cookies from "js-cookie";
 
-let emailFeedback:string;
-let passwordFeedback:string;
+let failFeedback:string;
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   //const [loggedInUser, setLoggedInUser] = useState(null);
   
-  const [validatedEmail, setValidatedEmail] = useState(false);
-  const [validatedPassword, setValidatedPassword] = useState(false);
+  const [validated, setValidated] = useState(false);
 
   useEffect( () => {
     const user = Cookies.get('user');
@@ -86,19 +84,12 @@ const LoginPage: React.FC = () => {
             //document.location.href = '/login';
           //}
         }else {
-          console.log(data.errors);
-          if(data.errors.email != "") {
-            setValidatedEmail(true);
-            emailFeedback = data.errors.email[0]
+          console.log(data.fail);
+          if(data.fail != "") {
+            setValidated(true);
+            failFeedback = data.fail;
           }else{
-            setValidatedEmail(false);
-          }
-
-          if(data.errors.password != "") {
-            setValidatedPassword(true);
-            passwordFeedback = data.errors.password[0]
-          }else{
-            setValidatedPassword(false);
+            setValidated(false);
           }
         }
       });
@@ -123,11 +114,11 @@ const LoginPage: React.FC = () => {
                       id="email"
                       placeholder='example@mail.com'
                       value={email}
-                      isInvalid={validatedEmail}
+                      isInvalid={validated}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {emailFeedback}
+                      
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -139,11 +130,11 @@ const LoginPage: React.FC = () => {
                       id="password"
                       placeholder='********'
                       value={password}
-                      isInvalid={validatedPassword}
+                      isInvalid={validated}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {passwordFeedback}
+                      {failFeedback}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
