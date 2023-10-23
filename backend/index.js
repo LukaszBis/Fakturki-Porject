@@ -465,48 +465,60 @@ app.post('/register', async (req, res) => {
     NIP:[],
     accountNumber:[]
   };
-  validation.check(errors.email,email)?err=true:null;
-  validation.email(errors.email,email)?err=true:null;
-  await user.emailUnique(errors.email,email)?err=true:null;
+  validation.check(errors.email,email);
+  validation.email(errors.email,email);
+  await user.emailUnique(errors.email,email);
+  errors.email.length > 0?err=true:null;
 
-  validation.check(errors.password,password)?err=true:null;
-  validation.password(errors.password,password)?err=true:null;
-  validation.min(errors.password,password,8)?err=true:null;
-  validation.max(errors.password,password,20)?err=true:null;
+  validation.check(errors.password,password);
+  validation.password(errors.password,password);
+  validation.min(errors.password,password,8);
+  validation.max(errors.password,password,20);
+  errors.password.length > 0?err=true:null;
 
-  validation.check(errors.confirmPassword,confirmPassword)?err=true:null;
-  validation.compare(errors.confirmPassword,confirmPassword,password)?err=true:null;
+  validation.check(errors.confirmPassword,confirmPassword);
+  validation.compare(errors.confirmPassword,confirmPassword,password);
+  errors.confirmPassword.length > 0?err=true:null;
 
-  validation.check(errors.firstName,firstName)?err=true:null;
-  validation.text(errors.firstName,firstName)?err=true:null;
+  validation.check(errors.firstName,firstName);
+  validation.text(errors.firstName,firstName);
+  errors.firstName.length > 0?err=true:null;
 
-  validation.check(errors.lastName,lastName)?err=true:null;
-  validation.text(errors.lastName,lastName)?err=true:null;
+  validation.check(errors.lastName,lastName);
+  validation.text(errors.lastName,lastName);
+  errors.lastName.length > 0?err=true:null;
 
-  validation.check(errors.phoneNumber,phoneNumber)?err=true:
-  validation.number(errors.phoneNumber,phoneNumber)?err=true:
-  validation.equal(errors.phoneNumber,phoneNumber,9)?err=true:null;
+  validation.check(errors.phoneNumber,phoneNumber);
+  validation.number(errors.phoneNumber,phoneNumber);
+  validation.equal(errors.phoneNumber,phoneNumber,9);
+  errors.phoneNumber.length > 0?err=true:null;
 
-  validation.check(errors.postalCode,postalCode)?err=true:null;
+  validation.check(errors.postalCode,postalCode);
+  errors.postalCode.length > 0?err=true:null;
 
-  validation.check(errors.city,city)?err=true:null;
-  validation.text(errors.city,city)?err=true:null;
+  validation.check(errors.city,city);
+  validation.text(errors.city,city);
+  errors.city.length > 0?err=true:null;
 
-  validation.check(errors.street,street)?err=true:null;
-  validation.text(errors.street,street)?err=true:null;
+  validation.check(errors.street,street);
+  validation.text(errors.street,street);
+  errors.street.length > 0?err=true:null;
 
-  validation.check(errors.buildingNumber,buildingNumber)?err=true:null;
+  validation.check(errors.buildingNumber,buildingNumber);
+  errors.buildingNumber.length > 0?err=true:null;
 
-  validation.check(errors.NIP,NIP)?err=true:
-  validation.number(errors.NIP,NIP)?err=true:
-  validation.equal(errors.NIP,NIP,10)?err=true:
-  validation.nip(errors.NIP,NIP)?err=true:
-  await user.NIPUnique(errors.NIP,NIP)?err=true:null;
+  validation.check(errors.NIP,NIP);
+  validation.number(errors.NIP,NIP);
+  validation.equal(errors.NIP,NIP,10);
+  await validation.nip(errors.NIP,NIP);
+  errors.NIP.length == 0?await user.NIPUnique(errors.NIP,NIP):null
+  errors.NIP.length > 0?err=true:null;
 
-  validation.check(errors.accountNumber,accountNumber)?err=true:
-  validation.number(errors.accountNumber,accountNumber)?err=true:
-  validation.equal(errors.accountNumber,accountNumber,26)?err=true:
-  await user.accountNumberUnique(errors.accountNumber,accountNumber)?err=true:null;
+  validation.check(errors.accountNumber,accountNumber);
+  validation.number(errors.accountNumber,accountNumber);
+  validation.equal(errors.accountNumber,accountNumber,26);
+  errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
+  errors.accountNumber.length > 0?err=true:null;
   if (err){
     res.json({ errors });
     return;

@@ -1,4 +1,3 @@
-const axios = require('axios');
 function check(arr, value) {
     if (value == null || value.trim() == ''){
         arr.push("Warość nie może być pusta");
@@ -67,30 +66,31 @@ function compare(arr, value, value2) {
     }
     return false;
 }
-function nip(arr, nip){
-    const inputDate = new Date();
-    const year = inputDate.getFullYear();
-    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = inputDate.getDate().toString().padStart(2, '0');
-
-    const formattedDate = `${year}-${month}-${day}`;
-    console.log(nip, formattedDate);
-
-    const apiUrl = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${formattedDate}`;
-
-    axios.get(apiUrl)
-        .then(response => {
-            if(response.data){
-                return false;
-            }else{
-                arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
-                return true;
-            }
-        })
-        .catch(() => {
+async function nip(arr, nip) {
+    const axios = require('axios');
+    try {
+        const inputDate = new Date();
+        const year = inputDate.getFullYear();
+        const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = inputDate.getDate().toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
+        const apiUrl = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${formattedDate}`;
+    
+        const response = await axios.get(apiUrl);
+  
+        if (response.data) {
+            // Przedsiębiorstwo o podanym NIP istnieje
+            console.log("jest",response.data)
+        } else {
+            // Przedsiębiorstwo o podanym NIP nie istnieje
             arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
-            return true;
-        });
+            console.log("niema1")
+        }
+    } catch (error) {
+        arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
+        console.log("niema2")
+        //console.error('Błąd podczas pobierania danych:', error);
+    }
 }
 
 module.exports = { check, text, email, password, number, equal, min, max, compare, nip };
