@@ -53,6 +53,7 @@ const RegistrationPage: React.FC = () => {
   useEffect( () => {
     const user = Cookies.get('user');
     if(user){
+      
         const apiUrl = 'http://localhost:8080/auth';
         
         const requestBody = {
@@ -84,6 +85,20 @@ const RegistrationPage: React.FC = () => {
   }, []);
 
   const handleRegistration = () => {
+    setValidatedFirstName(false);
+    setValidatedEmail(false);
+    setValidatedPassword(false);
+    setValidatedPostalCode(false);
+    setValidatedStreet(false);
+    setValidatedLastName(false);
+    setValidatedPhoneNumber(false);
+    setValidatedConfirmPassword(false);
+    setValidatedCity(false);
+    setValidatedBuildingNumber(false);
+    setValidatedApartmentNumber(false);
+    setValidatedNIP(false);
+    setValidatedAccountNumber(false);
+
     const apiUrl = 'http://localhost:8080/register';
 
     const requestBody = {
