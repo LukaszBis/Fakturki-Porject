@@ -483,8 +483,8 @@ app.post('/register', async (req, res) => {
   validation.check(errors.lastName,lastName)?err=true:null;
   validation.text(errors.lastName,lastName)?err=true:null;
 
-  validation.check(errors.phoneNumber,phoneNumber)?err=true:null;
-  validation.number(errors.phoneNumber,phoneNumber)?err=true:null;
+  validation.check(errors.phoneNumber,phoneNumber)?err=true:
+  validation.number(errors.phoneNumber,phoneNumber)?err=true:
   validation.equal(errors.phoneNumber,phoneNumber,9)?err=true:null;
 
   validation.check(errors.postalCode,postalCode)?err=true:null;
@@ -497,15 +497,15 @@ app.post('/register', async (req, res) => {
 
   validation.check(errors.buildingNumber,buildingNumber)?err=true:null;
 
-  validation.check(errors.NIP,NIP)?err=true:null;
-  validation.number(errors.NIP,NIP)?err=true:null;
-  validation.equal(errors.NIP,NIP,10)?err=true:null;
-  validation.nip(errors.NIP,NIP)?err=true:null;
+  validation.check(errors.NIP,NIP)?err=true:
+  validation.number(errors.NIP,NIP)?err=true:
+  validation.equal(errors.NIP,NIP,10)?err=true:
+  validation.nip(errors.NIP,NIP)?err=true:
   await user.NIPUnique(errors.NIP,NIP)?err=true:null;
 
-  validation.check(errors.accountNumber,accountNumber)?err=true:null;
-  validation.number(errors.accountNumber,accountNumber)?err=true:null;
-  validation.equal(errors.accountNumber,accountNumber,26)?err=true:null;
+  validation.check(errors.accountNumber,accountNumber)?err=true:
+  validation.number(errors.accountNumber,accountNumber)?err=true:
+  validation.equal(errors.accountNumber,accountNumber,26)?err=true:
   await user.accountNumberUnique(errors.accountNumber,accountNumber)?err=true:null;
   if (err){
     res.json({ errors });
