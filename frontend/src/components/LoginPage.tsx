@@ -49,6 +49,13 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
+  const checkEnter = (event: any) => {
+    if(event.key === 'Enter'){
+      event.preventDefault();
+      handleLogin();
+    }
+  }
+
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
 
@@ -95,6 +102,8 @@ const LoginPage: React.FC = () => {
       });
     };
 
+    document.addEventListener("keydown", checkEnter);
+
   return (
     <>
       <div className={styles.container}>
@@ -139,7 +148,7 @@ const LoginPage: React.FC = () => {
                   </InputGroup>
                 </div>
               </div>
-              <button onClick={handleLogin} className={styles.logIn}>Zaloguj się</button>
+              <button onClick={handleLogin} type='submit' className={styles.logIn}>Zaloguj się</button>
           <div className={styles.plusButton}>
             <div>Zapomniałeś hasła? <Link to="/reset">Zresetuj hasło</Link></div>
             <div>Nie masz konta? <Link to="/registration">Zarejestruj się</Link></div>
