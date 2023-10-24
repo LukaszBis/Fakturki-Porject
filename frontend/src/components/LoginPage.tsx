@@ -71,26 +71,13 @@ const LoginPage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        //console.log('user: ', Cookies.get('user'))
         if(data.success) {
-          //console.log('Login successful:', data);
           Cookies.set('user', data.success, { expires: 7 });
-          //console.log('user: ', Cookies.get('user'))
-          //setLoggedInUser(data.success);
-          //if (loggedInUser) {
-            //console.log(data.success);
-            document.location.href = '/HomePage';
-          //} else {
-            //document.location.href = '/login';
-          //}
+          setValidated(false);
+          document.location.href = '/HomePage';
         }else {
-          console.log(data.fail);
-          if(data.fail != "") {
-            setValidated(true);
-            failFeedback = data.fail;
-          }else{
-            setValidated(false);
-          }
+          setValidated(true);
+          failFeedback = data.fail;
         }
       });
     };
