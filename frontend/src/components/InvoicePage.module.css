@@ -2,11 +2,12 @@
     display:flex;
     justify-content: center;
 }
+
 .invoiceForm {
     justify-content: flex;
     align-items: center;
     text-align: center;
-    background-color: rgba(36, 36, 36, 0.85);
+    /* background-color: rgba(36, 36, 36, 0.85); */
     padding-top: 1em;
     padding-bottom: 1em;
     border-radius: 20px;
@@ -17,14 +18,21 @@
 
 .firstContainer{
     overflow: hidden;
+    background-color: rgba(36, 36, 36, 0.85);
+    border-radius: 20px;
+    padding: 1em;
+    margin-bottom: 1em;
 }
+
 .firstContainerName{
     width: 50%;
     float: left;
 }
+
 .firstContainerName input{
     width: 30em;
 }
+
 .firstContainerName p{
     text-align: left;
     margin-bottom: 0;
@@ -33,10 +41,12 @@
     width: 50%;
     float: left;
 }
+
 .firstContainerDates p{
     text-align: left;
     margin-bottom: 0;   
 }
+
 .firstContainerDates input{
     width: 15em;
     margin-right: 0.5em;    
@@ -44,20 +54,93 @@
 
 .WspolnyContainer{
     overflow: hidden;
+    background-color: rgba(36, 36, 36, 0.85);
+    border-radius: 20px;
+    padding: 1em;
+    margin-bottom: 1em;
 }
+
 .WspolnyContainer table thead td{
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
-.WspolnyContainer table thead :nth-child(2){
+
+/* .WspolnyContainer table thead :nth-child(2){
     text-align: left;
     width: 20em;
-}
+} */
+
 .DodajContainer{
     width: 50%;
     float: left;
 }
+
 .WartoscContainer{
     width: 50%;
     float: left;
+}
+.cena input{
+    margin: 1em;
+}
+
+.platnosc_termin p{
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.platnosc_termin label input{
+    width: 10em;
+}
+
+.platnosc_termin label select{
+    width: 10em;
+}
+
+.platnosc_termin label{
+    padding: 1em;
+}
+
+.lastContainer{
+    overflow: hidden;
+    background-color: rgba(36, 36, 36, 0.85);
+    border-radius: 20px;
+    padding: 1em;
+}
+
+.bank{
+    width: 50%;
+    float: left;
+}
+
+.bank select{
+    width: 20em;
+    margin-bottom: 1em;
+}
+
+.bank input{
+    width: 20em;
+}
+
+.bank p{
+    text-align: left;
+    margin-bottom: 0;  
+}
+
+.wystawil{
+    width: 50%;
+    float: left;
+}
+
+.wystawil select{
+    width: 10em;
+    margin-bottom: 1em;
+}
+
+.wystawil input{
+    width: 10em;
+}
+
+.wystawil p{
+    text-align: left;
+    margin-bottom: 0;  
 }
