@@ -50,43 +50,43 @@ const [buttons, setButtons] = useState(true);
     
     return (
       <>
-      <div className={styles.background_bottom}>
-      <div className={styles.header}>
-            <img src={fakturki} alt="Fakturki" className={styles.logo} />
-            {buttons===true?<ButtonsLayoutLogout/>:<ButtonsLayoutLogin/>}
-        </div>
+        <div className={styles.background_bottom}>
+            <div className={styles.header}>
+                <img src={fakturki} alt="Fakturki" className={styles.logo} />
+                {buttons===true?<ButtonsLayoutLogout/>:<ButtonsLayoutLogin/>}
+            </div>
                 <p>Aplikacja Fakturki</p>
                 <p id={styles.pStyle}>Finanse i księgowość w jednym miejscu. Zobacz, co jeszcze możesz zyskać.</p>
-            </div>
-            <div className={styles.karuzela}>
-                {/* <img src={laptop} alt="Laptop" className={styles.laptop}></img> */}
-                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" >
-                    <ol className="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div className="carousel-inner" id={styles.karuzelacenter}>
-                        <div className="carousel-item active" >
-                            <img className={styles.d_block} src={karuzela} alt="First slide"/>
-                        </div>
-                        <div className="carousel-item" >
-                            <img className={styles.d_block} src={karuzela2} alt="Second slide"/>
-                        </div>
-                        <div className="carousel-item" >
-                            <img className={styles.d_block} src={karuzela3} alt="Third slide"/>
-                        </div>
+        </div>
+        <div className={styles.karuzela}>
+            {/* <img src={laptop} alt="Laptop" className={styles.laptop}></img> */}
+            <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" >
+                <ol className="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div className="carousel-inner" id={styles.karuzelacenter}>
+                    <div className="carousel-item active" >
+                        <img className={styles.d_block} src={karuzela} alt="First slide"/>
                     </div>
-                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
+                    <div className="carousel-item" >
+                        <img className={styles.d_block} src={karuzela2} alt="Second slide"/>
+                    </div>
+                    <div className="carousel-item" >
+                        <img className={styles.d_block} src={karuzela3} alt="Third slide"/>
+                    </div>
                 </div>
+                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
+                </a>
             </div>
+        </div>
         <div className={styles.background_bottomm}>
             <p className={styles.help}>Jak aplikacja Fakturki pomoże Twojej firmie?</p>
             
