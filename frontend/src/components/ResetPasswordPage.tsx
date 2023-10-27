@@ -6,10 +6,13 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import fakturki from "../assets/fakturki.png";
 
+let emailSuccessFeedback:string;
+let emailFailFeedback:string;
+
 const ResetPasswordPage: React.FC = () => {
   const [email, setResetEmail] = useState('');
-  // const [errorMessage, setErrorMessage] = useState('');
-  const [validatedEmail,] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [validatedEmail,setvalidatedEmail] = useState(false);
 
   const handleResetPasswordPage = () => {
     const apiUrl = 'http://localhost:8080/resetPassword';
@@ -35,10 +38,15 @@ const ResetPasswordPage: React.FC = () => {
         if(data.success) 
         {
           console.log('Correct email:', data.success);
+          setvalidatedEmail(false);
+          emailSuccessFeedback = data.success;
         }
         else
         {
+          setIsError(true);
+          setvalidatedEmail(true);
           console.log('Correct email:', data.fail);
+          emailFailFeedback = data.fail;
         }
       });
   };
@@ -63,10 +71,13 @@ const ResetPasswordPage: React.FC = () => {
                 placeholder='example@mail.com'
                 value={email}
                 isInvalid={validatedEmail}
-                onChange={(e) => setResetEmail(e.target.value)}
+                onChange={(e) => {
+                  setvalidatedEmail(false)
+                  setResetEmail(e.target.value)
+                }}
               />
               <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                Wprowadź poprawny email.
+                {isError===true?emailFailFeedback:emailSuccessFeedback}
               </Form.Control.Feedback>
             </InputGroup><br/>
             <button onClick={handleResetPasswordPage} className={styles.resetButton}>Resetuj hasło</button>

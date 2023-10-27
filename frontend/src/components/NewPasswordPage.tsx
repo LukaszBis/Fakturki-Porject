@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import fakturki from "../assets/fakturki.png";
 
+let passwordFailFeedback:string;
+
 const NewPasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -41,6 +43,8 @@ const NewPasswordPage: React.FC = () => {
           document.location.href = '/login';
         }else {
           console.log('Cos sie pospuslo:', data.fail);
+          setValidatedPassword(true);
+          passwordFailFeedback = data.fail.password[0];
         }
       });
   };
@@ -80,7 +84,7 @@ const NewPasswordPage: React.FC = () => {
               }}
             />
             <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-              Hasło musi składać się z co najmniej 6 znaków.
+              {passwordFailFeedback}
             </Form.Control.Feedback>
           </InputGroup>
 
@@ -91,10 +95,13 @@ const NewPasswordPage: React.FC = () => {
               id="confirmPassword"
               placeholder='Potwierdź Hasło'
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setValidatedPassword(false)
+                setConfirmPassword(e.target.value)
+              }}
             />
             <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-              Hasło musi składać się z co najmniej 6 znaków.
+              {passwordFailFeedback}
             </Form.Control.Feedback>
           </InputGroup>
 

@@ -4,7 +4,25 @@
     align-items: center;
     padding: 10px 20px;
   }
+
+  .karuzela{
+    background-color: rgba(36, 36, 36, 0.85);
+    border-radius: 20px;
+    margin-bottom: 1em;
+    height: 45em;
+  }
   
+  .d_block{
+    display: block;
+    width: 70em;
+  }
+
+  #karuzelacenter{
+    margin: auto;
+    padding-top: 2.5em;
+    width: 70em;
+  }
+
   .logo {
     width: 20em;
     height: auto;
@@ -92,4 +110,142 @@
   .laptop {
     width: 60%; 
     height: auto;
+  }
+
+  @media only screen and (min-width:1250px){
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin: auto;
+      margin-bottom: 1em;
+      height: 39em;
+      width: 70.2em;
+    }
+  
+    .background_bottom {
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin: auto;
+      margin-top: 1em;
+      width: 70.2em;
+    }
+  
+    .background_bottomm {
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      padding: 1em;
+      width: 70.2em;
+      margin: auto;
+    }
+
+    .d_block{
+      display: block;
+      width: 60em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 60em;
+    }
+  }
+
+  @media only screen and (max-width:1250px){
+    .d_block{
+      display: block;
+      width: 60em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 60em;
+    }
+
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin-bottom: 1em;
+      height: 39em;
+    }
+  }
+
+  @media only screen and (max-width:1060px){
+    .d_block{
+      display: block;
+      width: 55em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 55em;
+    }
+
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin-bottom: 1em;
+      height: 36em;
+    }
+  }
+
+  @media only screen and (max-width:980px){
+    .d_block{
+      display: block;
+      width: 50em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 50em;
+    }
+
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin-bottom: 1em;
+      height: 33.3em;
+    }
+  }
+
+  @media only screen and (max-width:900px){
+    .d_block{
+      display: block;
+      width: 45em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 45em;
+    }
+
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin-bottom: 1em;
+      height: 30.3em;
+    }
+  }
+
+  @media only screen and (max-width:835px){
+    .d_block{
+      display: block;
+      width: 40em;
+    }
+  
+    #karuzelacenter{
+      margin: auto;
+      padding-top: 2.5em;
+      width: 40em;
+    }
+
+    .karuzela{
+      background-color: rgba(36, 36, 36, 0.85);
+      border-radius: 20px;
+      margin-bottom: 1em;
+      height: 27.7em;
+    }
   }
