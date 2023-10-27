@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import fakturki from "../assets/fakturki.png";
 import styles from './InvoicePage.module.css';
 
-var id=1, valuen:number, vatprice:number, valueb:number
+var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
 let services:any = []
 
@@ -19,6 +19,10 @@ const InvoiceForm = () => {
     const [dateSell, setDateSell] = useState("")
     const [place, setPlace] = useState("")
     const [payDate, setPayDate] = useState("")
+    const [payType, setPayType] = useState("")
+    const [account, setAccount] = useState("")
+    const [seller, setSeller] = useState("")
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const handleDelete = (id:any) => {
         let copyrows = [...rows]
@@ -75,6 +79,9 @@ const InvoiceForm = () => {
         vatprice = valuen * (vat / 100)
         valueb = valuen + vatprice
         setRows([...rows,{ID:id, NAME:name, JM:jm, QANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
+
+        sum = sum + valueb
+        setTotalPrice(sum)
         id++
     }
 
@@ -153,7 +160,7 @@ const InvoiceForm = () => {
                                 <p>Wartość brutto:</p>
                             </label>
                             <label>
-                                <input type="number" min="0.00" step="0.05"/>
+                                {totalPrice}
                             </label>
                             <label>
                                 <p>PLN</p>
@@ -162,7 +169,7 @@ const InvoiceForm = () => {
                         <div className={styles.platnosc_termin}>
                             <label>
                                 <p>Forma płatności</p> 
-                                <select>
+                                <select value={payType} onChange={(e) => setPayType(e.target.value)}>
                                     <option>Przelew</option>
                                     <option>Gotówka</option>
                                 </select>
@@ -179,7 +186,7 @@ const InvoiceForm = () => {
                     <div className={styles.bank}>
                         <label>
                             <p>Rachunek bankowy</p>
-                            <select>
+                            <select value={account} onChange={(e) => setAccount(e.target.value)}>
                                 <option>123</option>
                             </select>
                             <p>Opis</p>
@@ -189,7 +196,7 @@ const InvoiceForm = () => {
                     <div className={styles.wystawil}>
                         <label>
                             <p>Wystawił</p>
-                            <select>
+                            <select value={seller} onChange={(e) => setSeller(e.target.value)}>
                                 <option>Twoje imie</option>
                             </select>
                             <p>Wystawił</p>
