@@ -62,26 +62,26 @@ const [buttons, setButtons] = useState(true);
             {/* <img src={laptop} alt="Laptop" className={styles.laptop}></img> */}
             <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" >
                 <ol className="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active" draggable="false"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1" draggable="false"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2" draggable="false"></li>
                 </ol>
                 <div className="carousel-inner" id={styles.karuzelacenter}>
                     <div className="carousel-item active" >
-                        <img className={styles.d_block} src={karuzela} alt="First slide"/>
+                        <img className={styles.d_block} src={karuzela} alt="First slide" draggable="false"/>
                     </div>
                     <div className="carousel-item" >
-                        <img className={styles.d_block} src={karuzela2} alt="Second slide"/>
+                        <img className={styles.d_block} src={karuzela2} alt="Second slide" draggable="false"/>
                     </div>
                     <div className="carousel-item" >
-                        <img className={styles.d_block} src={karuzela3} alt="Third slide"/>
+                        <img className={styles.d_block} src={karuzela3} alt="Third slide" draggable="false"/>
                     </div>
                 </div>
-                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" draggable="false">
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span className="sr-only">Previous</span>
                 </a>
-                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" draggable="false">
                     <span className="carousel-control-next-icon" aria-hidden="true"></span>
                     <span className="sr-only">Next</span>
                 </a>
