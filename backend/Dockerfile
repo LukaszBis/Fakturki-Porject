@@ -14,6 +14,7 @@ RUN npm install body-parser
 RUN npm install nodemailer
 RUN npm install bcrypt
 RUN npm install html-pdf
+RUN npm install --save-dev price-to-polish-words
 RUN npm install open
 RUN npm install axios
 

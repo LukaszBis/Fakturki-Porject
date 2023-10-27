@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const fs = require('fs');
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -8,9 +9,34 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+async function sendInvoice(email, pdfBuffer) {
+  const mailOptions = {
+    from: 'TwojeFakturki@gmail.com',
+    to: email,
+    subject: 'Fakturki - Faktura',
+    html: `
+    Faktura w załączniku
+    `,
+    attachments: [
+      {
+        filename: 'faktura.pdf',
+        content: pdfBuffer,
+      },
+    ],
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log('Błąd wysyłania wiadomości:', error);
+    } else {
+      console.log('Wiadomość została wysłana: ' + info.response);
+    }
+  });
+}
+
 async function sendPasswordResetLink(email, token) {
   const mailOptions = {
-    from: 'fakturki@gmail.com',
+    from: 'TwojeFakturki@gmail.com',
     to: email,
     subject: 'Fakturki - Resetowanie hasła',
     html: `
@@ -29,7 +55,7 @@ async function sendPasswordResetLink(email, token) {
 
 async function sendActivationLink(email, token) {
   const mailOptions = {
-    from: 'fakturki@gmail.com',
+    from: 'TwojeFakturki@gmail.com',
     to: email,
     subject: 'Fakturki - Aktywacja adresu email',
     html: `
@@ -56,4 +82,4 @@ async function sendActivationLink(email, token) {
   });
 }
 
-module.exports = { sendPasswordResetLink,sendActivationLink };
+module.exports = { sendInvoice,sendPasswordResetLink,sendActivationLink };
