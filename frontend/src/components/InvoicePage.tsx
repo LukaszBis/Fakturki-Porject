@@ -14,6 +14,11 @@ const InvoiceForm = () => {
     const [quantity, setQuantity] = useState(0)
     const [price, setPrice] = useState(0)
     const [vat, setVat] = useState(23)
+    const [client, setClient] = useState("")
+    const [dateIssuance, setDateIssuance] = useState("")
+    const [dateSell, setDateSell] = useState("")
+    const [place, setPlace] = useState("")
+    const [payDate, setPayDate] = useState("")
 
     const handleDelete = (id:any) => {
         let copyrows = [...rows]
@@ -21,6 +26,7 @@ const InvoiceForm = () => {
             (_, index) => id !=index
         )
         setRows(copyrows)
+        console.log(rows)
     }
 
     const Row = (props:any) => {
@@ -80,21 +86,21 @@ const InvoiceForm = () => {
                     <div className={styles.firstContainerName}>
                         <label>
                             <p>Klient:</p>
-                            <input type="text" name="NumberInvoice" />
+                            <input type="text" name="NumberInvoice" value={client} onChange={(e) => setClient(e.target.value)}/>
                         </label>
                     </div>
                     <div className={styles.firstContainerDates}>
                         <label>
                             <p>Data Wystawienia:</p>
-                            <input type="date" name="Dataissuance" />
+                            <input type="date" name="Dataissuance" value={dateIssuance} onChange={(e) => setDateIssuance(e.target.value)}/>
                         </label>
                         <label>
                             <p>Data sprzedaży:</p>
-                            <input type="date" name="sellInovices" />
+                            <input type="date" name="sellInovices" value={dateSell} onChange={(e) => setDateSell(e.target.value)}/>
                         </label>
                         <label>
                             <p>Miejsce Wystawienia:</p>
-                            <input type="text" name="Place" />
+                            <input type="text" name="Place" value={place} onChange={(e) => setPlace(e.target.value)}/>
                         </label>
                     </div>
                 </div>
@@ -163,7 +169,7 @@ const InvoiceForm = () => {
                             </label>
                             <label>
                                 <p>Termin płatności</p>
-                                <input type="date"/>
+                                <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/>
                             </label>
                         </div>
                     </div>
