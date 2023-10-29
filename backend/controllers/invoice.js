@@ -17,6 +17,7 @@ db.once('open', () => {
 });
 
 const invoiceSchema = new mongoose.Schema({
+    userId: String,
     client: String,
     dateIssuance: Date,
     dateSell: Date,
@@ -53,11 +54,20 @@ async function add(invoice) {
     try {
         newInvoice = new Invoice(invoice);
         await newInvoice.save();
-        console.log('Osoba została dodana do bazy danych.');
+        console.log('Faktura została dodana do bazy danych.');
     } catch (error) {
-        console.error('Błąd podczas dodawania osoby:', error);
+        console.error('Błąd podczas dodawania faktury:', error);
     }
     return newInvoice;
 }
 
-module.exports = { add };
+async function findAll(id) {
+    try {
+        const invoices = await Invoice.find({ userId: id }).exec();
+        return invoices;
+    } catch (error) {
+        console.error('Błąd podczas pobierania faktur:', error);
+    }
+}
+
+module.exports = { add,findAll };

@@ -57,6 +57,8 @@ const HomePage: React.FC = () => {
         
         const requestBody = {
             user: user,
+            active: true,
+            invoices: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -75,6 +77,10 @@ const HomePage: React.FC = () => {
         .then((data) => {
             if(!data.success) {
                 document.location.href = '/welcome';
+            }else if(data.active){
+              console.log("Aktywuj adres email")
+            }else if(data.invoices){
+              console.log(data.invoices)
             }
         })
         .catch((error) => {

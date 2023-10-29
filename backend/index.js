@@ -161,14 +161,10 @@ app.post('/active', async (req, res) => {
   res.send({fail:"Konto nie istnieje"});
 });
 
-app.post('/reactive', async (req, res) => {
+app.post('/reactivate', async (req, res) => {
   const email = req.body.email;
   const get_user = await user.checkEmail(email);
-  //response variable
-  //res.status(200).send({user-firstname:firstName});
-  //response json
-  //res.status(200).json({user_data:user});
-  
+
   if(get_user && get_user.emailActivated_at == null){
     const check = active.add(email);
     if (check){
@@ -186,11 +182,17 @@ app.post('/auth', async (req, res) => {
   console.log("user")
   const get_user = await user.auth(id);
   if(id && get_user){
+    let response = {}
     if(req.body.details){
-      res.send({success:get_user})
-    }else{
-      res.send({success:"gratulacje użytkowniku"})
+      response.details = get_user
     }
+    if(req.body.active && get_user.emailActivated_at == null){
+      response.active = true
+    }else if(req.body.invoices){
+      response.invoices = await invoice.findAll(get_user._id.toString());
+    }
+    response.success = "gratulacje użytkowniku"
+    res.send(response);
     return;
   }
   res.send({fail:"Error"});

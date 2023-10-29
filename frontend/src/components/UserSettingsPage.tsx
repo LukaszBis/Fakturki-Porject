@@ -51,12 +51,14 @@ const ResetPasswordPage: React.FC = () => {
   useEffect( () => {
     const user = Cookies.get('user');
     const details = true;
+    const active = true;
     if(user){
         const apiUrl = 'http://localhost:8080/auth';
         
         const requestBody = {
             user: user,
             details: details,
+            active: active,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -76,18 +78,18 @@ const ResetPasswordPage: React.FC = () => {
             if(!data.success) {
                 document.location.href = '/welcome';
             }else{
-              console.log(data.success)
-              setFirstName(data.success.firstName)
-              setLastName(data.success.lastName)
-              setEmail(data.success.email)
-              setPhoneNumber(data.success.phoneNumber)
-              setPostalCode(data.success.postalCode)
-              setCity(data.success.city)
-              setStreet(data.success.street)
-              setBuildingNumber(data.success.buildingNumber)
-              setApartmentNumber(data.success.apartmentNumber)
-              setNIP(data.success.NIP)
-              setEmailActivated_at(data.success.emailActivated_at)
+              console.log(data)
+              setFirstName(data.details.firstName)
+              setLastName(data.details.lastName)
+              setEmail(data.details.email)
+              setPhoneNumber(data.details.phoneNumber)
+              setPostalCode(data.details.postalCode)
+              setCity(data.details.city)
+              setStreet(data.details.street)
+              setBuildingNumber(data.details.buildingNumber)
+              setApartmentNumber(data.details.apartmentNumber)
+              setNIP(data.details.NIP)
+              setEmailActivated_at(data.details.emailActivated_at)
             }
         })
         .catch((error) => {
