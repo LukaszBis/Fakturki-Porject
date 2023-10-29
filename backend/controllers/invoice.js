@@ -17,64 +17,47 @@ db.once('open', () => {
 });
 
 const invoiceSchema = new mongoose.Schema({
-    payDate: Date,
-    place: String,
-    dateSell: Date,
+    client: String,
     dateIssuance: Date,
-    clientName: String,
-    clientNIP: String,
-    clientStreet: String,
-    clientCity: String,
+    dateSell: Date,
+    place: String,
+    payDate: Date,
+    // clientName: String,
+    // clientNIP: String,
+    // clientStreet: String,
+    // clientCity: String,
     payType: String,
     account: Number,
-    seller_id: String,
+    seller: String,
     totalPrice: Number,
     services: [
         {
-            jm: String,
+            id: Number,
             name: String,
-            price: Number,
+            jm: String,
             qantity: Number,
-            valueb: Number,
+            price: Number,
             valuen: Number,
             vat: Number,
-            batprice: Number,
+            vatprice: Number,
+            valueb: Number,
         }
     ],
-    created_at: Date,
-    updated_at: Date,
+    created_at: {type: Date, default: new Date()},
+    updated_at: {type: Date, default: new Date()},
 });
 const Invoice = mongoose.model('Invoice', invoiceSchema);
 
-async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP) {
-    let user;
+async function add(invoice) {
+    let newInvoice;
     try {
-        const created_at = new Date();
-        const updated_at = new Date();
-        const emailActivated_at = null;
-        const passwordHash = await bcrypt.hash(password, 10);
-        user = new Invoice({ 
-            email, 
-            passwordHash, 
-            firstName, 
-            lastName, 
-            phoneNumber, 
-            NIP, 
-            postalCode, 
-            city, 
-            street, 
-            buildingNumber, 
-            apartmentNumber,
-            emailActivated_at,
-            created_at, 
-            updated_at 
-        });
-        await user.save();
+        newInvoice = new Invoice(invoice);
+        await newInvoice.save();
         console.log('Osoba została dodana do bazy danych.');
     } catch (error) {
         console.error('Błąd podczas dodawania osoby:', error);
     }
-    return user;
+    return newInvoice;
 }
 
 module.exports = { add };
