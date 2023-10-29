@@ -11,7 +11,6 @@ let firstNameFeedback:string;
 let lastNameFeedback:string;
 let emailFeedback:string;
 let phoneNumberFeedback:string;
-let passwordFeedback:string;
 let postalCodeFeedback:string;
 let cityFeedback:string;
 let streetFeedback:string;
@@ -19,18 +18,21 @@ let buildingNumberFeedback:string;
 let apartmentNumberFeedback:string;
 let NIPFeedback:string;
 
+
+
 const ResetPasswordPage: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
   const [buildingNumber, setBuildingNumber] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [NIP, setNIP] = useState('');
+ 
+
   // const [validated, setValidated] = useState(false);
   // const [validatedFirstName, setValidatedFirstName] = useState(false);
   // const [validatedEmail, setValidatedEmail] = useState(false);
@@ -74,6 +76,16 @@ const ResetPasswordPage: React.FC = () => {
                 document.location.href = '/welcome';
             }else{
               console.log(data.success)
+              setFirstName(data.success.firstName)
+              setLastName(data.success.lastName)
+              setEmail(data.success.email)
+              setPhoneNumber(data.success.phoneNumber)
+              setPostalCode(data.success.postalCode)
+              setCity(data.success.city)
+              setStreet(data.success.street)
+              setBuildingNumber(data.success.buildingNumber)
+              setApartmentNumber(data.success.apartmentNumber)
+              setNIP(data.success.NIP)
             }
         })
         .catch((error) => {
@@ -100,7 +112,6 @@ const ResetPasswordPage: React.FC = () => {
       lastName:lastName,
       email: email,
       phoneNumber:phoneNumber,
-      password:password,
       postalCode:postalCode,
       city:city,
       street:street,
@@ -160,20 +171,22 @@ const ResetPasswordPage: React.FC = () => {
                 </Form.Control.Feedback>
               </InputGroup>
             </div>
-            <div className={styles.form_group}>
-              <label htmlFor="password">Hasło</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="password"
-                  id="password"
-                  value={password}
-                  //   isInvalid={validatedPassword}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {passwordFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
+            <div className='NrNip'>
+              <div className={styles.form_group}>
+                <label htmlFor="NIP">NIP</label><br />
+                <InputGroup className={styles.inputText} hasValidation>
+                  <Form.Control
+                    type="text"
+                    id="NIP"
+                    value={NIP}
+                    //   isInvalid={validatedNIP}
+                    onChange={(e) => setNIP(e.target.value)}
+                  />
+                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                    {NIPFeedback}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </div>
             </div>
 
             <div className={styles.form_group}>
@@ -300,7 +313,7 @@ const ResetPasswordPage: React.FC = () => {
                 </Form.Control.Feedback>
               </InputGroup>
             </div>
-            <div className='NrNip'>
+            {/* <div className='NrNip'>
               <div className={styles.form_group}>
                 <label htmlFor="NIP">NIP</label><br />
                 <InputGroup className={styles.inputText} hasValidation>
@@ -316,7 +329,7 @@ const ResetPasswordPage: React.FC = () => {
                   </Form.Control.Feedback>
                 </InputGroup>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

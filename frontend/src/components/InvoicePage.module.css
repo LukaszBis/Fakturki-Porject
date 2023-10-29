@@ -24,13 +24,24 @@
     margin-bottom: 1em;
 }
 
+.firstContainer input{
+    border: 0px;
+    border-radius: 0.8em;
+    padding-left: 0.6em;
+    padding-right: 0.3em;
+}
+
 .firstContainerName{
     width: 50%;
     float: left;
 }
 
+.firstContainerName label{
+    width: 80%;
+}
+
 .firstContainerName input{
-    width: 30em;
+    width: 100%;
 }
 
 .firstContainerName p{
@@ -74,6 +85,22 @@
 
 .WspolnyContainer table td{
     border-left: rgb(26, 26, 26) solid 1px;
+}
+
+.WspolnyContainer input{
+    border: 0px;
+    border-radius: 0.8em;
+    padding-left: 0.6em;
+    padding-right: 0.3em;
+}
+
+.WspolnyContainer select{
+    border: 0px;
+    border-radius: 0.8em;
+    padding-left: 0.6em;
+    padding-right: 0.3em;
+    /* Arrow */
+    appearance: none;
 }
 
 .DodajContainer{
@@ -131,18 +158,38 @@
     padding: 1em;
 }
 
+.lastContainer input{
+    border: 0px;
+    border-radius: 0.8em;
+    padding-left: 0.6em;
+    padding-right: 0.3em;
+}
+
+.lastContainer select{
+    border: 0px;
+    border-radius: 0.8em;
+    padding-left: 0.6em;
+    padding-right: 0.3em;
+    /* Arrow */
+    appearance: none;
+}
+
 .bank{
     width: 50%;
     float: left;
 }
 
 .bank select{
-    width: 20em;
+    width: 100%;
     margin-bottom: 1em;
 }
 
+.bank label{
+    width: 80%;
+}
+
 .bank input{
-    width: 20em;
+    width: 100%;
 }
 
 .bank p{
@@ -167,4 +214,10 @@
 .wystawil p{
     text-align: left;
     margin-bottom: 0;  
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

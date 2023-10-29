@@ -91,6 +91,45 @@ const InvoiceForm = () => {
         id++
     }
 
+    const handleInvoice = () => {
+        const apiUrl = 'http://localhost:8080/invoice';
+    
+        const requestBody = {
+            rows:rows,
+            client:client,
+            dateIssuance:dateIssuance,
+            dateSell:dateSell,
+            place:place,
+            payDate:payDate,
+            payType:payType,
+            account:account,
+            seller:seller,
+            totalPrice:totalPrice
+        };
+    
+        console.log(requestBody)
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Register failed');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if(data.success) {
+              console.log('Register successful:', data);
+            }else {
+              console.log(data.errors);
+            }
+          });
+      };
+
     return (
         <>
         <div className={styles.formContainer}>
@@ -145,8 +184,8 @@ const InvoiceForm = () => {
                             <label>
                                 <p>Jednostka miary:</p>
                                 <select value={jm} onChange={(e) => setJm(e.target.value)}>
-                                    <option>Usługa</option>
-                                    <option>m2</option>
+                                    <option value="Usługa">Usługa</option>
+                                    <option value="m2">m2</option>
                                 </select>
                             </label>
                             <label>
@@ -160,8 +199,8 @@ const InvoiceForm = () => {
                             <label>
                                 <p>VAT:</p>
                                 <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
-                                    <option>23</option>
-                                    <option>19</option>
+                                    <option value="23">23%</option>
+                                    <option value="19">19%</option>
                                 </select>
                             </label>
                             
@@ -185,8 +224,8 @@ const InvoiceForm = () => {
                                 <label>
                                     <p>Forma płatności</p> 
                                     <select value={payType} onChange={(e) => setPayType(e.target.value)}>
-                                        <option>Przelew</option>
-                                        <option>Gotówka</option>
+                                        <option value="Przelew">Przelew</option>
+                                        <option value="Gotówka">Gotówka</option>
                                     </select>
                                 </label>
                                 <label>
@@ -203,7 +242,8 @@ const InvoiceForm = () => {
                         <label>
                             <p>Rachunek bankowy</p>
                             <select value={account} onChange={(e) => setAccount(e.target.value)}>
-                                <option>123</option>
+                                <option value="49 1020 2892 2276 3005 0000 0000">49 1020 2892 2276 3005 0000 0000</option>
+                                <option value="49 1020 2892 2276 3005 0000 1111">49 1020 2892 2276 3005 0000 1111</option>
                             </select>
                             <p>Opis</p>
                             <input type="text" />
@@ -213,12 +253,14 @@ const InvoiceForm = () => {
                         <label>
                             <p>Wystawił</p>
                             <select value={seller} onChange={(e) => setSeller(e.target.value)}>
-                                <option>Twoje imie</option>
+                                <option value="Łukasz">Lukasz</option>
+                                <option value="Jakub">Jakub</option>
                             </select>
-                            <p>Wystawił</p>
+                            <p>Odebrał</p>
                             <input type="text" />
                         </label>
                     </div>
+                    <button onClick={handleInvoice}>Wystaw fakture</button>
                 </div>
             </div>
         </div>

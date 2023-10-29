@@ -8,7 +8,6 @@ import NewPasswordPage from './components/NewPasswordPage';
 import WelcomePage from './components/welcomePage';
 import UserSettings from './components/UserSettingsPage';
 import ConfirmEmail from './components/ConfirmEmailPage';
-import AddNewInvoice from './components/AddNewInvoicePage';
 import Invoice from './components/InvoicePage';
 
 
@@ -26,7 +25,6 @@ function App() {
       <Route path="homePage" element={<HomePage/>} />
       <Route path="userSettings" element={<UserSettings/>} />
       <Route path="confirmEmail" element={<ConfirmEmail/>} />
-      <Route path="addInvoice" element={<AddNewInvoice/>} />
       <Route path="invoice" element={<Invoice/>} />
     </Routes>
   </BrowserRouter>
