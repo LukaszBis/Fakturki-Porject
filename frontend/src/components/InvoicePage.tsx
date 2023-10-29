@@ -77,7 +77,9 @@ const InvoiceForm = () => {
     function AddNewRow(){
         valuen = quantity * price
         vatprice = valuen * (vat / 100)
+        vatprice = Math.ceil((vatprice) * 100) / 100;
         valueb = valuen + vatprice
+        valueb = Math.ceil((valueb) * 100) / 100;
         setRows([...rows,{ID:id, NAME:name, JM:jm, QANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
 
         setName("")
