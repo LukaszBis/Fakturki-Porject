@@ -95,7 +95,7 @@ const InvoiceForm = () => {
         const apiUrl = 'http://localhost:8080/invoice';
     
         const requestBody = {
-            rows:rows,
+            services:rows,
             client:client,
             dateIssuance:dateIssuance,
             dateSell:dateSell,
