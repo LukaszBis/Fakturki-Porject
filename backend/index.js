@@ -32,6 +32,7 @@ app.use(cors(corsOptions)) // Use this after the variable declaration
 
 
 const user = require("./controllers/user");
+const invoice = require("./controllers/invoice");
 const validation = require("./controllers/validation");
 const passwordReset = require("./controllers/passwordReset");
 const active = require("./controllers/acitve");
@@ -302,7 +303,11 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/invoice', async(req,res) => {
-  console.log(req);
+  if(invoice.add(req.body)){
+    console.log('Dodane');
+  }else{
+    console.log('Nie dodane');
+  }
 })
 
 app.listen(port, () => {

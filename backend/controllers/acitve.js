@@ -18,8 +18,8 @@ db.once('open', () => {
 const activeEmailSchema = new mongoose.Schema({
     email: String,
     token: String,
-    created_at: Date,
-    updated_at: Date,
+    created_at: {type: Date, default: new Date()},
+    updated_at: {type: Date, default: new Date()},
 });
 const ActiveEmail = mongoose.model('ActiveEmail', activeEmailSchema);
 
@@ -31,14 +31,10 @@ async function add(email) {
         while(await checkToken(token)){
             token = generateToken();
         }
-        const created_at = new Date();
-        const updated_at = new Date();
             
         newToken = new ActiveEmail({ 
             email, 
-            token, 
-            created_at, 
-            updated_at 
+            token,
         });
         await newToken.save();
         console.log('Token aktywacji adresu email został dodany.');
