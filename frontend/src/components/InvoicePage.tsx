@@ -248,8 +248,6 @@ const InvoiceForm = () => {
                                 <option value="49 1020 2892 2276 3005 0000 0000">49 1020 2892 2276 3005 0000 0000</option>
                                 <option value="49 1020 2892 2276 3005 0000 1111">49 1020 2892 2276 3005 0000 1111</option>
                             </select>
-                            <p>Opis</p>
-                            <input type="text" />
                         </label>
                     </div>
                     <div className={styles.wystawil}>
@@ -259,8 +257,6 @@ const InvoiceForm = () => {
                                 <option value="Łukasz">Lukasz</option>
                                 <option value="Jakub">Jakub</option>
                             </select>
-                            <p>Odebrał</p>
-                            <input type="text" />
                         </label>
                     </div>
                     <button onClick={handleInvoice}>Wystaw fakture</button>

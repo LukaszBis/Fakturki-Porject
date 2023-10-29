@@ -31,6 +31,8 @@ interface Invoice {
 const invoices: Invoice[] = [
 ];
 
+var invoice:any = []
+
 const receipts: Invoice[] = [
   { id: 1, number: 'Paragon1', date: '2023-10-09', amount: 1000 },
   { id: 2, number: 'Paragon2', date: '2023-10-10', amount: 1500 },
@@ -45,8 +47,13 @@ const advances: Invoice[] = [
 
 const HomePage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('invoices');
-  const [displayedContent, setDisplayedContent] = useState<Invoice[]>(invoices);
-  const [invoiceTable, setInvoiceTable] = useState(invoices)
+  const [, setDisplayedContent] = useState<Invoice[]>(invoices);
+  // const [invoiceTmp, ] = useState([])
+  const [invoiceTable, setInvoiceTable] = useState(invoice)
+
+  // function AddNewRow(){
+  //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
+  // }
 
   useEffect( () => {
     const user = Cookies.get('user');
@@ -79,7 +86,12 @@ const HomePage: React.FC = () => {
               console.log("Aktywuj adres email")
             }else if(data.invoices){
               console.log(data.invoices)
-              setInvoiceTable(data.invoices)
+
+              invoice = data.invoices
+              setInvoiceTable(invoice)
+              console.log(invoice)
+              // AddNewRow()
+              console.log(invoiceTable)
             }
         })
         .catch((error) => {
@@ -107,7 +119,7 @@ const HomePage: React.FC = () => {
       document.location.href = '/welcome';
     }
   };
-
+//data, numerid, klient, wartosc
   return (
     <>
       <div className={styles.mainContent}>
@@ -142,17 +154,19 @@ const HomePage: React.FC = () => {
               <Table striped bordered>
                 <thead>
                   <tr>
-                    <th>Numer Faktury</th>
-                    <th>Data</th>
-                    <th>Kwota</th>
+                    <th>Data Wystawienia</th>
+                    <th>Nazwa</th>
+                    <th>Klient</th>
+                    <th>Wartość</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedContent.map((invoice) => (
-                    <tr key={invoice.id}>
-                      <td>{invoice.number}</td>
-                      <td>{invoice.date}</td>
-                      <td>${invoice.amount}</td>
+                  {invoice.map((inv:any) => (
+                    <tr key={inv.name}>
+                      <td>{inv.dateIssuance.split("T")[0]}</td>
+                      <td>{inv.name}</td>
+                      <td>{inv.client}</td>
+                      <td>{inv.totalPrice}</td>
                     </tr>
                   ))}
                 </tbody>
