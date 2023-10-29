@@ -72,15 +72,15 @@ async function findAll(id) {
 
 async function count(userid, month, year) {
     try {
-        const startOfMonth = new Date(year, month - 1, 1);
-        const endOfMonth = new Date(year, month, 0);
-        return await Invoice.countDocuments({
-            userId: new ObjectId(userid),
-            created_at: {
-                $gte: startOfMonth,
-                $lte: endOfMonth,
-            },
-        });
+        return await Invoice
+        .find({
+          userId: userid,
+          $expr: {
+            $eq: [{ $month: '$created_at' }, month + 1],
+            $eq: [{ $year: '$created_at' }, year]
+          }
+        })
+        .countDocuments();
     } catch (error) {
         console.error('Błąd podczas pobierania faktur:', error);
     }
