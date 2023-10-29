@@ -31,6 +31,7 @@ const ResetPasswordPage: React.FC = () => {
   const [buildingNumber, setBuildingNumber] = useState('');
   const [apartmentNumber, setApartmentNumber] = useState('');
   const [NIP, setNIP] = useState('');
+  const [emailActivated_at, setEmailActivated_at] = useState('');
  
 
   // const [validated, setValidated] = useState(false);
@@ -86,6 +87,7 @@ const ResetPasswordPage: React.FC = () => {
               setBuildingNumber(data.success.buildingNumber)
               setApartmentNumber(data.success.apartmentNumber)
               setNIP(data.success.NIP)
+              setEmailActivated_at(data.success.emailActivated_at)
             }
         })
         .catch((error) => {
@@ -144,6 +146,38 @@ const ResetPasswordPage: React.FC = () => {
       }
     });
   };
+  
+  const handleReactivate = () => {
+    const apiUrl = 'http://localhost:8080/reactivate';
+
+    const requestBody = {
+      email:email
+    };
+    console.log(requestBody)
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Reset password failed: User not found');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if(data.success) 
+      {
+        console.log('Correct email:', data.success);
+      }
+      else
+      {
+        console.log('Correct email:', data.fail);
+      }
+    });
+  };
 
   return (
     <>
@@ -170,6 +204,7 @@ const ResetPasswordPage: React.FC = () => {
                   {emailFeedback}
                 </Form.Control.Feedback>
               </InputGroup>
+              {emailActivated_at!= null?null:<button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
             </div>
             <div className='NrNip'>
               <div className={styles.form_group}>
