@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import fakturki from "../assets/fakturki.png";
 import styles from './InvoicePage.module.css';
 
-var id=1, valuen:number, vatprice:number, valueb:number
+var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
 let services:any = []
 
@@ -14,6 +14,15 @@ const InvoiceForm = () => {
     const [quantity, setQuantity] = useState(0)
     const [price, setPrice] = useState(0)
     const [vat, setVat] = useState(23)
+    const [client, setClient] = useState("")
+    const [dateIssuance, setDateIssuance] = useState("")
+    const [dateSell, setDateSell] = useState("")
+    const [place, setPlace] = useState("")
+    const [payDate, setPayDate] = useState("")
+    const [payType, setPayType] = useState("")
+    const [account, setAccount] = useState("")
+    const [seller, setSeller] = useState("")
+    const [totalPrice, setTotalPrice] = useState(0)
 
     const handleDelete = (id:any) => {
         let copyrows = [...rows]
@@ -21,13 +30,14 @@ const InvoiceForm = () => {
             (_, index) => id !=index
         )
         setRows(copyrows)
+        console.log(rows)
     }
 
     const Row = (props:any) => {
-        const {ID, NAME, JM, QANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
+        const {NAME, JM, QANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
         return(
             <tr>
-                <td>{ID}</td>
+                <td>{index+1}</td>
                 <td>{NAME}</td>
                 <td>{JM}</td>
                 <td>{QANTITY}</td>
@@ -67,8 +77,17 @@ const InvoiceForm = () => {
     function AddNewRow(){
         valuen = quantity * price
         vatprice = valuen * (vat / 100)
+        vatprice = Math.ceil((vatprice) * 100) / 100;
         valueb = valuen + vatprice
+        valueb = Math.ceil((valueb) * 100) / 100;
         setRows([...rows,{ID:id, NAME:name, JM:jm, QANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
+
+        setName("")
+        setQuantity(0)
+        setPrice(0)
+
+        sum = sum + valueb
+        setTotalPrice(sum)
         id++
     }
 
@@ -80,21 +99,21 @@ const InvoiceForm = () => {
                     <div className={styles.firstContainerName}>
                         <label>
                             <p>Klient:</p>
-                            <input type="text" name="NumberInvoice" />
+                            <input type="text" name="NumberInvoice" value={client} onChange={(e) => setClient(e.target.value)}/>
                         </label>
                     </div>
                     <div className={styles.firstContainerDates}>
                         <label>
                             <p>Data Wystawienia:</p>
-                            <input type="date" name="Dataissuance" />
+                            <input type="date" name="Dataissuance" value={dateIssuance} onChange={(e) => setDateIssuance(e.target.value)}/>
                         </label>
                         <label>
                             <p>Data sprzedaży:</p>
-                            <input type="date" name="sellInovices" />
+                            <input type="date" name="sellInovices" value={dateSell} onChange={(e) => setDateSell(e.target.value)}/>
                         </label>
                         <label>
                             <p>Miejsce Wystawienia:</p>
-                            <input type="text" name="Place" />
+                            <input type="text" name="Place" value={place} onChange={(e) => setPlace(e.target.value)}/>
                         </label>
                     </div>
                 </div>
@@ -115,56 +134,66 @@ const InvoiceForm = () => {
                         </thead>
                         <Table data = {rows}
                             delRow = {handleDelete}/>
-                        <tbody>
-                            <td>ID</td>
-                            <td><input type='text' value={name} onChange={(e) => setName(e.target.value)}/></td>
-                            <td>
+                    </table>
+                    <hr></hr>
+                    <div className={styles.dodajiwartosc}>  
+                        <div className={styles.DodajContainer}>
+                            <label>
+                                <p>Nazwa:</p>
+                                <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+                            </label>
+                            <label>
+                                <p>Jednostka miary:</p>
                                 <select value={jm} onChange={(e) => setJm(e.target.value)}>
                                     <option>Usługa</option>
+                                    <option>m2</option>
                                 </select>
-                            </td>
-                            <td><input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/></td>
-                            <td><input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/></td>
-                            <td>wyliczana</td>
-                            <td>
+                            </label>
+                            <label>
+                                <p>Ilość:</p>
+                                <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>    
+                            </label>
+                            <label>
+                                <p>Cena:</p>
+                                <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/>
+                            </label>
+                            <label>
+                                <p>VAT:</p>
                                 <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
-                                    <option>23%</option>
-                                    <option>19%</option>
+                                    <option>23</option>
+                                    <option>19</option>
                                 </select>
-                            </td>
-                            <td>wyliczana</td>
-                            <td>wyliczana</td>
-                        </tbody>
-                    </table>
-                    <div className={styles.DodajContainer}>
-                        <button onClick={AddNewRow}>Dodaj nową pozycję</button>
-                    </div>
-                    <div className={styles.WartoscContainer}>
-                        {/* <p>Wartość brutto:</p> */}
-                        {/* <input type='number'></input> */}
-                        <div className={styles.cena}>
-                            <label>
-                                <p>Wartość brutto:</p>
                             </label>
-                            <label>
-                                <input type="number" min="0.00" step="0.05"/>
-                            </label>
-                            <label>
-                                <p>PLN</p>
-                            </label>
+                            
+                            <button onClick={AddNewRow}>Dodaj nową pozycję</button>
                         </div>
-                        <div className={styles.platnosc_termin}>
-                            <label>
-                                <p>Forma płatności</p> 
-                                <select>
-                                    <option>Przelew</option>
-                                    <option>Gotówka</option>
-                                </select>
-                            </label>
-                            <label>
-                                <p>Termin płatności</p>
-                                <input type="date"/>
-                            </label>
+                        <div className={styles.WartoscContainer}>
+                            {/* <p>Wartość brutto:</p> */}
+                            {/* <input type='number'></input> */}
+                            <div className={styles.cena}>
+                                <label>
+                                    <p>Wartość brutto:</p>
+                                </label>
+                                <label>
+                                    {totalPrice}
+                                </label>
+                                <label>
+                                    <p>PLN</p>
+                                </label>
+                            </div>
+                            <div className={styles.platnosc_termin}>
+                                <label>
+                                    <p>Forma płatności</p> 
+                                    <select value={payType} onChange={(e) => setPayType(e.target.value)}>
+                                        <option>Przelew</option>
+                                        <option>Gotówka</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <p>Termin płatności</p>
+                                    <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,7 +202,7 @@ const InvoiceForm = () => {
                     <div className={styles.bank}>
                         <label>
                             <p>Rachunek bankowy</p>
-                            <select>
+                            <select value={account} onChange={(e) => setAccount(e.target.value)}>
                                 <option>123</option>
                             </select>
                             <p>Opis</p>
@@ -183,7 +212,7 @@ const InvoiceForm = () => {
                     <div className={styles.wystawil}>
                         <label>
                             <p>Wystawił</p>
-                            <select>
+                            <select value={seller} onChange={(e) => setSeller(e.target.value)}>
                                 <option>Twoje imie</option>
                             </select>
                             <p>Wystawił</p>
