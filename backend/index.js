@@ -326,6 +326,12 @@ app.post('/register', async (req, res) => {
 
 app.post('/invoice', async(req,res) => {
   console.log(req.body)
+  const date = new Date()
+  const month = date.getMonth();
+  const fixedMonth = String(month + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  const counter = await invoice.count(req.body.userId,month,year) + 1;
+  req.body.name = `FS ${counter}/${fixedMonth}/${year}`
   if(invoice.add(req.body)){
     console.log('Dodane');
   }else{
