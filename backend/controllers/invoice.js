@@ -17,6 +17,7 @@ db.once('open', () => {
 });
 
 const invoiceSchema = new mongoose.Schema({
+    name: String,
     userId: String,
     client: String,
     dateIssuance: Date,
@@ -63,11 +64,26 @@ async function add(invoice) {
 
 async function findAll(id) {
     try {
-        const invoices = await Invoice.find({ userId: id }).exec();
-        return invoices;
+        return await Invoice.find({ userId: id }).exec();
     } catch (error) {
         console.error('Błąd podczas pobierania faktur:', error);
     }
 }
 
-module.exports = { add,findAll };
+async function count(userid, month, year) {
+    try {
+        const startOfMonth = new Date(year, month - 1, 1);
+        const endOfMonth = new Date(year, month, 0);
+        return await Invoice.countDocuments({
+            userId: new ObjectId(userid),
+            created_at: {
+                $gte: startOfMonth,
+                $lte: endOfMonth,
+            },
+        });
+    } catch (error) {
+        console.error('Błąd podczas pobierania faktur:', error);
+    }
+}
+
+module.exports = { add,findAll,count };
