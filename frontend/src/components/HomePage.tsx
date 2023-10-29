@@ -29,9 +29,6 @@ interface Invoice {
 // }
 
 const invoices: Invoice[] = [
-  { id: 1, number: 'FH001', date: '2023-10-09', amount: 1000 },
-  { id: 2, number: 'FH002', date: '2023-10-10', amount: 1500 },
-  { id: 3, number: 'FH003', date: '2023-10-11', amount: 800 },
 ];
 
 const receipts: Invoice[] = [
@@ -49,6 +46,7 @@ const advances: Invoice[] = [
 const HomePage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('invoices');
   const [displayedContent, setDisplayedContent] = useState<Invoice[]>(invoices);
+  const [invoiceTable, setInvoiceTable] = useState(invoices)
 
   useEffect( () => {
     const user = Cookies.get('user');
@@ -81,6 +79,7 @@ const HomePage: React.FC = () => {
               console.log("Aktywuj adres email")
             }else if(data.invoices){
               console.log(data.invoices)
+              setInvoiceTable(data.invoices)
             }
         })
         .catch((error) => {
@@ -93,7 +92,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (selectedTab === 'invoices') {
-      setDisplayedContent(invoices);
+      setDisplayedContent(invoiceTable);
     } else if (selectedTab === 'receipts') {
       setDisplayedContent(receipts);
     } else if (selectedTab === 'advances') {
