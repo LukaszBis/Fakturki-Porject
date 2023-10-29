@@ -157,7 +157,7 @@ const HomePage: React.FC = () => {
 
           <div className={styles.addInvoice}>
             <button className={styles.addInvoiceButton}>
-              <Link to="/addInvoice">Dodaj nową fakturę</Link>
+              <Link to="/invoice">Dodaj nową fakturę</Link>
             </button>
           </div>
         </div>
