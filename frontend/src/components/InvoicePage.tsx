@@ -34,10 +34,10 @@ const InvoiceForm = () => {
     }
 
     const Row = (props:any) => {
-        const {ID, NAME, JM, QANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
+        const {NAME, JM, QANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
         return(
             <tr>
-                <td>{ID}</td>
+                <td>{index+1}</td>
                 <td>{NAME}</td>
                 <td>{JM}</td>
                 <td>{QANTITY}</td>
@@ -79,6 +79,10 @@ const InvoiceForm = () => {
         vatprice = valuen * (vat / 100)
         valueb = valuen + vatprice
         setRows([...rows,{ID:id, NAME:name, JM:jm, QANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
+
+        setName("")
+        setQuantity(0)
+        setPrice(0)
 
         sum = sum + valueb
         setTotalPrice(sum)
@@ -129,6 +133,7 @@ const InvoiceForm = () => {
                         <Table data = {rows}
                             delRow = {handleDelete}/>
                     </table>
+                    <hr></hr>
                         
                     <div className={styles.DodajContainer}>
                         <label>

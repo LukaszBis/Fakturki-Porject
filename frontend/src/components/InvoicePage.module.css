@@ -64,11 +64,16 @@
 .WspolnyContainer table thead td{
     padding-left: 0.5em;
     padding-right: 0.5em;
+    border-bottom: rgb(26, 26, 26) solid 1px;
 }
 
 .WspolnyContainer table{
-    width: 100%;
+    /* width: 100%; */
     display: inline-block;
+}
+
+.WspolnyContainer table td{
+    border-left: rgb(26, 26, 26) solid 1px;
 }
 
 .DodajContainer{
