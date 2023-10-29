@@ -28,18 +28,15 @@ const userSchema = new mongoose.Schema({
     street: String,
     buildingNumber: String,
     apartmentNumber: String,
-    created_at: Date,
-    updated_at: Date,
-    emailActivated_at: Date,
+    created_at: {type: Date, default: new Date()},
+    updated_at: {type: Date, default: new Date()},
+    emailActivated_at: {type: Date, default: null},
 });
 const User = mongoose.model('User', userSchema);
 
 async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP) {
     let user;
     try {
-        const created_at = new Date();
-        const updated_at = new Date();
-        const emailActivated_at = null;
         const passwordHash = await bcrypt.hash(password, 10);
         user = new User({ 
             email, 
@@ -53,9 +50,6 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
             street, 
             buildingNumber, 
             apartmentNumber,
-            emailActivated_at,
-            created_at, 
-            updated_at 
         });
         await user.save();
         console.log('Osoba została dodana do bazy danych.');
@@ -66,10 +60,7 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
 }
 async function auth(id){
     try {
-        if (User.find({_id : new ObjectId(id)})){
-            return true;
-        }
-        return false;
+        return User.findOne({_id : new ObjectId(id)});
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
         throw error;

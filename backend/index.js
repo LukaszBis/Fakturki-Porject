@@ -163,8 +163,13 @@ app.post('/active', async (req, res) => {
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   console.log("user")
-  if(id && await user.auth(id)){
-    res.send({success:"gratulacje użytkowniku"})
+  const get_user = await user.auth(id);
+  if(id && get_user){
+    if(req.body.details){
+      res.send({success:get_user})
+    }else{
+      res.send({success:"gratulacje użytkowniku"})
+    }
     return;
   }
   res.send({fail:"Error"});
@@ -295,6 +300,10 @@ app.post('/register', async (req, res) => {
   }
   res.send({fail:"Użytkownik nie został utworzony"});
 });
+
+app.post('/invoice', async(req,res) => {
+  console.log(req);
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

@@ -47,11 +47,13 @@ const ResetPasswordPage: React.FC = () => {
   
   useEffect( () => {
     const user = Cookies.get('user');
+    const details = true;
     if(user){
         const apiUrl = 'http://localhost:8080/auth';
         
         const requestBody = {
             user: user,
+            details: details,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -70,6 +72,8 @@ const ResetPasswordPage: React.FC = () => {
         .then((data) => {
             if(!data.success) {
                 document.location.href = '/welcome';
+            }else{
+              console.log(data.success)
             }
         })
         .catch((error) => {
