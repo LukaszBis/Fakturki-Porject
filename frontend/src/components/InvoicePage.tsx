@@ -2,6 +2,7 @@ import { useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import fakturki from "../assets/fakturki.png";
 import styles from './InvoicePage.module.css';
+import Cookies from "js-cookie";
 
 var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
@@ -93,6 +94,7 @@ const InvoiceForm = () => {
 
     const handleInvoice = () => {
         const apiUrl = 'http://localhost:8080/invoice';
+        const user_id = Cookies.get('user');
     
         const requestBody = {
             services:rows,
@@ -104,7 +106,8 @@ const InvoiceForm = () => {
             payType:payType,
             account:account,
             seller:seller,
-            totalPrice:totalPrice
+            totalPrice:totalPrice,
+            userId:user_id
         };
     
         console.log(requestBody)
