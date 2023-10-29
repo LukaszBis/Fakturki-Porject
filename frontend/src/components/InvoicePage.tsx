@@ -128,28 +128,36 @@ const InvoiceForm = () => {
                         </thead>
                         <Table data = {rows}
                             delRow = {handleDelete}/>
-                        <tbody>
-                            <td>ID</td>
-                            <td><input type='text' value={name} onChange={(e) => setName(e.target.value)}/></td>
-                            <td>
-                                <select value={jm} onChange={(e) => setJm(e.target.value)}>
-                                    <option>Usługa</option>
-                                </select>
-                            </td>
-                            <td><input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/></td>
-                            <td><input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/></td>
-                            <td>wyliczana</td>
-                            <td>
-                                <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
-                                    <option>23%</option>
-                                    <option>19%</option>
-                                </select>
-                            </td>
-                            <td>wyliczana</td>
-                            <td>wyliczana</td>
-                        </tbody>
                     </table>
+                        
                     <div className={styles.DodajContainer}>
+                        <label>
+                            <p>Nazwa:</p>
+                            <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+                        </label>
+                        <label>
+                            <p>Jednostka miary:</p>
+                            <select value={jm} onChange={(e) => setJm(e.target.value)}>
+                                <option>Usługa</option>
+                                <option>m2</option>
+                            </select>
+                        </label>
+                        <label>
+                            <p>Ilość:</p>
+                            <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>    
+                        </label>
+                        <label>
+                            <p>Cena:</p>
+                            <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/>
+                        </label>
+                        <label>
+                            <p>VAT:</p>
+                            <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
+                                <option>23</option>
+                                <option>19</option>
+                            </select>
+                        </label>
+                        
                         <button onClick={AddNewRow}>Dodaj nową pozycję</button>
                     </div>
                     <div className={styles.WartoscContainer}>
