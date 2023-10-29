@@ -27,7 +27,7 @@ const invoiceSchema = new mongoose.Schema({
     // clientStreet: String,
     // clientCity: String,
     payType: String,
-    account: Number,
+    account: String,
     seller: String,
     totalPrice: Number,
     services: [
