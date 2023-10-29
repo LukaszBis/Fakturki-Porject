@@ -302,7 +302,8 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/invoice', async(req,res) => {
-  console.log(req);
+  console.log(req.body);
+  console.log(req.body.rows);
 })
 
 app.listen(port, () => {

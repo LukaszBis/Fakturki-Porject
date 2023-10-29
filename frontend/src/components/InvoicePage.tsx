@@ -103,7 +103,8 @@ const InvoiceForm = () => {
             payDate:payDate,
             payType:payType,
             account:account,
-            seller:seller
+            seller:seller,
+            totalPrice:totalPrice
         };
     
         console.log(requestBody)
