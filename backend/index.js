@@ -161,6 +161,26 @@ app.post('/active', async (req, res) => {
   res.send({fail:"Konto nie istnieje"});
 });
 
+app.post('/reactive', async (req, res) => {
+  const email = req.body.email;
+  const get_user = await user.checkEmail(email);
+  //response variable
+  //res.status(200).send({user-firstname:firstName});
+  //response json
+  //res.status(200).json({user_data:user});
+  
+  if(get_user && get_user.emailActivated_at == null){
+    const check = active.add(email);
+    if (check){
+      res.send({success:"Email został wysłany"});
+      return;
+    }
+    res.send({fail:"Email nie został wysłany"});
+    return;
+  }
+  res.send({fail:"Użytkownik nie został utworzony"});
+});
+
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   console.log("user")
@@ -284,7 +304,7 @@ app.post('/register', async (req, res) => {
     return;
   }
 
-  const get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP));
+  const get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
   //response variable
   //res.status(200).send({user-firstname:firstName});
   //response json
@@ -303,6 +323,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/invoice', async(req,res) => {
+  console.log(req.body)
   if(invoice.add(req.body)){
     console.log('Dodane');
   }else{

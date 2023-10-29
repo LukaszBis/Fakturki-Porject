@@ -28,13 +28,14 @@ const userSchema = new mongoose.Schema({
     street: String,
     buildingNumber: String,
     apartmentNumber: String,
+    accountNumber: String,
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
     emailActivated_at: {type: Date, default: null},
 });
 const User = mongoose.model('User', userSchema);
 
-async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP) {
+async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP, accountNumber) {
     let user;
     try {
         const passwordHash = await bcrypt.hash(password, 10);
@@ -50,6 +51,7 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
             street, 
             buildingNumber, 
             apartmentNumber,
+            accountNumber
         });
         await user.save();
         console.log('Osoba została dodana do bazy danych.');
