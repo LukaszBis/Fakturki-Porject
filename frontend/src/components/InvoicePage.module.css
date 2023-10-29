@@ -96,6 +96,13 @@
     /* float: left; */
     display: inline-block;
 }
+
+.dodajiwartosc{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 .cena input{
     margin: 1em;
 }

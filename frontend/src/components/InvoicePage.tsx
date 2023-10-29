@@ -136,63 +136,64 @@ const InvoiceForm = () => {
                             delRow = {handleDelete}/>
                     </table>
                     <hr></hr>
-                        
-                    <div className={styles.DodajContainer}>
-                        <label>
-                            <p>Nazwa:</p>
-                            <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
-                        </label>
-                        <label>
-                            <p>Jednostka miary:</p>
-                            <select value={jm} onChange={(e) => setJm(e.target.value)}>
-                                <option>Usługa</option>
-                                <option>m2</option>
-                            </select>
-                        </label>
-                        <label>
-                            <p>Ilość:</p>
-                            <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>    
-                        </label>
-                        <label>
-                            <p>Cena:</p>
-                            <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/>
-                        </label>
-                        <label>
-                            <p>VAT:</p>
-                            <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
-                                <option>23</option>
-                                <option>19</option>
-                            </select>
-                        </label>
-                        
-                        <button onClick={AddNewRow}>Dodaj nową pozycję</button>
-                    </div>
-                    <div className={styles.WartoscContainer}>
-                        {/* <p>Wartość brutto:</p> */}
-                        {/* <input type='number'></input> */}
-                        <div className={styles.cena}>
+                    <div className={styles.dodajiwartosc}>  
+                        <div className={styles.DodajContainer}>
                             <label>
-                                <p>Wartość brutto:</p>
+                                <p>Nazwa:</p>
+                                <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
                             </label>
                             <label>
-                                {totalPrice}
-                            </label>
-                            <label>
-                                <p>PLN</p>
-                            </label>
-                        </div>
-                        <div className={styles.platnosc_termin}>
-                            <label>
-                                <p>Forma płatności</p> 
-                                <select value={payType} onChange={(e) => setPayType(e.target.value)}>
-                                    <option>Przelew</option>
-                                    <option>Gotówka</option>
+                                <p>Jednostka miary:</p>
+                                <select value={jm} onChange={(e) => setJm(e.target.value)}>
+                                    <option>Usługa</option>
+                                    <option>m2</option>
                                 </select>
                             </label>
                             <label>
-                                <p>Termin płatności</p>
-                                <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/>
+                                <p>Ilość:</p>
+                                <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>    
                             </label>
+                            <label>
+                                <p>Cena:</p>
+                                <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/>
+                            </label>
+                            <label>
+                                <p>VAT:</p>
+                                <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
+                                    <option>23</option>
+                                    <option>19</option>
+                                </select>
+                            </label>
+                            
+                            <button onClick={AddNewRow}>Dodaj nową pozycję</button>
+                        </div>
+                        <div className={styles.WartoscContainer}>
+                            {/* <p>Wartość brutto:</p> */}
+                            {/* <input type='number'></input> */}
+                            <div className={styles.cena}>
+                                <label>
+                                    <p>Wartość brutto:</p>
+                                </label>
+                                <label>
+                                    {totalPrice}
+                                </label>
+                                <label>
+                                    <p>PLN</p>
+                                </label>
+                            </div>
+                            <div className={styles.platnosc_termin}>
+                                <label>
+                                    <p>Forma płatności</p> 
+                                    <select value={payType} onChange={(e) => setPayType(e.target.value)}>
+                                        <option>Przelew</option>
+                                        <option>Gotówka</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <p>Termin płatności</p>
+                                    <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
