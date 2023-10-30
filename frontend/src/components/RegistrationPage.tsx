@@ -84,13 +84,6 @@ const RegistrationPage: React.FC = () => {
     }
   }, []);
 
-  const checkEnter = (event: any) => {
-    if(event.key === 'Enter'){
-      event.preventDefault();
-      handleRegistration();
-    }
-  }
-
   const handleRegistration = () => {
     setValidatedFirstName(false);
     setValidatedEmail(false);
@@ -237,8 +230,6 @@ const RegistrationPage: React.FC = () => {
         }
       });
   };
-  
-  document.addEventListener("keydown", checkEnter);
 
   return (
     <>
