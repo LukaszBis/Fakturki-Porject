@@ -17,6 +17,7 @@ RUN npm install html-pdf
 RUN npm install --save-dev price-to-polish-words
 RUN npm install open
 RUN npm install axios
+RUN npm install bir1
 
 # Copy the rest of the source files into the image.
 COPY . .
