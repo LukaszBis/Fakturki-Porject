@@ -49,13 +49,6 @@ const LoginPage: React.FC = () => {
     }
   }, []);
 
-  const checkEnter = (event: any) => {
-    if(event.key === 'Enter'){
-      event.preventDefault();
-      handleLogin();
-    }
-  }
-
   const handleLogin = () => {
     const apiUrl = 'http://localhost:8080/login';
 
@@ -88,8 +81,6 @@ const LoginPage: React.FC = () => {
         }
       });
     };
-
-    document.addEventListener("keydown", checkEnter);
 
   return (
     <>
