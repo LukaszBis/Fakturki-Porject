@@ -167,6 +167,9 @@ const HomePage: React.FC = () => {
                       <td>{inv.name}</td>
                       <td>{inv.client}</td>
                       <td>{inv.totalPrice}</td>
+                      <td className={styles.sddButton}><button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td>
+                      <td className={styles.sddButton}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></td>
+                      <td className={styles.sddButton}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></td>
                     </tr>
                   ))}
                 </tbody>

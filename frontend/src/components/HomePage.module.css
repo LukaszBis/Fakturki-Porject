@@ -72,11 +72,54 @@ span.optionsButton a img {
   margin-left: 8em;
 }
 
+.invoiceTable table thead tr th {
+  border: none;
+  border-bottom: rgb(26, 26, 26) solid 1px;
+  border-left: rgb(26, 26, 26) solid 1px;
+  border-right: rgb(26, 26, 26) solid 1px;
+  background-color: rgb(49, 48, 48);
+}
+
 table th {
   text-align: center;
 }
 
 table tr {
-  font-size: 1.2em;
+  font-size: 1em;
   color: white;
+}
+
+.invoiceTable table tbody tr td {
+  border: none;
+  border-top: rgb(26, 26, 26) solid 1px;
+  border-left: rgb(26, 26, 26) solid 1px;
+}
+
+table tr:nth-child(odd) td:not(.sddButton) {
+  background-color: rgb(73, 71, 71); 
+}
+
+.invoiceTable table tbody tr td.sddButton {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.invoiceTable table tbody tr td.sddButton button {
+  border-radius: 0;
+  margin-left: 0.1em;
+  margin-bottom: 0.1em;
+  margin-top: 0.1em;
+}
+
+.sendButton :hover {
+  color: rgb(40, 193, 240);
+}
+
+.deleteButton :hover {
+  color: rgb(255, 0, 0);
+}
+
+.downloadButton :hover {
+  color: rgb(0, 128, 0);
 }
