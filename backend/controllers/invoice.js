@@ -61,6 +61,17 @@ async function add(invoice) {
     return newInvoice;
 }
 
+async function remove(id){
+    Invoice.findByIdAndRemove(id)
+    .then(() => {
+        return true;
+    })
+    .catch((error) => {
+        console.error(error)
+        return false;
+    })
+}
+
 async function findAll(id) {
     try {
         return await Invoice.find({ userId: id }).exec();
@@ -85,4 +96,4 @@ async function count(userid, month, year) {
     }
 }
 
-module.exports = { add,findAll,count };
+module.exports = { add,remove,findAll,count };

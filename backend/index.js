@@ -41,7 +41,7 @@ const Bir = require('bir1');
 
 async function checkTokens(){
   passwordReset.checkTokens();
-  //active.checkTokens();
+  active.checkTokens();
   setTimeout(function () {
     checkTokens();
   }, 10000);
@@ -54,27 +54,34 @@ checkTokens();
 
 
 app.get('/downloadPdf', async (req, res) => {
-  pdf.downloadPdf(res)
+  pdf.downloadPdf(res, req.query.id)
 });
-app.get('/sendPdf', async (req, res) => {
-  pdf.sendPdf("jakub-kurzacz@wp.pl")
+app.post('/sendPdf', async (req, res) => {
+  pdf.sendPdf(req.query.email, req.query.id)?
+  res.send({success:"Pomyślnie wysłano fakturę na adres "+req.query.email}):
+  res.send({success:"Nie udało się wysłać faktury na adres "+req.query.email})
+});
+app.post('/invoiceDelete', async (req, res) => {
+  invoice.remove(req.query.id)?
+  res.send({success:"Pomyślnie usunięto fakturę"}):
+  res.send({success:"Nie udało się usunąć faktury"})
 });
 
 
 
 app.get('/', async (req, res) => {
-  const nip = req.query.nip
+  // const nip = req.query.nip
 
-  const wl = await validation.nip([], nip)
-  console.log(wl)
-  const bir = new Bir(key = "abcde12345abcde12345")
-  await bir.login()
-  await bir.search({ nip: nip }).then((response) => {
-    console.log(response)
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+  // const wl = await validation.nip([], nip)
+  // console.log(wl)
+  // const bir = new Bir(key = "abcde12345abcde12345")
+  // await bir.login()
+  // await bir.search({ nip: nip }).then((response) => {
+  //   console.log(response)
+  // })
+  // .catch((error) => {
+  //   console.error(error)
+  // })
   try {
     let tableHTML = req.query.status+'<br><table>';
     tableHTML += '<tr><th>Email</th><th>Imię</th><th>Nazwisko</th></tr>';
@@ -341,12 +348,18 @@ app.post('/invoice', async(req,res) => {
   const month = date.getMonth();
   const fixedMonth = String(month + 1).padStart(2, '0');
   const year = date.getFullYear();
-  const counter = await invoice.count(req.body.userId,month,year) + 1;
-  req.body.name = `FS ${counter}/${fixedMonth}/${year}`
+  const counter = await invoice.count(req.body.userId,month,year);
+  const checkUser = await user.auth(req.body.userId);
+  console.log("Policzone: ",counter)
+  if(counter <= 0){
+    await user.resetCounter(checkUser)
+  }
+  req.body.name = `FS ${checkUser.counter+1}/${fixedMonth}/${year}`
+  user.increseCounter(checkUser)
 
-  const bir = new Bir()
-  await bir.login()
-  console.log(await bir.search({ nip: nip }))
+  // const bir = new Bir()
+  // await bir.login()
+  // console.log(await bir.search({ nip: nip }))
 
   if(invoice.add(req.body)){
     res.send({success:'Dodano fakture'});

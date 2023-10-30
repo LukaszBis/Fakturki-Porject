@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     accountNumber: String,
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
+    counter: {type: Number, default: 0},
     emailActivated_at: {type: Date, default: null},
 });
 const User = mongoose.model('User', userSchema);
@@ -62,11 +63,20 @@ async function add(firstName, email, password, postalCode, street, lastName, pho
 }
 async function auth(id){
     try {
-        return User.findOne({_id : new ObjectId(id)});
+        return User.findOne({_id : new ObjectId(id)}).exec();
     } catch (error) {
         console.error('Błąd podczas pobierania osób:', error);
         throw error;
     }
+}
+async function resetCounter(user){
+    user.counter = 0;
+    console.log("test")
+    await user.save()
+}
+async function increseCounter(user){
+    user.counter = user.counter + 1;
+    await user.save()
 }
 async function changePassword(user, password) {
     try {
@@ -159,4 +169,4 @@ async function active(email){
     return false;
 }
 
-module.exports = { add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,accountNumberUnique,emailUnique,displayAll,active };
+module.exports = { increseCounter,resetCounter,add,auth,changePassword,passwordCompare,checkEmail,NIPUnique,accountNumberUnique,emailUnique,displayAll,active };

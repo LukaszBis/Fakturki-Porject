@@ -2,7 +2,7 @@ const htmlToPdf = require('html-pdf');
 const mail = require("./mail");
 const PriceToPolishWords = require('price-to-polish-words');
 
-function generateHtml() {
+function generateHtml(id) {
     const city = 'Kłobuck'
     const issueDate = '18.10.2023'
     const serviceDate = '18.10.2023'
@@ -313,9 +313,9 @@ async function pdfBuffer(htmlCode) {
     });
 }
 
-async function downloadPdf(res) {
+async function downloadPdf(res, id) {
     try {
-        const htmlCode = generateHtml();
+        const htmlCode = generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {
                 res.setHeader('Content-Disposition', 'attachment; filename=przykladowy.pdf');
