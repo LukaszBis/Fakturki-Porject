@@ -77,19 +77,12 @@ async function nip(arr, nip) {
         const apiUrl = `https://wl-api.mf.gov.pl/api/search/nip/${nip}?date=${formattedDate}`;
     
         const response = await axios.get(apiUrl);
-  
-        if (response.data) {
-            // Przedsiębiorstwo o podanym NIP istnieje
-            console.log("jest",response.data)
-        } else {
-            // Przedsiębiorstwo o podanym NIP nie istnieje
+        if (!response.data) {
             arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
-            console.log("niema1")
         }
+        return response.data
     } catch (error) {
         arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
-        console.log("niema2")
-        //console.error('Błąd podczas pobierania danych:', error);
     }
 }
 

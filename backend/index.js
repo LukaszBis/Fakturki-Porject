@@ -30,13 +30,13 @@ const corsOptions ={
 //this is new \/
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
-
 const user = require("./controllers/user");
 const invoice = require("./controllers/invoice");
 const validation = require("./controllers/validation");
 const passwordReset = require("./controllers/passwordReset");
 const active = require("./controllers/acitve");
 const pdf = require("./controllers/pdf");
+const Bir = require('bir1');
 
 
 async function checkTokens(){
@@ -63,6 +63,18 @@ app.get('/sendPdf', async (req, res) => {
 
 
 app.get('/', async (req, res) => {
+  const nip = req.query.nip
+
+  const wl = await validation.nip([], nip)
+  console.log(wl)
+  const bir = new Bir(key = "abcde12345abcde12345")
+  await bir.login()
+  await bir.search({ nip: nip }).then((response) => {
+    console.log(response)
+  })
+  .catch((error) => {
+    console.error(error)
+  })
   try {
     let tableHTML = req.query.status+'<br><table>';
     tableHTML += '<tr><th>Email</th><th>Imię</th><th>Nazwisko</th></tr>';
@@ -331,6 +343,11 @@ app.post('/invoice', async(req,res) => {
   const year = date.getFullYear();
   const counter = await invoice.count(req.body.userId,month,year) + 1;
   req.body.name = `FS ${counter}/${fixedMonth}/${year}`
+
+  const bir = new Bir()
+  await bir.login()
+  console.log(await bir.search({ nip: nip }))
+
   if(invoice.add(req.body)){
     res.send({success:'Dodano fakture'});
   }else{
