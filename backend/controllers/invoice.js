@@ -44,6 +44,14 @@ const invoiceSchema = new mongoose.Schema({
             VALUEB: Number,
         }
     ],
+    aditionalValues: [
+        {
+            BruttoSum: Number,
+            NettoSum: Number,
+            Vat: Number,
+            VatSum: Number,
+        }
+    ],
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
 });
@@ -96,4 +104,13 @@ async function count(userid, month, year) {
     }
 }
 
-module.exports = { add,remove,findAll,count };
+async function getById(id){
+    try {
+        return Invoice.findOne({_id : new ObjectId(id)}).exec();
+    } catch (error) {
+        console.error('Błąd podczas pobierania faktury:', error);
+        throw error;
+    }
+}
+
+module.exports = { add,remove,findAll,count,getById };
