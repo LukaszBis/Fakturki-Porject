@@ -221,13 +221,15 @@ async function generateHtml(id) {
                 <th style="text-align: center;border-bottom: 1px solid gray;">Wartość Brutto</th>
             </tr>`
             get_invoice.aditionalValues.forEach((element) => {
-                <tr class="summary">
-                    <td style="text-align: right;" colspan="5"></td>
-                    <td style="text-align: center;border-bottom: 1px solid gray;">${NettoSum}zł</td>
-                    <td style="text-align: center;border-bottom: 1px solid gray;">${element.Vat}%</td>
-                    <td style="text-align: center;border-bottom: 1px solid gray;">${VatSum}zł</td>
-                    <td style="text-align: center;border-bottom: 1px solid gray;">${VatSum}zł</td>
-                </tr>
+                if (element.NettoSum > 0){
+                    html += `<tr class="summary">
+                        <td style="text-align: right;" colspan="5"></td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.NettoSum}zł</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.Vat}%</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.VatSum}zł</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.BruttoSum}zł</td>
+                    </tr>`
+                }
             })
         html += `</table>
     </div>
