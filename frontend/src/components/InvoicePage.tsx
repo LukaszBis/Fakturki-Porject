@@ -95,7 +95,51 @@ const InvoiceForm = () => {
     const handleInvoice = () => {
         const apiUrl = 'http://localhost:8080/invoice';
         const user_id = Cookies.get('user');
-    
+        const aditionalValues = [
+            {
+                Vat: 23,
+                NettoSum: 0,
+                VatSum: 0,
+                BruttoSum: 0
+              },
+              {
+                Vat: 8,
+                NettoSum: 0,
+                VatSum: 0,
+                BruttoSum: 0
+              },
+              {
+                Vat: 5,
+                NettoSum: 0,
+                VatSum: 0,
+                BruttoSum: 0
+              }
+        ]
+
+        for(let j=0;j<rows.length;j++){
+            if(rows[j].VAT == aditionalValues[0].Vat){
+                aditionalValues[0].NettoSum += rows[j].VALUEN
+                aditionalValues[0].VatSum += rows[j].VATPRICE
+                aditionalValues[0].BruttoSum += rows[j].VALUEB
+            }else if(rows[j].VAT == aditionalValues[1].Vat){
+                aditionalValues[1].NettoSum += rows[j].VALUEN
+                aditionalValues[1].VatSum += rows[j].VATPRICE
+                aditionalValues[1].BruttoSum += rows[j].VALUEB
+            }else{
+                aditionalValues[2].NettoSum += rows[j].VALUEN
+                aditionalValues[2].VatSum += rows[j].VATPRICE
+                aditionalValues[2].BruttoSum += rows[j].VALUEB
+            }
+            if(j+1 == rows.length){
+                for(let i=0;i<aditionalValues.length;i++){
+                    valueb = Math.ceil((aditionalValues[i].NettoSum) * 100) / 100;
+                    valueb = Math.ceil((aditionalValues[i].VatSum) * 100) / 100;
+                    valueb = Math.ceil((aditionalValues[i].BruttoSum) * 100) / 100;
+                }
+                
+            }
+        }
+
         const requestBody = {
             services:rows,
             client:client,
@@ -107,7 +151,8 @@ const InvoiceForm = () => {
             account:account,
             seller:seller,
             totalPrice:totalPrice,
-            userId:user_id
+            userId:user_id,
+            aditionalValues:aditionalValues
         };
     
         console.log(requestBody)
@@ -203,7 +248,8 @@ const InvoiceForm = () => {
                                 <p>VAT:</p>
                                 <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
                                     <option value="23">23%</option>
-                                    <option value="19">19%</option>
+                                    <option value="8">8%</option>
+                                    <option value="5">5%</option>
                                 </select>
                             </label>
                             
