@@ -6,6 +6,8 @@ import log_out from "../assets/log_out.png";
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";
 import Table from 'react-bootstrap/Table';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 interface Invoice {
   id: number;
@@ -50,6 +52,7 @@ const HomePage: React.FC = () => {
   const [, setDisplayedContent] = useState<Invoice[]>(invoices);
   // const [invoiceTmp, ] = useState([])
   const [invoiceTable, setInvoiceTable] = useState(invoice)
+  const [email, setEmail] = useState("")
 
   // function AddNewRow(){
   //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
@@ -119,12 +122,12 @@ const HomePage: React.FC = () => {
     }
   };
   
-  const handleSend = (id:any) => {
+  const handleSend = (id:any, email:any) => {
     const apiUrl = 'http://localhost:8080/sendPdf';
     
     const requestBody = {
       id:id,
-      email:"lukasz.bis22@gmail.com"
+      email:email
     };
 
     console.log(requestBody)
@@ -195,7 +198,15 @@ const HomePage: React.FC = () => {
                       <td>{inv.name}</td>
                       <td>{inv.client}</td>
                       <td>{inv.totalPrice}</td>
-                      <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td>
+                      <td className={styles.sddButton} id={styles.leftBorder}>
+                      <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
+                        <div>
+                          <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
+                          <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
+                        </div>
+                      </Popup>
+                      </td>
+                      {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
                       <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
                       <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
                     </tr>
