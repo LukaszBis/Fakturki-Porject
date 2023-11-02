@@ -50,7 +50,6 @@ const HomePage: React.FC = () => {
   const [, setDisplayedContent] = useState<Invoice[]>(invoices);
   // const [invoiceTmp, ] = useState([])
   const [invoiceTable, setInvoiceTable] = useState(invoice)
-  // const [test, setTest] = useState("")
 
   // function AddNewRow(){
   //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
@@ -120,99 +119,35 @@ const HomePage: React.FC = () => {
     }
   };
   
-  // const handleSend = () => {
-  //   const apiUrl = 'http://localhost:8080/register';
+  const handleSend = (id:any) => {
+    const apiUrl = 'http://localhost:8080/sendPdf';
     
-  //   const requestBody = {
-  //     //id i mail
-  //   };
+    const requestBody = {
+      id:id,
+      email:"lukasz.bis22@gmail.com"
+    };
 
-  //   console.log(requestBody)
-  //   fetch(apiUrl, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(requestBody),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Register failed');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       if(data.success) {
-  //         console.log('Register successful:', data);
-  //         document.location.href = '/login';
-  //       }else {
-  //         console.log(data.errors);
-  //       }
-  //     });
-  // };
-
-  // const handleDownolad = () => {
-  //   const apiUrl = 'http://localhost:8080/register';
-    
-  //   const requestBody = {
-  //     //id
-  //   };
-
-  //   console.log(requestBody)
-  //   fetch(apiUrl, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(requestBody),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Register failed');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       if(data.success) {
-  //         console.log('Register successful:', data);
-  //         document.location.href = '/login';
-  //       }else {
-  //         console.log(data.errors);
-  //       }
-  //     });
-  // };
-
-  // const handleDelete = () => {
-  //   const apiUrl = 'http://localhost:8080/deleteinvoice';
-
-  //   const requestBody = {
-  //     //id
-  //   };
-
-  //   console.log(requestBody)
-  //   fetch(apiUrl, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(requestBody),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error('Register failed');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       if(data.success) {
-  //         console.log('Register successful:', data);
-  //         document.location.href = '/login';
-  //       }else {
-  //         console.log(data.errors);
-  //       }
-  //     });
-  // };
-
+    console.log(requestBody)
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Register failed');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if(data.success) {
+          console.log(data.success);
+        }
+      });
+  };
+  
   return (
     <>
       <div className={styles.mainContent}>
@@ -255,14 +190,14 @@ const HomePage: React.FC = () => {
                 </thead>
                 <tbody>
                   {invoice.map((inv:any) => (
-                    <tr key={inv.name}>
+                    <tr key={inv._id}>
                       <td>{inv.dateIssuance.split("T")[0]}</td>
                       <td>{inv.name}</td>
                       <td>{inv.client}</td>
                       <td>{inv.totalPrice}</td>
-                      <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} ><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td>
+                      <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td>
                       <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
-                      <td className={styles.sddButton} id={styles.colorRed}><a href="http://localhost:8080/invoiceDelete?id=${inv._id}"><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
+                      <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
                     </tr>
                   ))}
                 </tbody>
