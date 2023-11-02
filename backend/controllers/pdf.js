@@ -205,12 +205,12 @@ async function generateHtml(id) {
                     <td>${element.NAME}</td>
                     <td style="text-align: center;">${element.JM}</td>
                     <td style="text-align: center;">${element.QANTITY}</td>
-                    <td style="text-align: center;">${element.PRICE}</td>
-                    <td style="text-align: center;">${element.VALUEN}</td>
+                    <td style="text-align: center;">${element.PRICE}zł</td>
+                    <td style="text-align: center;">${element.VALUEN}zł</td>
                     <td style="text-align: center;">${element.VAT}%</td>`
                 vat = element.VAT
-                html += `<td style="text-align: center;">${element.VATPRICE}</td>
-                        <td style="text-align: center;">${element.VALUEB}</td>
+                html += `<td style="text-align: center;">${element.VATPRICE}zł</td>
+                        <td style="text-align: center;">${element.VALUEB}zł</td>
                     </tr>`
             })
             html += `<tr class="summary">
@@ -309,7 +309,7 @@ async function downloadPdf(res, id) {
     }
 }
 
-async function sendPdf(email) {
+async function sendPdf(email, id) {
     try {
         const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
