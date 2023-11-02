@@ -1,48 +1,28 @@
 const htmlToPdf = require('html-pdf');
 const mail = require("./mail");
 const PriceToPolishWords = require('price-to-polish-words');
+const user = require("./user");
+const invoice = require("./invoice");
+const Bir = require('bir1');
 
-function generateHtml(id) {
-    const city = 'Kłobuck'
-    const issueDate = '18.10.2023'
-    const serviceDate = '18.10.2023'
-    const seller = 
-    {
-        'fullname':'Jan Nowak',
-        'name':'Usługi Informatyczne Jan Nowak',
-        'nip':'1233435678',
-        'address':'Kowalska 12',
-        'city':'00-001 Warszawa'
-    }
-    const buyer = 
-    {
-        'fullname':'Andrzej Kowalski',
-        'name':'ABC INFO Andrzej Kowalski',
-        'nip':'2345683788',
-        'address':'Nowakowska 12',
-        'city':'22-102 Góra Kalwaria'
-    }
-    const services = [
-        {
-            'name':'Instalacja systemu operacyjnego',
-            'unit':'usł.',
-            'count':2,
-            'netto':1000.08,
-            'vat':23,
-        },
-        {
-            'name':'Usuwanie systemu operacyjnego',
-            'unit':'usł.',
-            'count':1,
-            'netto':2137.00,
-            'vat':23,
-        },
-    ]
-    const payment = "przelew w terminie 2 dni";
-    const paydate = "21-10-2023";
-    const account = "00 1111 2222 3333 4444 5555 6666";
+async function generateHtml(id) {
+    const get_invoice = await invoice.getById(id)
+    const get_user = await user.auth(get_invoice.userId)
 
-    const css = `<style>
+    const dateIssuance = `${String(get_invoice.dateIssuance.getDate()).padStart(2, '0')}.${String(get_invoice.dateIssuance.getMonth() + 1).padStart(2, '0')}.${get_invoice.dateIssuance.getFullYear()}`
+    const dateSell = `${String(get_invoice.dateSell.getDate()).padStart(2, '0')}.${String(get_invoice.dateSell.getMonth() + 1).padStart(2, '0')}.${get_invoice.dateSell.getFullYear()}`
+    const payDate = `${String(get_invoice.payDate.getDate()).padStart(2, '0')}.${String(get_invoice.payDate.getMonth() + 1).padStart(2, '0')}.${get_invoice.payDate.getFullYear()}`
+
+    const bir = new Bir()
+    await bir.login()
+    const sellerData = await bir.search({ nip: get_user.NIP })
+    sellerName = sellerData.nazwa
+    sellerNIP = sellerData.nip
+    sellerStreet = sellerData.ulica+' '+sellerData.nrNieruchomosci
+    sellerData.nrLokalu?sellerStreet+='/'+sellerData.nrLokalu:null
+    sellerCity = sellerData.kodPocztowy+' '+sellerData.miejscowosc
+
+    let html = `<style>
     body{
         margin:0;
         padding:0;
@@ -137,30 +117,31 @@ function generateHtml(id) {
         background-color: rgb(235, 235, 235);
     }
 
-    table tr:nth-last-child(2) td, table tr:nth-last-child(1) td{
+    
+    .summary th{
+        border: 0;
+        border-top: 1px solid gray;
+        border-right: 1px solid gray;
         background-color: rgb(255, 255, 255);
     }
-    table tr:nth-last-child(2) td:first-child, table tr:nth-last-child(1) td:first-child{
+    .summary th:first-child, .summary td:first-child{
+        border-left: 0px solid gray;
+    }
+    .summary td{
+        background-color: rgb(255, 255, 255);
+    }
+    .summary:nth-last-child(1) th:first-child{
         border: 0;
         border-right: 1px solid gray;
     }
-    table tr:nth-last-child(2) td:first-child{
+    .summary:nth-last-child(1) th:first-child{
         border-top: 1px solid gray;
     }
-    table tr:nth-last-child(2) td{
+    .summary:nth-last-child(1) th{
         border-top: 1px solid gray;
-    }
-    #tabela2 tr td{
-        border-bottom: 1px solid gray;
-        border-right: 1px solid gray
-    }
-    #tabela2 tr td:first-child{
-        border-right: 1px solid gray;
-        border-bottom: 0;
-        width: 278px;
     }
     </style>`
-    let html = css + `
+    html += `
 <div id="page">
     <div id="dane1">
         <div>
@@ -169,15 +150,15 @@ function generateHtml(id) {
         <div>
             <div class="tab">
                 <span>Miejsce wystawienia</span>
-                <span>${city}</span>
+                <span>${get_invoice.place}</span>
             </div>
             <div class="tab">
                 <span>Data wystawienia</span>
-                <span>${issueDate}</span>
+                <span>${dateIssuance}</span>
             </div>
             <div class="tab">
                 <span>Data wykonania usługi</span>
-                <span>${serviceDate}</span>
+                <span>${dateSell}</span>
             </div>
         </div>
     </div>
@@ -185,25 +166,25 @@ function generateHtml(id) {
         <div>
             <div class="tab">
                 <span>Sprzedawca</span>
-                <span>${seller.name}</span><br>
-                <span>NIP: ${seller.nip}</span><br>
-                <span>${seller.address}</span><br>
-                <span>${seller.city}</span>
+                <span>${sellerName}</span><br>
+                <span>NIP: ${sellerNIP}</span><br>
+                <span>${sellerStreet}</span><br>
+                <span>${sellerCity}</span>
             </div>
         </div>
         <div>
             <div class="tab">
                 <span>Nabywca</span>
-                <span>${buyer.name}</span><br>
-                <span>NIP: ${buyer.nip}</span><br>
-                <span>${buyer.address}</span><br>
-                <span>${buyer.city}</span>
+                <span>${get_invoice.clientName}</span><br>
+                <span>NIP: ${get_invoice.clientNIP}</span><br>
+                <span>${get_invoice.clientStreet}</span><br>
+                <span>${get_invoice.clientCity}</span>
             </div>
         </div>
     </div>
     <div id="dane3">
         <div id="title">
-            Faktura VAT ${issueDate}
+            Faktura ${get_invoice.name}
         </div>
         <table cellspacing="0">
             <tr>
@@ -217,82 +198,76 @@ function generateHtml(id) {
                 <th style="width:37px">Kwota VAT</th>
                 <th style="width:37px">Wartość brutto</th>
             </tr>`;
-            let sumNetto = 0;
-            let sumVat = 0;
-            let sumBrutto = 0;
-            let vat = 0;
-            services.forEach((element, index) => {
-                html += `<tr>`
-                    html += `<td style="text-align: center;">`+(index+1)+`</td>`
-                    html += `<td>${element.name}</td>`
-                    html += `<td style="text-align: center;">${element.unit}</td>`
-                    html += `<td style="text-align: center;">${element.count}</td>`
-                    html += `<td style="text-align: center;">${element.netto}</td>`
-                    let sum = element.netto*element.count;
-                    sum = Math.ceil((sum) * 100) / 100;
-                    html += `<td style="text-align: center;">${sum}</td>`
-                    sumNetto += sum;
-                    html += `<td style="text-align: center;">${element.vat}%</td>`
-                    let brutto = (sum*element.vat)/100;
-                    brutto = Math.ceil((brutto) * 100) / 100;
-                    sumVat += brutto;
-                    html += `<td style="text-align: center;">${brutto}</td>`
-                    brutto = Math.floor((sum+brutto) * 100) / 100;
-                    sumBrutto += brutto;
-                    html += `<td style="text-align: center;">${brutto}</td>`
-                html += `</tr>`
+            let vat = 0
+            get_invoice.services.forEach((element, index) => {
+                html += `<tr>
+                    <td style="text-align: center;">`+(index+1)+`</td>
+                    <td>${element.NAME}</td>
+                    <td style="text-align: center;">${element.JM}</td>
+                    <td style="text-align: center;">${element.QANTITY}</td>
+                    <td style="text-align: center;">${element.PRICE}</td>
+                    <td style="text-align: center;">${element.VALUEN}</td>
+                    <td style="text-align: center;">${element.VAT}%</td>`
+                vat = element.VAT
+                html += `<td style="text-align: center;">${element.VATPRICE}</td>
+                        <td style="text-align: center;">${element.VALUEB}</td>
+                    </tr>`
             })
-            html += `<tr>
-                <td style="text-align: right;" colspan="5">W tym</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumNetto}</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">23%</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumVat}</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumBrutto}</td>
-            </tr>
-            <tr>
-                <td style="text-align: right;" colspan="5">Razem</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumNetto}</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">23%</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumVat}</td>
-                <td style="text-align: center;border-bottom: 1px solid gray;">${sumBrutto}</td>
-            </tr>
-        </table>
+            html += `<tr class="summary">
+                <th style="text-align: right;" colspan="5">Podsumowanie</th>
+                <th style="text-align: center;border-bottom: 1px solid gray;">Wartość Netto</th>
+                <th style="text-align: center;border-bottom: 1px solid gray;">Vat</th>
+                <th style="text-align: center;border-bottom: 1px solid gray;">Wartość Vat</th>
+                <th style="text-align: center;border-bottom: 1px solid gray;">Wartość Brutto</th>
+            </tr>`
+            get_invoice.aditionalValues.forEach((element) => {
+                if (element.NettoSum > 0){
+                    html += `<tr class="summary">
+                        <td style="text-align: right;" colspan="5"></td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.NettoSum}zł</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.Vat}%</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.VatSum}zł</td>
+                        <td style="text-align: center;border-bottom: 1px solid gray;">${element.BruttoSum}zł</td>
+                    </tr>`
+                }
+            })
+        html += `</table>
     </div>
     <div id="dane4">
         <div>
             <p>
                 <span>Sposób płatności</span>
-                <span>${payment}</span>
+                <span>${get_invoice.payType}</span>
             </p>
             <p>
                 <span>Termin płatności</span>
-                <span>${paydate}</span>
+                <span>${payDate}</span>
             </p>
             <p>
                 <span>Numer konta</span><br>
-                <span>${account}</span>
+                <span>${get_user.accountNumber}</span>
             </p>
         </div>
         <div>
             <p>
                 <span>Do zapłaty</span>
-                <span>${sumBrutto} PLN</span>
+                <span>${get_invoice.totalPrice} PLN</span>
             </p>
             <p>
                 <span>Słownie</span>`;
-                const text = new PriceToPolishWords(sumBrutto);
+                const text = new PriceToPolishWords(get_invoice.totalPrice);
                 html += `<span>${text.getPrice()}</span>
             </p>
         </div>
     </div>
     <div id="dane5">
         <div>
-            <p>${seller.fullname}</p>
+            <p>${get_user.firstName+' '+get_user.lastName}</p>
             <hr>
             <p>Podpis osoby upoważnionej do wystawienia</p>
         </div>
         <div>
-            <p>${buyer.fullname}</p>
+            <p>-</p>
             <hr>
             <p>Podpis osoby upoważnionej do odbioru</p>
         </div>
@@ -315,7 +290,7 @@ async function pdfBuffer(htmlCode) {
 
 async function downloadPdf(res, id) {
     try {
-        const htmlCode = generateHtml(id);
+        const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {
                 res.setHeader('Content-Disposition', 'attachment; filename=przykladowy.pdf');
@@ -336,7 +311,7 @@ async function downloadPdf(res, id) {
 
 async function sendPdf(email) {
     try {
-        const htmlCode = generateHtml();
+        const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {
                 mail.sendInvoice(email, pdfBuffer);

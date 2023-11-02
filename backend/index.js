@@ -357,9 +357,14 @@ app.post('/invoice', async(req,res) => {
   req.body.name = `FS ${checkUser.counter+1}/${fixedMonth}/${year}`
   user.increseCounter(checkUser)
 
-  // const bir = new Bir()
-  // await bir.login()
-  // console.log(await bir.search({ nip: nip }))
+  const bir = new Bir()
+  await bir.login()
+  const clientData = await bir.search({ nip: req.body.client })
+  req.body.clientName = clientData.nazwa
+  req.body.clientNIP = clientData.nip
+  req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
+  clientData.nrLokalu?req.body.clientStreet+=' '+clientData.nrLokalu:null
+  req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc
 
   if(invoice.add(req.body)){
     res.send({success:'Dodano fakture'});
