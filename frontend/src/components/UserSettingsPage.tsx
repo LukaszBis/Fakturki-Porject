@@ -1,53 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import styles from './UserSettingsPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { InputGroup } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
-import fakturki from "../assets/fakturki.png";
 import Cookies from "js-cookie";
+import logo from "../assets/fakturki.png"
+import LoginData from './LoginData';
+import PersonalData from './PersonalData';
+import AddressData from './AddressData';
+import CompanyData from './CompanyData';
 
-let firstNameFeedback:string;
-let lastNameFeedback:string;
-let emailFeedback:string;
-let phoneNumberFeedback:string;
-let postalCodeFeedback:string;
-let cityFeedback:string;
-let streetFeedback:string;
-let buildingNumberFeedback:string;
-let apartmentNumberFeedback:string;
-let NIPFeedback:string;
+const UserSettingsPage: React.FC = () => {
+  const [activeView, setActiveView] = useState('Dane logowania');
 
+  const handleViewChange = (view: string) => {
+    setActiveView(view);
+  };
 
-
-const ResetPasswordPage: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [city, setCity] = useState('');
-  const [street, setStreet] = useState('');
-  const [buildingNumber, setBuildingNumber] = useState('');
-  const [apartmentNumber, setApartmentNumber] = useState('');
-  const [NIP, setNIP] = useState('');
-  const [emailActivated_at, setEmailActivated_at] = useState('');
- 
-
-  // const [validated, setValidated] = useState(false);
-  // const [validatedFirstName, setValidatedFirstName] = useState(false);
-  // const [validatedEmail, setValidatedEmail] = useState(false);
-  // const [validatedPassword, setValidatedPassword] = useState(false);
-  // const [validatedPostalCode, setValidatedPostalCode] = useState(false);
-  // const [validatedStreet, setValidatedStreet] = useState(false);
-  // const [validatedLastName, setValidatedLastName] = useState(false);
-  // const [validatedPhoneNumber, setValidatedPhoneNumber] = useState(false);
-  // const [validatedConfirmPassword, setValidatedConfirmPassword] = useState(false);
-  // const [validatedCity, setValidatedCity] = useState(false);
-  // const [validatedBuildingNumber, setValidatedBuildingNumber] = useState(false);
-  // const [validatedApartmentNumber, setValidatedApartmentNumber] = useState(false);
-  // const [validatedNIP, setValidatedNIP] = useState(false);
-  
   useEffect( () => {
     const user = Cookies.get('user');
     const details = true;
@@ -74,27 +42,28 @@ const ResetPasswordPage: React.FC = () => {
             }
             return response.json();
         })
-        .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else{
-              console.log(data)
-              setFirstName(data.details.firstName)
-              setLastName(data.details.lastName)
-              setEmail(data.details.email)
-              setPhoneNumber(data.details.phoneNumber)
-              setPostalCode(data.details.postalCode)
-              setCity(data.details.city)
-              setStreet(data.details.street)
-              setBuildingNumber(data.details.buildingNumber)
-              setApartmentNumber(data.details.apartmentNumber)
-              setNIP(data.details.NIP)
-              setEmailActivated_at(data.details.emailActivated_at)
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        // .then((data) => {
+        //     if(!data.success) {
+        //         document.location.href = '/welcome';
+        //     }
+        //     else{
+        //       console.log(data)
+        //       setFirstName(data.details.firstName)
+        //       setLastName(data.details.lastName)
+        //       setEmail(data.details.email)
+        //       setPhoneNumber(data.details.phoneNumber)
+        //       setPostalCode(data.details.postalCode)
+        //       setCity(data.details.city)
+        //       setStreet(data.details.street)
+        //       setBuildingNumber(data.details.buildingNumber)
+        //       setApartmentNumber(data.details.apartmentNumber)
+        //       setNIP(data.details.NIP)
+        //       setEmailActivated_at(data.details.emailActivated_at)
+        //     }
+        // })
+        // .catch((error) => {
+        //     console.log(error);
+        // });
     }else{
       document.location.href = '/welcome';
     }
@@ -107,277 +76,46 @@ const ResetPasswordPage: React.FC = () => {
       document.location.href = '/welcome';
     }
   };
-  
-  const handleGetInfoUserPage = () => {
-    const apiUrl = 'http://localhost:8080/setUserSettings';
-
-    const requestBody = {
-      firstName:firstName,
-      lastName:lastName,
-      email: email,
-      phoneNumber:phoneNumber,
-      postalCode:postalCode,
-      city:city,
-      street:street,
-      buildingNumber:buildingNumber,
-      apartmentNumber:apartmentNumber,
-      NIP:NIP,
-    };
-    console.log(requestBody)
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Reset password failed: User not found');
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if(data.success) 
-      {
-        console.log('Correct email:', data.success);
-      }
-      else
-      {
-        console.log('Correct email:', data.fail);
-      }
-    });
-  };
-  
-  const handleReactivate = () => {
-    const apiUrl = 'http://localhost:8080/reactivate';
-
-    const requestBody = {
-      email:email
-    };
-    console.log(requestBody)
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Reset password failed: User not found');
-      }
-      return response.json();
-    })
-    .then((data) => {
-      if(data.success) 
-      {
-        console.log('Correct email:', data.success);
-      }
-      else
-      {
-        console.log('Correct email:', data.fail);
-      }
-    });
-  };
 
   return (
     <>
-      <div className={styles.UserContainer}>
-        <div className={styles.logoContainer}>
-          <Link to="/HomePage" className={styles.logoLink}>
-            <img src={fakturki} alt="Fakturki" className={styles.logo} />
-          </Link>
+      <div className={styles.mainContent}>
+      <div className={styles.banner}>
+      <span className={styles.optionsButton}>
+            <Link to="/homePage"><i className="fa-solid fa-arrow-left"></i></Link>
+          </span>
+        <img src={logo} alt="Fakturki" className={styles.logo} />
+        <span className={styles.optionsButton}>
+            <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><i className="fa-solid fa-arrow-right-from-bracket"></i></button></Link>
+          </span>
         </div>
-          
-        <div className={styles.form_container}>
-          <div className={styles.leftColumn}>
-            <div className={styles.form_group}>
-              <label htmlFor="email">Adres e-mail</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="email"
-                  id="email"
-                  value={email}
-                  //   isInvalid={validatedEmail}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {emailFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-              {emailActivated_at!= null?null:<button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
+        
+        <div className={styles.contentHome}>
+          <div className={styles.menu}>
+            <div className={styles.menuButton}>
+              <button onClick={() => handleViewChange('Dane logowania')}>Dane logowania</button>
             </div>
-            <div className='NrNip'>
-              <div className={styles.form_group}>
-                <label htmlFor="NIP">NIP</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="text"
-                    id="NIP"
-                    value={NIP}
-                    //   isInvalid={validatedNIP}
-                    onChange={(e) => setNIP(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {NIPFeedback}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </div>
+            <div className={styles.menuButton}>
+              <button onClick={() => handleViewChange('Dane osobowe')}>Dane osobowe</button>
             </div>
-
-            <div className={styles.form_group}>
-              <label htmlFor="firstName">Imię</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  //   isInvalid={validatedFirstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {firstNameFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
+            <div className={styles.menuButton}>
+              <button onClick={() => handleViewChange('Dane adresowe')}>Dane adresowe</button>
             </div>
-            <div className={styles.form_group}>
-              <label htmlFor="lastName">Nazwisko</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  //   isInvalid={validatedLastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {lastNameFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            <div className={styles.form_group}>
-              <label htmlFor="phoneNumber">Nr telefonu</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="text"
-                    id="phoneNumber"
-                    value={phoneNumber}
-                    //   isInvalid={validatedPhoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {phoneNumberFeedback}
-                  </Form.Control.Feedback>
-                </InputGroup>
+            <div className={styles.menuButton}>
+              <button onClick={() => handleViewChange('Dane firmy')}>Dane firmy</button>
             </div>
           </div>
 
-
-          <div className={styles.rightColumn}>
-            <div className={styles.form_group}>
-              <label htmlFor="postalCode">Kod pocztowy</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="postalCode"
-                  value={postalCode}
-                  //   isInvalid={validatedPostalCode}
-                  onChange={(e) => setPostalCode(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {postalCodeFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            <div className={styles.form_group}>
-              <label htmlFor="city">Miasto</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="city"
-                  value={city}
-                  //   isInvalid={validatedCity}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {cityFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            <div className={styles.form_group}>
-              <label htmlFor="street">Ulica</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="street"
-                  value={street}
-                  //   isInvalid={validatedStreet}
-                  onChange={(e) => setStreet(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {streetFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            <div className={styles.form_group}>
-              <label htmlFor="buildingNumber">Nr budynku</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="buildingNumber"
-                  value={buildingNumber}
-                  //   isInvalid={validatedBuildingNumber}
-                  onChange={(e) => setBuildingNumber(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {buildingNumberFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            <div className={styles.form_group}>
-              <label htmlFor="apartmentNumber">Nr lokalu</label><br />
-              <InputGroup className={styles.inputText} hasValidation>
-                <Form.Control
-                  type="text"
-                  id="apartmentNumber"
-                  value={apartmentNumber}
-                  //   isInvalid={validatedApartmentNumber}
-                  onChange={(e) => setApartmentNumber(e.target.value)}
-                />
-                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                  {apartmentNumberFeedback}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </div>
-            {/* <div className='NrNip'>
-              <div className={styles.form_group}>
-                <label htmlFor="NIP">NIP</label><br />
-                <InputGroup className={styles.inputText} hasValidation>
-                  <Form.Control
-                    type="text"
-                    id="NIP"
-                    value={NIP}
-                    //   isInvalid={validatedNIP}
-                    onChange={(e) => setNIP(e.target.value)}
-                  />
-                  <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {NIPFeedback}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </div>
-            </div> */}
+          <div className={styles.form_container}>
+            {activeView === 'Dane logowania' && <LoginData />}
+            {activeView === 'Dane osobowe' && <PersonalData />}
+            {activeView === 'Dane adresowe' && <AddressData />}
+            {activeView === 'Dane firmy' && <CompanyData />}
           </div>
-        </div>
-
-        <div className={styles.functionalButton}>
-          <button onClick={handleGetInfoUserPage} className={styles.registrationButton}>Zapisz zmiany</button>
-          <Link to="/HomePage"><button className={styles.backButton}>Powrót</button></Link>
-          <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}>Wyloguj</button></Link>
         </div>
       </div>
-    </>
+  </>
   );
 };
 
-export default ResetPasswordPage;
+export default UserSettingsPage;

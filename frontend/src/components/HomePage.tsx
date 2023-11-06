@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo_home from "../assets/logo_home.png";
 import styles from "./HomePage.module.css";
-import user from "../assets/user.png";
-import log_out from "../assets/log_out.png";
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";
 import Table from 'react-bootstrap/Table';
@@ -161,8 +159,8 @@ const HomePage: React.FC = () => {
             Fuszerka Sp. z o.o. 
           </div>
           <span className={styles.optionsButton}>
-            <Link to="/userSettings"><img src={user} alt="user" width={42} height={42}/></Link>
-            <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><img src={log_out} alt="log_out" width={82} height={82}/></button></Link>
+            <Link to="/userSettings"><i className="fa-regular fa-circle-user"></i></Link>
+            <Link to="/Login"><button onClick={handleLogOff} className={styles.logOutButton}><i className="fa-solid fa-arrow-right-from-bracket"></i></button></Link>
           </span>
         </div>
         
