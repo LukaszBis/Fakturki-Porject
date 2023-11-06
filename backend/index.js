@@ -58,17 +58,17 @@ app.get('/downloadPdf', async (req, res) => {
 });
 app.post('/sendPdf', async (req, res) => {
   if (pdf.sendPdf(req.body.email, req.body.id)) {
-    res.status(200).json({ message: "Pomyślnie wysłano fakturę na adres " + req.query.email });
+    res.status(200).json({ success: "Pomyślnie wysłano fakturę na adres " + req.query.email });
   } else {
-    res.status(400).json({ message: "Nie udało się wysłać faktury na adres " + req.query.email });
+    res.status(400).json({ fail: "Nie udało się wysłać faktury na adres " + req.query.email });
   }
 });
 
 app.post('/invoiceDelete', async (req, res) => {
   if (invoice.remove(req.query.id)) {
-    res.status(200).json({ message: "Pomyślnie usunięto fakturę" });
+    res.status(200).json({ success: "Pomyślnie usunięto fakturę" });
   } else {
-    res.status(400).json({ message: "Nie udało się usunąć faktury" });
+    res.status(400).json({ fail: "Nie udało się usunąć faktury" });
   }
 });
 
@@ -101,11 +101,11 @@ app.post('/resetPassword', async (req, res) => {
   if (get_user) {
     const check = passwordReset.add(email);
     if (check) {
-      return res.status(200).send({ message: "Email wysłany" });
+      return res.status(200).send({ success: "Email wysłany" });
     }
-    return res.status(500).send({ message: "Email nie został wysłany" });
+    return res.status(500).send({ fail: "Email nie został wysłany" });
   }
-  return res.status(404).send({ message: "Email nie znaleziony" });
+  return res.status(404).send({ fail: "Email nie znaleziony" });
 });
 
 app.post('/setNewPassword', async (req, res) => {
@@ -147,26 +147,26 @@ app.post('/setNewPassword', async (req, res) => {
 
     passwordReset.removeToken(get_email);
     await user.changePassword(get_user, password);
-    return res.status(200).json({ message: "Hasło pomyślnie zmienione" });
+    return res.status(200).json({ success: "Hasło pomyślnie zmienione" });
   }
 
-  return res.status(400).json({ message: "Nie udało się zmienić hasła" });
+  return res.status(400).json({ fail: "Nie udało się zmienić hasła" });
 });
 
 app.post('/active', async (req, res) => {
   const token = req.body.token;
 
   if (!await active.checkToken(token)) {
-    return res.status(400).json({ message: "Link nie jest aktualny." });
+    return res.status(400).json({ fail: "Link nie jest aktualny." });
   }
 
   const email = await active.getEmailByToken(token);
   if (email && await user.active(email)) {
     active.removeToken(email);
-    return res.status(200).json({ message: "Konto aktywowane pomyślnie" }); 
+    return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
   }
 
-  return res.status(400).json({ message: "Konto nie istnieje" });
+  return res.status(400).json({ fail: "Konto nie istnieje" });
 });
 
 app.post('/reactivate', async (req, res) => {
@@ -176,22 +176,22 @@ app.post('/reactivate', async (req, res) => {
   if (get_user && get_user.emailActivated_at == null) {
     const check = active.add(email);
     if (check) {
-      return res.status(200).json({ message: "Email został wysłany" });
+      return res.status(200).json({ success: "Email został wysłany" });
     }
-    return res.status(400).json({ message: "Email nie został wysłany" });
+    return res.status(400).json({ fail: "Email nie został wysłany" });
   }
 
-  return res.status(400).json({ message: "Użytkownik nie został utworzony" });
+  return res.status(400).json({ fail: "Użytkownik nie został utworzony" });
 });
 
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   if (!id){
-    return res.status(400).send({message:"Niepoprawne dane"});
+    return res.status(400).send({fail:"Niepoprawne dane"});
   }
   const get_user = await user.auth(id);
   if(!get_user){
-    return res.status(204).send({message:"Użytkownik nie istnieje"});
+    return res.status(204).send({fail:"Użytkownik nie istnieje"});
   }
 
   let data = {}
@@ -212,13 +212,13 @@ app.post('/login', async (req, res) => {
 
   const get_user = await user.checkEmail(email);
   if (!get_user) {
-    return res.status(204).send({message:"Konto nie istnieje"});
+    return res.status(204).send({fail:"Konto nie istnieje"});
   }
   const passwordHash = get_user.passwordHash;
   if (await user.passwordCompare(passwordHash, password)){
-    return res.status(200).send({data:get_user._id});
+    return res.status(200).send({success:get_user._id});
   }
-  res.status(204).send({message:"Niepoprawne hasło."});
+  res.status(204).send({fail:"Niepoprawne hasło."});
 });
 
 app.post('/register', async (req, res) => {
@@ -318,14 +318,14 @@ app.post('/register', async (req, res) => {
     get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
   }catch(error){
     console.error(error)
-    return res.status(500).send({message:"Użytkownik nie został utworzony"});
+    return res.status(500).send({fail:"Użytkownik nie został utworzony"});
   }
 
   const check = active.add(email);
   if (check){
-    return res.status(200).send({data:get_user._id});
+    return res.status(200).send({success:get_user._id});
   }
-  return res.status(500).send({message:"Email nie został wysłany"});
+  return res.status(500).send({fail:"Email nie został wysłany"});
 });
 
 app.post('/invoice', async(req,res) => {
@@ -353,16 +353,16 @@ app.post('/invoice', async(req,res) => {
     req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc  
   }catch(error){
     console.error(error)
-    return res.status(500).json({ message: 'Dane klienta są niepoprawne' });
+    return res.status(500).json({ fail: 'Dane klienta są niepoprawne' });
   }
   try{
     invoice.add(req.body)
   }catch(error){
     console.error(error)
-    return res.status(500).json({ message: 'Nie dodano faktury' });
+    return res.status(500).json({ fail: 'Nie dodano faktury' });
   }
   
-  return res.status(200).json({ message: 'Dodano fakturę' });
+  return res.status(200).json({ success: 'Dodano fakturę' });
 })
 
 app.listen(port, () => {
