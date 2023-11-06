@@ -1,45 +1,111 @@
-.logo {
-    width: 30em;
+.mainContent {
+    min-width: 1000px;
+  }
+  
+  .contentHome {
+    background-color: #3b3b3b; 
+    min-height: 80vh;
+    border-radius: 0px 0px 20px 20px;
+    min-width: 1000px;
+  }
+  
+  .banner {
+    border-radius: 20px 20px 0px 0px;
+    background-color: rgba(36, 36, 36, 0.85); 
+     display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 10px 20px;
+    margin-top: 1em;  
+  }
+  
+  .logo {
+    width: 20em;
     height: auto;
   }
- 
-.leftColumn {
+
+span.optionsButton a {
+    color: white;
+    font-size: 2.8em;
+ }
+
+ span.optionsButton a :hover {
+    color: rgb(153, 44, 153);
+ }
+
+ .logOutButton {
+    all: unset
+  }
+
+.menu {
     float: left;
-    width: 18.75em;
-    margin-left: 4em;
-    
+    min-height: 80vh;
+    border-radius: 0px 0px 0px 20px;
+    background-color: #1a1a1a;
 }
-.rightColumn {
-    float: left;
-    width: 18.75em;
-    margin-left: 4em;
-    margin-right: 4em;
-    
+
+.menuButton button {
+    width: 15em;
+    text-align: left;
+    border-radius: 0;
+    padding-left: 1.8em;
 }
-.UserContainer {
+
+.form_container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    background-color: rgba(36, 36, 36, 0.85);
-    width: 50em;
-    height: 45em;
-    border-radius: 20px;
-    position: absolute;
+}
+
+.contentForm {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .UserContainer { */
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center; */
+    /* text-align: left; */
+    /* background-color: rgba(36, 36, 36, 0.85);
+    width: fit-content;
+    padding: 2em;
+    border-radius: 20px; */
+    /* position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%,-50%);
-    margin-top: 1.4em;
+    margin-top: 8em; */
     
-}
-.logoContainer {
-    display: block;
-    position: absolute;
-    align-items: center;
-    margin-bottom: 47.5em;
-  }
-.functionalButton{
+/* } */
+
+/* 
+.form_container {
+    margin-top: 3em;
+} */
+
+/* .functionalButton{
     margin-top: 2em;
     display: flex;
     justify-content: center;
@@ -48,4 +114,34 @@
 }
 .functionalButton button {
     margin-right: 1em; 
+} */
+
+/* .buttonEdit {
+    margin-top: 1em;
+} */
+
+.buttonConfirm {
+    margin-top: -0.3em;
+    margin-bottom: 1em;
+} 
+
+.inputText {
+    width: 18em;
+    float: left;
+    padding-bottom: 1.8em;
 }
+
+/* .passwordContainer {
+    width: 26.5em;
+    display: flex;
+    justify-content: space-around;
+} */
+
+/* .oldPassword .inputText {
+    width: 9.5em;
+    margin-right: 1em;
+}
+
+.newPassword .inputText {
+    width: 9.5em;
+} */

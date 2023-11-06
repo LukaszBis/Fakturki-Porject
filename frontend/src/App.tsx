@@ -9,6 +9,10 @@ import WelcomePage from './components/welcomePage';
 import UserSettings from './components/UserSettingsPage';
 import ConfirmEmail from './components/ConfirmEmailPage';
 import Invoice from './components/InvoicePage';
+import LoginData from './components/LoginData';
+import PersonalData from './components/PersonalData';
+import AddressData from './components/AddressData';
+import CompanyData from './components/CompanyData';
 
 
 
@@ -26,6 +30,10 @@ function App() {
       <Route path="userSettings" element={<UserSettings/>} />
       <Route path="confirmEmail" element={<ConfirmEmail/>} />
       <Route path="invoice" element={<Invoice/>} />
+      <Route path="loginData" element={<LoginData/>} />
+      <Route path="personalData" element={<PersonalData/>} />
+      <Route path="addressData" element={<AddressData/>} />
+      <Route path="companyData" element={<CompanyData/>} />
     </Routes>
   </BrowserRouter>
   );

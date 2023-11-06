@@ -28,12 +28,14 @@
   font-size: 2em;
 } 
 
-span.optionsButton a img {
+span.optionsButton a i {
   filter: brightness(0) invert(1);
+  font-size: 2.8em;
 }
 
 .logOutButton {
-  all: unset
+  all: unset;
+  margin-left: 1.5em;
 }
 
 .addInvoice {
