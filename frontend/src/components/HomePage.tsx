@@ -75,24 +75,24 @@ const HomePage: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
-            }
+            // if (!response.ok) {
+            //     throw new Error('Nie ma autoryzacji');
+            // }
             return response.json();
         })
         .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else if(data.active){
-              console.log("Aktywuj adres email")
-            }else if(data.invoices){
-
-              invoice = data.invoices
-              setInvoiceTable(invoice)
-              console.log(invoice._id)
-              // AddNewRow()
-              console.log(invoiceTable)
-            }
+          console.log(data)
+          if(data.active){
+            console.log("Aktywuj adres email")
+          }else if(data.invoices){
+            invoice = data.invoices
+            setInvoiceTable(invoice)
+            console.log(invoice._id)
+            // AddNewRow()
+            console.log(invoiceTable)
+          }else{
+            document.location.href = '/welcome';
+          }
         })
         .catch((error) => {
             console.log(error);
@@ -137,8 +137,8 @@ const HomePage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Register failed');
+        if (response.status == 400) {
+          throw new Error('Nie udało się wysłać faktury na adres');
         }
         return response.json();
       })

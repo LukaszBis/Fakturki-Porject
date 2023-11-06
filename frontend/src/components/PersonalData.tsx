@@ -46,17 +46,21 @@ const PersonalData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else{
-              console.log(data)
-            }
+          if(data.active){
+            console.log("Aktywuj adres email")
+          }else if(data.details){
+            setFirstName(data.details.firstName)
+            setLastName(data.details.lastName)
+            setPhoneNumber(data.details.phoneNumber)
+          }else{
+            document.location.href = '/welcome';
+          }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 
