@@ -167,7 +167,7 @@ const HomePage: React.FC = () => {
         <div className={styles.contentHome}>
           <div className={styles.menu}>
             <div className={styles.menuButton}>
-              <button onClick={() => setSelectedTab('invoices')}>Faktury</button>
+              <button onClick={() => setSelectedTab('invoice')}>Faktury</button>
             </div>
             <div className={styles.menuButton}>
               <button onClick={() => setSelectedTab('receipts')}>Paragony</button>
@@ -178,7 +178,7 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className={styles.invoiceTable}>
-            <h2>Lista {selectedTab === 'invoices' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
+            <h2>Lista {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
             <div className="table-responsive">
               <Table striped bordered>
                 <thead>
@@ -190,25 +190,65 @@ const HomePage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {invoice.map((inv:any) => (
-                    <tr key={inv._id}>
-                      <td>{inv.dateIssuance.split("T")[0]}</td>
-                      <td>{inv.name}</td>
-                      <td>{inv.client}</td>
-                      <td>{inv.totalPrice}</td>
-                      <td className={styles.sddButton} id={styles.leftBorder}>
-                      <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
-                        <div>
-                          <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
-                          <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
-                        </div>
-                      </Popup>
-                      </td>
-                      {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
-                      <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
-                      <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
-                    </tr>
-                  ))}
+                  {selectedTab === 'invoice' ? 
+                    invoice.map((inv:any) => (
+                      <tr key={inv._id}>
+                        <td>{inv.dateIssuance.split("T")[0]}</td>
+                        <td>{inv.name}</td>
+                        <td>{inv.client}</td>
+                        <td>{inv.totalPrice}</td>
+                        <td className={styles.sddButton} id={styles.leftBorder}>
+                        <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
+                          <div>
+                            <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
+                            <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
+                          </div>
+                        </Popup>
+                        </td>
+                        {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
+                        <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
+                        <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
+                      </tr>
+                    )) : selectedTab === 'receipts' ?
+                    receipts.map((inv:any) => (
+                      <tr key={inv.id}>
+                        <td>{inv.number}</td>
+                        <td>{inv.date}</td>
+                        <td>{inv.amount}</td>
+                        <td></td>
+                        <td className={styles.sddButton} id={styles.leftBorder}>
+                        <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
+                          <div>
+                            <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
+                            <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
+                          </div>
+                        </Popup>
+                        </td>
+                        {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
+                        <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
+                        <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
+                      </tr>
+                    )) :
+                    advances.map((inv:any) => (
+                      <tr key={inv.id}>
+                        <td>{inv.number}</td>
+                        <td>{inv.date}</td>
+                        <td>{inv.amount}</td>
+                        <td></td>
+                        <td className={styles.sddButton} id={styles.leftBorder}>
+                        <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
+                          <div>
+                            <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
+                            <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
+                          </div>
+                        </Popup>
+                        </td>
+                        {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
+                        <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
+                        <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </Table>
             </div>
