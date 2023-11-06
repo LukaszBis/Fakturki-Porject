@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import fakturki from "../assets/fakturki.png";
 import styles from './InvoicePage.module.css';
@@ -7,6 +7,17 @@ import Cookies from "js-cookie";
 var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
 let services:any = []
+var details:any = []
+
+// const account = "12345678901234567890123456"
+
+// console.log(account.substring(0,2))
+// console.log(account.substring(2,6))
+// console.log(account.substring(6,10))
+// console.log(account.substring(10,14))
+// console.log(account.substring(14,18))
+// console.log(account.substring(18,22))
+// console.log(account.substring(22,26))
 
 const InvoiceForm = () => {
     const [rows, setRows] = useState(services)
@@ -22,8 +33,68 @@ const InvoiceForm = () => {
     const [payDate, setPayDate] = useState("")
     const [payType, setPayType] = useState("")
     const [account, setAccount] = useState("")
-    const [seller, setSeller] = useState("")
+    const [tmpaccount, settmpAccount] = useState("")
+    const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
+    const [detailsTable, setdetailsTable] = useState(details)
+
+        
+
+    useEffect( () => {
+        const user = Cookies.get('user');
+        if(user){
+            const apiUrl = 'http://localhost:8080/auth';
+            
+            const requestBody = {
+                user: user,
+                active: true,
+                details: true,
+            };
+            console.log(requestBody)
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Nie ma autoryzacji');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if(!data.success) {
+                    document.location.href = '/welcome';
+                }else if(data.active){
+                  console.log("Aktywuj adres email")
+                }else if(data.details){
+    
+                    details = data.details
+                    setdetailsTable(details)
+                  console.log(details)
+                  settmpAccount(
+                    details.accountNumber.substring(0,2)+' '+
+                    details.accountNumber.substring(2,6)+' '+
+                    details.accountNumber.substring(6,10)+' '+
+                    details.accountNumber.substring(10,14)+' '+
+                    details.accountNumber.substring(14,18)+' '+
+                    details.accountNumber.substring(18,22)+' '+
+                    details.accountNumber.substring(22,26)
+                  )
+                  setAccount(tmpaccount)
+                  // AddNewRow()
+                  console.log(detailsTable)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }else{
+          document.location.href = '/welcome';
+        }
+      }, []);
 
     const handleDelete = (id:any) => {
         let copyrows = [...rows]
@@ -291,7 +362,7 @@ const InvoiceForm = () => {
                         <label>
                             <p>Rachunek bankowy</p>
                             <select value={account} onChange={(e) => setAccount(e.target.value)}>
-                                <option value="49 1020 2892 2276 3005 0000 0000">49 1020 2892 2276 3005 0000 0000</option>
+                                <option value={tmpaccount}>{tmpaccount}</option>
                                 <option value="49 1020 2892 2276 3005 0000 1111">49 1020 2892 2276 3005 0000 1111</option>
                             </select>
                         </label>
@@ -300,7 +371,7 @@ const InvoiceForm = () => {
                         <label>
                             <p>Wystawił</p>
                             <select value={seller} onChange={(e) => setSeller(e.target.value)}>
-                                <option value="Łukasz">Lukasz</option>
+                                <option value={details.firstName}>{details.firstName}</option>
                                 <option value="Jakub">Jakub</option>
                             </select>
                         </label>
