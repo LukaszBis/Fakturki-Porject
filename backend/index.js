@@ -57,31 +57,25 @@ app.get('/downloadPdf', async (req, res) => {
   pdf.downloadPdf(res, req.query.id)
 });
 app.post('/sendPdf', async (req, res) => {
-  pdf.sendPdf(req.body.email, req.body.id)?
-  res.send({success:"Pomyślnie wysłano fakturę na adres "+req.query.email}):
-  res.send({success:"Nie udało się wysłać faktury na adres "+req.query.email})
+  if (pdf.sendPdf(req.body.email, req.body.id)) {
+    res.status(200).json({ message: "Pomyślnie wysłano fakturę na adres " + req.query.email });
+  } else {
+    res.status(400).json({ message: "Nie udało się wysłać faktury na adres " + req.query.email });
+  }
 });
+
 app.post('/invoiceDelete', async (req, res) => {
-  invoice.remove(req.query.id)?
-  res.send({success:"Pomyślnie usunięto fakturę"}):
-  res.send({success:"Nie udało się usunąć faktury"})
+  if (invoice.remove(req.query.id)) {
+    res.status(200).json({ message: "Pomyślnie usunięto fakturę" });
+  } else {
+    res.status(400).json({ message: "Nie udało się usunąć faktury" });
+  }
 });
+
 
 
 
 app.get('/', async (req, res) => {
-  // const nip = req.query.nip
-
-  // const wl = await validation.nip([], nip)
-  // console.log(wl)
-  // const bir = new Bir(key = "abcde12345abcde12345")
-  // await bir.login()
-  // await bir.search({ nip: nip }).then((response) => {
-  //   console.log(response)
-  // })
-  // .catch((error) => {
-  //   console.error(error)
-  // })
   try {
     let tableHTML = req.query.status+'<br><table>';
     tableHTML += '<tr><th>Email</th><th>Imię</th><th>Nazwisko</th></tr>';
@@ -106,14 +100,12 @@ app.post('/resetPassword', async (req, res) => {
   const get_user = await user.checkEmail(email);
   if (get_user) {
     const check = passwordReset.add(email);
-    if (check){
-      res.send({success:"Email wysłany"});
-      return;
+    if (check) {
+      return res.status(200).send({ message: "Email wysłany" });
     }
-    res.send({fail:"Email nie został wysłany"});
-    return;
+    return res.status(500).send({ message: "Email nie został wysłany" });
   }
-  res.send({fail:"Email nie znaleziony"});
+  return res.status(404).send({ message: "Email nie znaleziony" });
 });
 
 app.post('/setNewPassword', async (req, res) => {
@@ -123,98 +115,95 @@ app.post('/setNewPassword', async (req, res) => {
 
   let err = false;
   let fail = {
-    token:[],
-    password:[],
-    confirmPassword:[],
+    token: [],
+    password: [],
+    confirmPassword: [],
   };
-  
-  if(!await passwordReset.checkToken(token)){
+
+  if (!await passwordReset.checkToken(token)) {
     fail.token.push("Nie można zmienić hasła, spróbuj ponownie.");
-    res.json({ fail });
-    return;
+    return res.status(400).json({ fail });
   }
 
-  validation.check(fail.password,password)?err=true:null;
-  validation.password(fail.password,password)?err=true:null;
-  validation.min(fail.password,password,8)?err=true:null;
-  validation.max(fail.password,password,20)?err=true:null;
- 
-  validation.check(fail.confirmPassword,confirmPassword)?err=true:null;
-  validation.compare(fail.confirmPassword,confirmPassword,password)?err=true:null;
-  console.log(fail);
-  if (err){
-    res.json({ fail });
-    return;
+  validation.check(fail.password, password) ? err = true : null;
+  validation.password(fail.password, password) ? err = true : null;
+  validation.min(fail.password, password, 8) ? err = true : null;
+  validation.max(fail.password, password, 20) ? err = true : null;
+
+  validation.check(fail.confirmPassword, confirmPassword) ? err = true : null;
+  validation.compare(fail.confirmPassword, confirmPassword, password) ? err = true : null;
+
+  if (err) {
+    return res.status(400).json({ fail }); 
   }
 
   const get_email = await passwordReset.getEmailByToken(token);
   const get_user = await user.checkEmail(get_email);
   if (get_user) {
-    if(await user.passwordCompare(get_user.passwordHash, password)){
+    if (await user.passwordCompare(get_user.passwordHash, password)) {
       fail.password.push("Hasło nie może być takie samo jak stare hasło.");
-      res.json({ fail });
-      return;
+      return res.status(400).json({ fail }); 
     }
+
     passwordReset.removeToken(get_email);
     await user.changePassword(get_user, password);
-    res.send({success:"Hasło pomyślnie zmienione"});
-    return;
+    return res.status(200).json({ message: "Hasło pomyślnie zmienione" });
   }
-  res.send({fail:"Nie udało się zmienić hasła"});
+
+  return res.status(400).json({ message: "Nie udało się zmienić hasła" });
 });
 
 app.post('/active', async (req, res) => {
   const token = req.body.token;
-  
-  if(!await active.checkToken(token)){
-    res.json({ fail:"Link nie jest aktualny." });
-    return;
+
+  if (!await active.checkToken(token)) {
+    return res.status(400).json({ message: "Link nie jest aktualny." });
   }
 
   const email = await active.getEmailByToken(token);
   if (email && await user.active(email)) {
     active.removeToken(email);
-    res.send({success:"Konto aktywowane pomyślnie"});
-    return;
+    return res.status(200).json({ message: "Konto aktywowane pomyślnie" }); 
   }
-  res.send({fail:"Konto nie istnieje"});
+
+  return res.status(400).json({ message: "Konto nie istnieje" });
 });
 
 app.post('/reactivate', async (req, res) => {
   const email = req.body.email;
   const get_user = await user.checkEmail(email);
 
-  if(get_user && get_user.emailActivated_at == null){
+  if (get_user && get_user.emailActivated_at == null) {
     const check = active.add(email);
-    if (check){
-      res.send({success:"Email został wysłany"});
-      return;
+    if (check) {
+      return res.status(200).json({ message: "Email został wysłany" });
     }
-    res.send({fail:"Email nie został wysłany"});
-    return;
+    return res.status(400).json({ message: "Email nie został wysłany" });
   }
-  res.send({fail:"Użytkownik nie został utworzony"});
+
+  return res.status(400).json({ message: "Użytkownik nie został utworzony" });
 });
 
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
-  console.log("user")
-  const get_user = await user.auth(id);
-  if(id && get_user){
-    let response = {}
-    if(req.body.details){
-      response.details = get_user
-    }
-    if(req.body.active && get_user.emailActivated_at == null){
-      response.active = true
-    }else if(req.body.invoices){
-      response.invoices = await invoice.findAll(get_user._id.toString());
-    }
-    response.success = "gratulacje użytkowniku"
-    res.send(response);
-    return;
+  if (!id){
+    return res.status(400).send({message:"Niepoprawne dane"});
   }
-  res.send({fail:"Error"});
+  const get_user = await user.auth(id);
+  if(!get_user){
+    return res.status(204).send({message:"Użytkownik nie istnieje"});
+  }
+
+  let data = {}
+  if(req.body.details){
+    data.details = get_user
+  }
+  if(req.body.active && get_user.emailActivated_at == null){
+    data.active = true
+  }else if(req.body.invoices){
+    data.invoices = await invoice.findAll(get_user._id.toString());
+  }
+  return res.status(200).send(data);
 });
 
 app.post('/login', async (req, res) => {
@@ -222,16 +211,14 @@ app.post('/login', async (req, res) => {
   const password = req.body.password;
 
   const get_user = await user.checkEmail(email);
-  if (get_user) {
-    const passwordHash = get_user.passwordHash;
-    if (await user.passwordCompare(passwordHash, password)){
-      res.send({success:get_user._id});
-      return;
-    }
-    res.send({fail:"Niepoprawne hasło."});
-    return;
+  if (!get_user) {
+    return res.status(204).send({message:"Konto nie istnieje"});
   }
-  res.send({fail:"Konto nie istnieje."});
+  const passwordHash = get_user.passwordHash;
+  if (await user.passwordCompare(passwordHash, password)){
+    return res.status(200).send({data:get_user._id});
+  }
+  res.status(204).send({message:"Niepoprawne hasło."});
 });
 
 app.post('/register', async (req, res) => {
@@ -250,97 +237,95 @@ app.post('/register', async (req, res) => {
   const NIP = req.body.NIP;
   const accountNumber = req.body.accountNumber;
 
-  let err = false;
-  let errors = {
-    email:[],
-    password:[],
-    confirmPassword:[],
-    firstName:[],
-    lastName:[],
-    phoneNumber:[],
-    postalCode:[],
-    city:[],
-    street:[],
-    buildingNumber:[],
-    apartmentNumber:[],
-    NIP:[],
-    accountNumber:[]
-  };
-  validation.check(errors.email,email);
-  validation.email(errors.email,email);
-  await user.emailUnique(errors.email,email);
-  errors.email.length > 0?err=true:null;
-
-  validation.check(errors.password,password);
-  validation.password(errors.password,password);
-  validation.min(errors.password,password,8);
-  validation.max(errors.password,password,20);
-  errors.password.length > 0?err=true:null;
-
-  validation.check(errors.confirmPassword,confirmPassword);
-  validation.compare(errors.confirmPassword,confirmPassword,password);
-  errors.confirmPassword.length > 0?err=true:null;
-
-  validation.check(errors.firstName,firstName);
-  validation.text(errors.firstName,firstName);
-  errors.firstName.length > 0?err=true:null;
-
-  validation.check(errors.lastName,lastName);
-  validation.text(errors.lastName,lastName);
-  errors.lastName.length > 0?err=true:null;
-
-  validation.check(errors.phoneNumber,phoneNumber);
-  validation.number(errors.phoneNumber,phoneNumber);
-  validation.equal(errors.phoneNumber,phoneNumber,9);
-  errors.phoneNumber.length > 0?err=true:null;
-
-  validation.check(errors.postalCode,postalCode);
-  errors.postalCode.length > 0?err=true:null;
-
-  validation.check(errors.city,city);
-  validation.text(errors.city,city);
-  errors.city.length > 0?err=true:null;
-
-  validation.check(errors.street,street);
-  validation.text(errors.street,street);
-  errors.street.length > 0?err=true:null;
-
-  validation.check(errors.buildingNumber,buildingNumber);
-  errors.buildingNumber.length > 0?err=true:null;
-
-  validation.check(errors.NIP,NIP);
-  validation.number(errors.NIP,NIP);
-  validation.equal(errors.NIP,NIP,10);
-  await validation.nip(errors.NIP,NIP);
-  errors.NIP.length == 0?await user.NIPUnique(errors.NIP,NIP):null
-  errors.NIP.length > 0?err=true:null;
-
-  validation.check(errors.accountNumber,accountNumber);
-  validation.number(errors.accountNumber,accountNumber);
-  validation.equal(errors.accountNumber,accountNumber,26);
-  errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
-  errors.accountNumber.length > 0?err=true:null;
-  if (err){
-    res.json({ errors });
-    return;
-  }
-
-  const get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
-  //response variable
-  //res.status(200).send({user-firstname:firstName});
-  //response json
-  //res.status(200).json({user_data:user});
+  {
+    let err = false;
+    let errors = {
+      email:[],
+      password:[],
+      confirmPassword:[],
+      firstName:[],
+      lastName:[],
+      phoneNumber:[],
+      postalCode:[],
+      city:[],
+      street:[],
+      buildingNumber:[],
+      apartmentNumber:[],
+      NIP:[],
+      accountNumber:[]
+    };
+    validation.check(errors.email,email);
+    validation.email(errors.email,email);
+    await user.emailUnique(errors.email,email);
+    errors.email.length > 0?err=true:null;
   
-  if(get_user){
-    const check = active.add(email);
-    if (check){
-      res.send({success:get_user._id});
+    validation.check(errors.password,password);
+    validation.password(errors.password,password);
+    validation.min(errors.password,password,8);
+    validation.max(errors.password,password,20);
+    errors.password.length > 0?err=true:null;
+  
+    validation.check(errors.confirmPassword,confirmPassword);
+    validation.compare(errors.confirmPassword,confirmPassword,password);
+    errors.confirmPassword.length > 0?err=true:null;
+  
+    validation.check(errors.firstName,firstName);
+    validation.text(errors.firstName,firstName);
+    errors.firstName.length > 0?err=true:null;
+  
+    validation.check(errors.lastName,lastName);
+    validation.text(errors.lastName,lastName);
+    errors.lastName.length > 0?err=true:null;
+  
+    validation.check(errors.phoneNumber,phoneNumber);
+    validation.number(errors.phoneNumber,phoneNumber);
+    validation.equal(errors.phoneNumber,phoneNumber,9);
+    errors.phoneNumber.length > 0?err=true:null;
+  
+    validation.check(errors.postalCode,postalCode);
+    errors.postalCode.length > 0?err=true:null;
+  
+    validation.check(errors.city,city);
+    validation.text(errors.city,city);
+    errors.city.length > 0?err=true:null;
+  
+    validation.check(errors.street,street);
+    validation.text(errors.street,street);
+    errors.street.length > 0?err=true:null;
+  
+    validation.check(errors.buildingNumber,buildingNumber);
+    errors.buildingNumber.length > 0?err=true:null;
+  
+    validation.check(errors.NIP,NIP);
+    validation.number(errors.NIP,NIP);
+    validation.equal(errors.NIP,NIP,10);
+    await validation.nip(errors.NIP,NIP);
+    errors.NIP.length == 0?await user.NIPUnique(errors.NIP,NIP):null
+    errors.NIP.length > 0?err=true:null;
+  
+    validation.check(errors.accountNumber,accountNumber);
+    validation.number(errors.accountNumber,accountNumber);
+    validation.equal(errors.accountNumber,accountNumber,26);
+    errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
+    errors.accountNumber.length > 0?err=true:null;
+    if (err){
+      res.status(204).json({ errors });
       return;
     }
-    res.send({fail:"Email nie został wysłany"});
-    return;
   }
-  res.send({fail:"Użytkownik nie został utworzony"});
+  let get_user
+  try{
+    get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
+  }catch(error){
+    console.error(error)
+    return res.status(500).send({message:"Użytkownik nie został utworzony"});
+  }
+
+  const check = active.add(email);
+  if (check){
+    return res.status(200).send({data:get_user._id});
+  }
+  return res.status(500).send({message:"Email nie został wysłany"});
 });
 
 app.post('/invoice', async(req,res) => {
@@ -357,20 +342,27 @@ app.post('/invoice', async(req,res) => {
   req.body.name = `FS ${checkUser.counter+1}/${fixedMonth}/${year}`
   user.increseCounter(checkUser)
 
-  const bir = new Bir()
-  await bir.login()
-  const clientData = await bir.search({ nip: req.body.client })
-  req.body.clientName = clientData.nazwa
-  req.body.clientNIP = clientData.nip
-  req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
-  clientData.nrLokalu?req.body.clientStreet+=' '+clientData.nrLokalu:null
-  req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc
-
-  if(invoice.add(req.body)){
-    res.send({success:'Dodano fakture'});
-  }else{
-    res.send({fail:'Nie dodano faktury'});
+  try{
+    const bir = new Bir()
+    await bir.login()
+    const clientData = await bir.search({ nip: req.body.client })
+    req.body.clientName = clientData.nazwa
+    req.body.clientNIP = clientData.nip
+    req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
+    clientData.nrLokalu?req.body.clientStreet+=' '+clientData.nrLokalu:null
+    req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc  
+  }catch(error){
+    console.error(error)
+    return res.status(500).json({ message: 'Dane klienta są niepoprawne' });
   }
+  try{
+    invoice.add(req.body)
+  }catch(error){
+    console.error(error)
+    return res.status(500).json({ message: 'Nie dodano faktury' });
+  }
+  
+  return res.status(200).json({ message: 'Dodano fakturę' });
 })
 
 app.listen(port, () => {
