@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 // import fakturki from "../assets/fakturki.png";
 import styles from './InvoicePage.module.css';
 import Cookies from "js-cookie";
+import { Form, InputGroup } from 'react-bootstrap';
 
 var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
@@ -37,7 +38,36 @@ const InvoiceForm = () => {
     const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
     const [detailsTable, setdetailsTable] = useState(details)
-
+    const [validatedValues, /*setValidatedValues*/] = useState({
+        client: false,
+        dateIssuance: false,
+        dateSell: false,
+        place: false,
+        payDate: false,
+        payType: false,
+        account: false,
+        seller: false,
+        name: false,
+        jm: false,
+        quantity: false,
+        price: false,
+        vat: false
+    })
+    const [feedbackValues, /*setFeedbackValues*/] = useState({
+        client: '',
+        dateIssuance: '',
+        dateSell: '',
+        place: '',
+        payDate: '',
+        payType: '',
+        account: '',
+        seller: '',
+        name: '',
+        jm: '',
+        quantity: '',
+        price: '',
+        vat: ''
+    })
         
 
     useEffect( () => {
@@ -243,8 +273,31 @@ const InvoiceForm = () => {
           .then((data) => {
             if(data.success) {
               console.log('Register successful:', data);
+              document.location.href = '/homePage';
             }else {
               console.log(data.errors);
+
+            /* przygotowane do sprawdzania validacji i feedbacku
+              if(data.errors.email != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    client: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    client: data.errors.client[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    client: false
+                });
+              }
+              */
+
+
+
             }
           });
       };
@@ -257,7 +310,19 @@ const InvoiceForm = () => {
                     <div className={styles.firstContainerName}>
                         <label>
                             <p>Klient:</p>
-                            <input type="text" name="NumberInvoice" value={client} onChange={(e) => setClient(e.target.value)}/>
+                            {/* <input type="text" name="NumberInvoice" value={client} onChange={(e) => setClient(e.target.value)}/> */}
+                            <InputGroup className={styles.inputText} hasValidation>
+                                <Form.Control
+                                    type="client"
+                                    id="client"
+                                    value={client}
+                                    isInvalid={validatedValues.client}
+                                    onChange={(e) => setClient(e.target.value)}
+                                />
+                                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                    {feedbackValues.client}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </label>
                     </div>
                     <div className={styles.firstContainerDates}>

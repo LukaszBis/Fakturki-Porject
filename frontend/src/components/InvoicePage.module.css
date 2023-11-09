@@ -24,25 +24,25 @@
     margin-bottom: 1em;
 }
 
-.firstContainer input{
+/* .firstContainer input{
     border: 0px;
     border-radius: 0.8em;
     padding-left: 0.6em;
     padding-right: 0.3em;
-}
+} */
 
 .firstContainerName{
     width: 50%;
     float: left;
 }
 
-.firstContainerName label{
+/* .firstContainerName label{
     width: 80%;
-}
+} */
 
-.firstContainerName input{
+/* .firstContainerName input{
     width: 100%;
-}
+} */
 
 .firstContainerName p{
     text-align: left;
@@ -58,10 +58,10 @@
     margin-bottom: 0;   
 }
 
-.firstContainerDates input{
+/* .firstContainerDates input{
     width: 15em;
     margin-right: 0.5em;    
-}
+} */
 
 .WspolnyContainer{
     overflow: hidden;
@@ -220,4 +220,19 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.inputText {
+    padding-bottom: 2em;
+}
+
+.inputText input {
+    margin-right: 4em;
+    border-radius: 1em !important;
+    height: 1.7em;
+}
+
+.ErrorInput{
+    position: absolute;
+    top: 2.8em;
 }
