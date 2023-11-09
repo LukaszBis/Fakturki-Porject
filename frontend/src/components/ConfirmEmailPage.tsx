@@ -30,7 +30,7 @@ const NewPasswordPage: React.FC = () => {
         })
           .then((response) => {
             if (!response.ok) {
-              throw new Error('Failed');
+              document.location.href = '/welcome';
             }
             return response.json();
           })

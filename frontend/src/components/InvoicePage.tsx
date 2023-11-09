@@ -65,9 +65,7 @@ const InvoiceForm = () => {
                 return response.json();
             })
             .then((data) => {
-                if(!data.success) {
-                    document.location.href = '/welcome';
-                }else if(data.active){
+                if(data.active){
                   console.log("Aktywuj adres email")
                 }else if(data.details){
     
@@ -86,6 +84,8 @@ const InvoiceForm = () => {
                   setAccount(tmpaccount)
                   // AddNewRow()
                   console.log(detailsTable)
+                }else{
+                    document.location.href = '/welcome';
                 }
             })
             .catch((error) => {
@@ -235,8 +235,8 @@ const InvoiceForm = () => {
           body: JSON.stringify(requestBody),
         })
           .then((response) => {
-            if (!response.ok) {
-              throw new Error('Register failed');
+            if (response.status == 500) {
+              throw new Error('Nie dodano faktury');
             }
             return response.json();
           })

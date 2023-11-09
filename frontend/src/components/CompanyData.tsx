@@ -44,17 +44,20 @@ const CompanyData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else{
-              console.log(data)
-            }
+          if(data.active){
+            console.log("Aktywuj adres email")
+          }else if(data.details){
+            setNIP(data.details.NIP)
+            setAccountNumber(data.details.accountNumber)
+          }else{
+            document.location.href = '/welcome';
+          }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 

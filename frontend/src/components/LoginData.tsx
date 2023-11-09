@@ -53,19 +53,20 @@ const LoginData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else{
-              console.log(data)
-              setEmail(data.details.email)
-              setEmailActivated_at(data.details.emailActivated_at)
-            }
+          if(data.active){
+            console.log("Aktywuj adres email")
+          }else if(data.details){
+            setEmail(data.details.email)
+            setEmailActivated_at(data.details.emailActivated_at)
+          }else{
+            document.location.href = '/welcome';
+          }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 

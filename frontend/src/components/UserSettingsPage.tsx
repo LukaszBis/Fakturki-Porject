@@ -38,7 +38,7 @@ const UserSettingsPage: React.FC = () => {
         })
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
+                // throw new Error('Nie ma autoryzacji');
             }
             return response.json();
         })
@@ -61,11 +61,11 @@ const UserSettingsPage: React.FC = () => {
         //       setEmailActivated_at(data.details.emailActivated_at)
         //     }
         // })
-        // .catch((error) => {
-        //     console.log(error);
-        // });
+        .catch((error) => {
+            console.log(error);
+        });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 

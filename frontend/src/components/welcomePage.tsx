@@ -29,19 +29,22 @@ const [buttons, setButtons] = useState(true);
                 body: JSON.stringify(requestBody),
             })
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Nie ma autoryzacji');
+                if (response.status == 200) {
+                    setButtons(false)
+                    // throw new Error('Nie ma autoryzacji');
+                }else{
+                    setButtons(true)
                 }
                 return response.json();
             })
-            .then((data) => {
-                if(data.success) {
-                    setButtons(false);
-                }else{
-                    setButtons(true);
-                    //document.location.href = '/welcome';
-                }
-            })
+            // .then((data) => {
+            //     if(data.success) {
+            //         setButtons(false);
+            //     }else{
+            //         setButtons(true);
+            //         //document.location.href = '/welcome';
+            //     }
+            // })
             .catch((error) => {
                 console.log(error);
             });

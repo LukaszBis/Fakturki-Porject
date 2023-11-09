@@ -33,15 +33,10 @@ const LoginPage: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if(data.success) {
+            if (response.status == 200) {
               document.location.href = '/HomePage';
             }
+            return response.json();
         })
         .catch((error) => {
             console.log(error);

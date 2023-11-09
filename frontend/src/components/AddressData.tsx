@@ -50,17 +50,23 @@ const AddressData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-            if(!data.success) {
-                document.location.href = '/welcome';
-            }else{
-              console.log(data)
-            }
+          if(data.active){
+            console.log("Aktywuj adres email")
+          }else if(data.details){
+            setPostalCode(data.details.postalCode)
+            setCity(data.details.city)
+            setStreet(data.details.street)
+            setBuildingNumber(data.details.buildingNumber)
+            setApartmentNumber(data.details.apartmentNumber)
+          }else{
+            document.location.href = '/welcome';
+          }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      document.location.href = '/welcome';
+      // document.location.href = '/welcome';
     }
   }, []);
 
