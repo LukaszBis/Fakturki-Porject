@@ -71,7 +71,6 @@ async function auth(id){
 }
 async function resetCounter(user){
     user.counter = 0;
-    console.log("test")
     await user.save()
 }
 async function increseCounter(user){
