@@ -291,9 +291,9 @@ const InvoiceForm = () => {
             }
             if(j+1 == rows.length){
                 for(let i=0;i<aditionalValues.length;i++){
-                    valueb = Math.ceil((aditionalValues[i].NettoSum) * 100) / 100;
-                    valueb = Math.ceil((aditionalValues[i].VatSum) * 100) / 100;
-                    valueb = Math.ceil((aditionalValues[i].BruttoSum) * 100) / 100;
+                    aditionalValues[i].NettoSum = Math.ceil((aditionalValues[i].NettoSum) * 100) / 100;
+                    aditionalValues[i].VatSum = Math.ceil((aditionalValues[i].VatSum) * 100) / 100;
+                    aditionalValues[i].BruttoSum = Math.ceil((aditionalValues[i].BruttoSum) * 100) / 100;
                 }
                 
             }
