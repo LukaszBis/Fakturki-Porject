@@ -646,7 +646,6 @@ console.log(date)
                                     value={account}
                                     isInvalid={validatedValues.account}
                                     onChange={(e) => setAccount(e.target.value)}
-                                    readOnly={true}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                     {feedbackValues.account}
@@ -668,7 +667,6 @@ console.log(date)
                                     value={seller}
                                     isInvalid={validatedValues.seller}
                                     onChange={(e) => setSeller(e.target.value)}
-                                    readOnly={true}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                     {feedbackValues.seller}
