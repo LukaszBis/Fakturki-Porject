@@ -87,14 +87,15 @@
     border-left: rgb(26, 26, 26) solid 1px;
 }
 
-.WspolnyContainer input{
+/* .WspolnyContainer input{
     border: 0px;
     border-radius: 0.8em;
     padding-left: 0.6em;
     padding-right: 0.3em;
-}
+} */
 
 .WspolnyContainer select{
+    width: 12em;
     border: 0px;
     border-radius: 0.8em;
     padding-left: 0.6em;
@@ -114,9 +115,9 @@
     margin-bottom: 0; 
 }
 
-.DodajContainer input, select{
+/* .DodajContainer input, select{
     width: 15em;
-}
+} */
 
 .WartoscContainer{
     width: 50%;
@@ -139,13 +140,13 @@
     text-align: left;
 }
 
-.platnosc_termin label input{
+/* .platnosc_termin label input{
     width: 10em;
-}
+} */
 
-.platnosc_termin label select{
+/* .platnosc_termin label select{
     width: 10em;
-}
+} */
 
 .platnosc_termin label{
     padding: 1em;
@@ -158,12 +159,12 @@
     padding: 1em;
 }
 
-.lastContainer input{
+/* .lastContainer input{
     border: 0px;
     border-radius: 0.8em;
     padding-left: 0.6em;
     padding-right: 0.3em;
-}
+} */
 
 .lastContainer select{
     border: 0px;
@@ -179,18 +180,18 @@
     float: left;
 }
 
-.bank select{
+/* .bank select{
     width: 100%;
     margin-bottom: 1em;
-}
+} */
 
 .bank label{
     width: 80%;
 }
 
-.bank input{
+/* .bank input{
     width: 100%;
-}
+} */
 
 .bank p{
     text-align: left;
@@ -202,10 +203,10 @@
     float: left;
 }
 
-.wystawil select{
+/* .wystawil select{
     width: 10em;
     margin-bottom: 1em;
-}
+} */
 
 .wystawil input{
     width: 10em;
@@ -223,16 +224,52 @@ input::-webkit-inner-spin-button {
 }
 
 .inputText {
-    padding-bottom: 2em;
+    width: 13em;
+    padding-bottom: 1em;
 }
 
 .inputText input {
-    margin-right: 4em;
+    background-color: rgb(59, 59, 59);
+    color: white;
+    border: 0;
+    margin-right: 1em;
     border-radius: 1em !important;
     height: 1.7em;
+}
+
+.inputAuto > div > div{
+    padding: 0 !important;
+}
+
+.inputAuto > div > div > div{
+    right: 17px !important;
+}
+
+.inputAuto > div > div > input {
+    width: 13em !important;
+    height: 1.7em !important;
+    padding: 0 !important;
+    padding-left: 0.8em !important;
+}
+
+.inputAuto input{
+    background-color: rgb(59, 59, 59);
+    color: white;
+    border: 0;
+    margin-right: 1em;
+    border-radius: 1em !important;
+    height: 1.7em;
+}
+
+.inputAuto fieldset {
+    border: 0;
 }
 
 .ErrorInput{
     position: absolute;
     top: 2.8em;
+}
+
+.DodajContainer .inputText {
+    padding: 0;
 }

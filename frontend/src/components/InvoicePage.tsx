@@ -4,6 +4,16 @@ import { useEffect, useState } from 'react';
 import styles from './InvoicePage.module.css';
 import Cookies from "js-cookie";
 import { Form, InputGroup } from 'react-bootstrap';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+
+var date = new Date()
+// date = today.getFullYear() + '.' + (today.getMonth() + 1) + '.' + today.getDate();
+const futureDate = date.getDate();
+    date.setDate(futureDate);
+    const defaultValue = date.toLocaleDateString('en-CA');
+
 
 var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
@@ -24,11 +34,11 @@ const InvoiceForm = () => {
     const [rows, setRows] = useState(services)
     const [name, setName] = useState("")
     const [jm, setJm] = useState("Usługa")
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState(0)
     const [vat, setVat] = useState(23)
     const [client, setClient] = useState("")
-    const [dateIssuance, setDateIssuance] = useState("")
+    const [dateIssuance, setDateIssuance] = useState(defaultValue)
     const [dateSell, setDateSell] = useState("")
     const [place, setPlace] = useState("")
     const [payDate, setPayDate] = useState("")
@@ -38,6 +48,7 @@ const InvoiceForm = () => {
     const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
     const [detailsTable, setdetailsTable] = useState(details)
+    const [nipArray, setNipArray] = useState(details)
     const [validatedValues, /*setValidatedValues*/] = useState({
         client: false,
         dateIssuance: false,
@@ -112,6 +123,8 @@ const InvoiceForm = () => {
                     details.accountNumber.substring(22,26)
                   )
                   setAccount(tmpaccount)
+                  setSeller(details.firstName + " " + details.lastName)
+                  setNipArray(details.nipArray)
                   // AddNewRow()
                   console.log(detailsTable)
                 }else{
@@ -301,7 +314,7 @@ const InvoiceForm = () => {
             }
           });
       };
-
+console.log(date)
     return (
         <>
         <div className={styles.formContainer}>
@@ -311,9 +324,9 @@ const InvoiceForm = () => {
                         <label>
                             <p>Klient:</p>
                             {/* <input type="text" name="NumberInvoice" value={client} onChange={(e) => setClient(e.target.value)}/> */}
-                            <InputGroup className={styles.inputText} hasValidation>
+                            {/* <InputGroup className={styles.inputText} hasValidation>
                                 <Form.Control
-                                    type="client"
+                                    type="text"
                                     id="client"
                                     value={client}
                                     isInvalid={validatedValues.client}
@@ -322,21 +335,72 @@ const InvoiceForm = () => {
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                     {feedbackValues.client}
                                 </Form.Control.Feedback>
-                            </InputGroup>
+                            </InputGroup> */}
+                            <Stack className={styles.inputStack}>
+                                <Autocomplete
+                                    className={styles.inputAuto}
+                                    freeSolo
+                                    options={nipArray.map((option:any) => option.nip)}
+                                    renderInput={(params) => 
+                                        <TextField {...params} 
+                                            // label="Klient" 
+                                            value={client}
+                                            onChange={(e) => setClient(e.target.value)}/>
+                                    }
+                                    
+                                />
+                            </Stack>
                         </label>
                     </div>
                     <div className={styles.firstContainerDates}>
                         <label>
                             <p>Data Wystawienia:</p>
-                            <input type="date" name="Dataissuance" value={dateIssuance} onChange={(e) => setDateIssuance(e.target.value)}/>
+                            {/* <input type="date" name="Dataissuance" value={dateIssuance} onChange={(e) => setDateIssuance(e.target.value)}/> */}
+                        
+                        <InputGroup className={styles.inputText} hasValidation>
+                            <Form.Control
+                                type="date"
+                                id="Dataissuance"
+                                value={dateIssuance}
+                                isInvalid={validatedValues.dateIssuance}
+                                onChange={(e) => setDateIssuance(e.target.value)}
+                            />
+                            <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                {feedbackValues.dateIssuance}
+                            </Form.Control.Feedback>
+                        </InputGroup>
                         </label>
                         <label>
                             <p>Data sprzedaży:</p>
-                            <input type="date" name="sellInovices" value={dateSell} onChange={(e) => setDateSell(e.target.value)}/>
+                            {/* <input type="date" name="sellInovices" value={dateSell} onChange={(e) => setDateSell(e.target.value)}/> */}
+                            <InputGroup className={styles.inputText} hasValidation>
+                                <Form.Control
+                                    type="date"
+                                    id="sellInovices"
+                                    value={dateSell}
+                                    isInvalid={validatedValues.dateSell}
+                                    onChange={(e) => setDateSell(e.target.value)}
+                                />
+                                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                    {feedbackValues.dateSell}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </label>
                         <label>
                             <p>Miejsce Wystawienia:</p>
-                            <input type="text" name="Place" value={place} onChange={(e) => setPlace(e.target.value)}/>
+                            {/* <input type="text" name="Place" value={place} onChange={(e) => setPlace(e.target.value)}/> */}
+                            <InputGroup className={styles.inputText} hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    id="Place"
+                                    value={place}
+                                    isInvalid={validatedValues.place}
+                                    onChange={(e) => setPlace(e.target.value)}
+                                />
+                                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                    {feedbackValues.place}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </label>
                     </div>
                 </div>
@@ -363,30 +427,95 @@ const InvoiceForm = () => {
                         <div className={styles.DodajContainer}>
                             <label>
                                 <p>Nazwa:</p>
-                                <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+                                {/* <input type='text' value={name} onChange={(e) => setName(e.target.value)}/> */}
+                                <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Control
+                                        type="text"
+                                        id="name"
+                                        value={name}
+                                        isInvalid={validatedValues.name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.name}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                             </label>
                             <label>
                                 <p>Jednostka miary:</p>
-                                <select value={jm} onChange={(e) => setJm(e.target.value)}>
+                                {/* <select value={jm} onChange={(e) => setJm(e.target.value)}>
                                     <option value="Usługa">Usługa</option>
                                     <option value="m2">m2</option>
-                                </select>
+                                </select> */}
+                                <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Select
+                                        id="name"
+                                        value={jm}
+                                        isInvalid={validatedValues.jm}
+                                        onChange={(e) => setJm(e.target.value)}
+                                    >
+                                        <option value="Usługa">Usługa</option>
+                                        <option value="m2">m2</option>
+                                    </Form.Select>
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.jm}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                             </label>
                             <label>
                                 <p>Ilość:</p>
-                                <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>    
+                                {/* <input type='number' value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))}/>     */}
+                                <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Control
+                                        type="number"
+                                        id="quantity"
+                                        value={quantity}
+                                        isInvalid={validatedValues.quantity}
+                                        onChange={(e) => setQuantity(parseFloat(e.target.value))}
+                                    />
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.quantity}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                             </label>
                             <label>
                                 <p>Cena:</p>
-                                <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/>
+                                {/* <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/> */}
+                                <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Control
+                                        type="number"
+                                        id="price"
+                                        value={price}
+                                        isInvalid={validatedValues.price}
+                                        onChange={(e) => setPrice(parseFloat(e.target.value))}
+                                    />
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.price}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                             </label>
                             <label>
                                 <p>VAT:</p>
-                                <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
+                                {/* <select value={vat} onChange={(e) => setVat(parseFloat(e.target.value))}>
                                     <option value="23">23%</option>
                                     <option value="8">8%</option>
                                     <option value="5">5%</option>
-                                </select>
+                                </select> */}
+                                <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Select
+                                        id="vat"
+                                        value={vat}
+                                        isInvalid={validatedValues.vat}
+                                        onChange={(e) => setVat(parseFloat(e.target.value))}
+                                    >
+                                        <option value="23">23%</option>
+                                        <option value="8">8%</option>
+                                        <option value="5">5%</option>
+                                    </Form.Select>
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.vat}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                             </label>
                             
                             <button onClick={AddNewRow}>Dodaj nową pozycję</button>
@@ -396,10 +525,7 @@ const InvoiceForm = () => {
                             {/* <input type='number'></input> */}
                             <div className={styles.cena}>
                                 <label>
-                                    <p>Wartość brutto:</p>
-                                </label>
-                                <label>
-                                    {totalPrice}
+                                    <p>Wartość brutto: {totalPrice}</p>
                                 </label>
                                 <label>
                                     <p>PLN</p>
@@ -408,14 +534,40 @@ const InvoiceForm = () => {
                             <div className={styles.platnosc_termin}>
                                 <label>
                                     <p>Forma płatności</p> 
-                                    <select value={payType} onChange={(e) => setPayType(e.target.value)}>
+                                    {/* <select value={payType} onChange={(e) => setPayType(e.target.value)}>
                                         <option value="Przelew">Przelew</option>
                                         <option value="Gotówka">Gotówka</option>
-                                    </select>
+                                    </select> */}
+                                    <InputGroup className={styles.inputText} hasValidation>
+                                        <Form.Select
+                                            id="vat"
+                                            value={payType}
+                                            isInvalid={validatedValues.payType}
+                                            onChange={(e) => setPayType(e.target.value)}
+                                        >
+                                            <option value="Przelew">Przelew</option>
+                                            <option value="Gotówka">Gotówka</option>
+                                        </Form.Select>
+                                        <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                            {feedbackValues.payType}
+                                        </Form.Control.Feedback>
+                                    </InputGroup>
                                 </label>
                                 <label>
                                     <p>Termin płatności</p>
-                                    <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/>
+                                    {/* <input type="date" value={payDate} onChange={(e) => setPayDate(e.target.value)}/> */}
+                                    <InputGroup className={styles.inputText} hasValidation>
+                                    <Form.Control
+                                        type="date"
+                                        id="payDate"
+                                        value={payDate}
+                                        isInvalid={validatedValues.payDate}
+                                        onChange={(e) => setPayDate(e.target.value)}
+                                    />
+                                    <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                        {feedbackValues.payDate}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
                                 </label>
                             </div>
                         </div>
@@ -426,19 +578,43 @@ const InvoiceForm = () => {
                     <div className={styles.bank}>
                         <label>
                             <p>Rachunek bankowy</p>
-                            <select value={account} onChange={(e) => setAccount(e.target.value)}>
+                            {/* <select value={account} onChange={(e) => setAccount(e.target.value)}>
                                 <option value={tmpaccount}>{tmpaccount}</option>
                                 <option value="49 1020 2892 2276 3005 0000 1111">49 1020 2892 2276 3005 0000 1111</option>
-                            </select>
+                            </select> */}
+                            <InputGroup className={styles.inputText} hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    id="price"
+                                    value={account}
+                                    isInvalid={validatedValues.account}
+                                    onChange={(e) => setAccount(e.target.value)}
+                                />
+                                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                    {feedbackValues.account}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </label>
                     </div>
                     <div className={styles.wystawil}>
                         <label>
                             <p>Wystawił</p>
-                            <select value={seller} onChange={(e) => setSeller(e.target.value)}>
+                            {/* <select value={seller} onChange={(e) => setSeller(e.target.value)}>
                                 <option value={details.firstName}>{details.firstName}</option>
                                 <option value="Jakub">Jakub</option>
-                            </select>
+                            </select> */}
+                            <InputGroup className={styles.inputText} hasValidation>
+                                <Form.Control
+                                    type="text"
+                                    id="price"
+                                    value={seller}
+                                    isInvalid={validatedValues.seller}
+                                    onChange={(e) => setSeller(e.target.value)}
+                                />
+                                <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
+                                    {feedbackValues.seller}
+                                </Form.Control.Feedback>
+                            </InputGroup>
                         </label>
                     </div>
                     <button onClick={handleInvoice}>Wystaw fakture</button>
