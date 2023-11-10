@@ -1,5 +1,5 @@
 function check(arr, value) {
-    if (value == null || value.trim() == ''){
+    if (value == null || (!Number(value) && value != '0' && value.trim() == '')){
         arr.push("Warość nie może być pusta");
         return true;
     }

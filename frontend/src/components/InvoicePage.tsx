@@ -157,13 +157,13 @@ const InvoiceForm = () => {
     }
 
     const Row = (props:any) => {
-        const {NAME, JM, QANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
+        const {NAME, JM, QUANTITY, PRICE, VALUEN, VAT, VATPRICE, VALUEB, index, delRow} = props
         return(
             <tr>
                 <td>{index+1}</td>
                 <td>{NAME}</td>
                 <td>{JM}</td>
-                <td>{QANTITY}</td>
+                <td>{QUANTITY}</td>
                 <td>{PRICE}</td>
                 <td>{VALUEN}</td>
                 <td>{VAT}</td>
@@ -183,7 +183,7 @@ const InvoiceForm = () => {
                         ID = {row.ID}
                         NAME = {row.NAME}
                         JM = {row.JM}
-                        QANTITY = {row.QANTITY}
+                        QUANTITY = {row.QUANTITY}
                         PRICE = {row.PRICE}
                         VALUEN = {row.VALUEN}
                         VAT = {row.VAT}
@@ -203,7 +203,7 @@ const InvoiceForm = () => {
         const requestBody = {
             NAME:name, 
             JM:jm, 
-            QANTITY:quantity, 
+            QUANTITY:quantity, 
             PRICE:price, 
             VAT:vat
         };
@@ -216,19 +216,15 @@ const InvoiceForm = () => {
           },
           body: JSON.stringify(requestBody),
         })
-          .then((response) => {
-            if (response.status == 500) {
-              throw new Error('Nie dodano faktury');
+        .then((response) => {
+            if (response.status == 200) {
+                AddNewRow()
             }
             return response.json();
-          })
-          .then((data) => {
-            if(data.success) {
-                AddNewRow()
-            }else {
-              console.log(data.errors);
-            }
-          });
+        })
+        .then((data) => {
+            console.log(data.errors);
+        });
       };
 
     function AddNewRow(){
@@ -237,7 +233,7 @@ const InvoiceForm = () => {
         vatprice = Math.ceil((vatprice) * 100) / 100;
         valueb = valuen + vatprice
         valueb = Math.ceil((valueb) * 100) / 100;
-        setRows([...rows,{ID:id, NAME:name, JM:jm, QANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
+        setRows([...rows,{ID:id, NAME:name, JM:jm, QUANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
 
         setName("")
         setQuantity(0)

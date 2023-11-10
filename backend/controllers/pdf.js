@@ -204,7 +204,7 @@ async function generateHtml(id) {
                     <td style="text-align: center;">`+(index+1)+`</td>
                     <td>${element.NAME}</td>
                     <td style="text-align: center;">${element.JM}</td>
-                    <td style="text-align: center;">${element.QANTITY}</td>
+                    <td style="text-align: center;">${element.QUANTITY}</td>
                     <td style="text-align: center;">${element.PRICE}zł</td>
                     <td style="text-align: center;">${element.VALUEN}zł</td>
                     <td style="text-align: center;">${element.VAT}%</td>`
@@ -305,7 +305,7 @@ async function downloadPdf(res, id) {
             });
     } catch (error) {
       console.error('Błąd podczas obsługi ścieżki :', error);
-      res.status(400).send('Wystąpił błąd podczas pobierania danych.');
+      res.status(200).send('Wystąpił błąd podczas pobierania danych.');
     }
 }
 
@@ -322,7 +322,7 @@ async function sendPdf(email, id) {
             });
     } catch (error) {
       console.error('Błąd podczas obsługi ścieżki :', error);
-      res.status(400).send('Wystąpił błąd podczas pobierania danych.');
+      res.status(200).send('Wystąpił błąd podczas pobierania danych.');
     }
 }
 

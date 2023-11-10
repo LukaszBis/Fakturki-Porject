@@ -36,7 +36,7 @@ const invoiceSchema = new mongoose.Schema({
             ID: Number,
             NAME: String,
             JM: String,
-            QANTITY: Number,
+            QUANTITY: Number,
             PRICE: Number,
             VALUEN: Number,
             VAT: Number,

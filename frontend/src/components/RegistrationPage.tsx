@@ -121,16 +121,12 @@ const RegistrationPage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Register failed');
+        if (response.status == 200) {
+          document.location.href = '/login';
         }
         return response.json();
       })
       .then((data) => {
-        if(data.success) {
-          console.log('Register successful:', data);
-          document.location.href = '/login';
-        }else {
           console.log(data.errors);
           if(data.errors.email != "") {
             setValidatedEmail(true);
@@ -222,7 +218,6 @@ const RegistrationPage: React.FC = () => {
           }else{
             setValidatedAccountNumber(false);
           }
-        }
       });
   };
 

@@ -60,15 +60,14 @@ app.post('/sendPdf', async (req, res) => {
   if (pdf.sendPdf(req.body.email, req.body.id)) {
     res.status(200).json({ success: "Pomyślnie wysłano fakturę na adres " + req.query.email });
   } else {
-    res.status(400).json({ fail: "Nie udało się wysłać faktury na adres " + req.query.email });
+    res.status(200).json({ fail: "Nie udało się wysłać faktury na adres " + req.query.email });
   }
 });
-
 app.post('/invoiceDelete', async (req, res) => {
   if (invoice.remove(req.query.id)) {
     res.status(200).json({ success: "Pomyślnie usunięto fakturę" });
   } else {
-    res.status(400).json({ fail: "Nie udało się usunąć faktury" });
+    res.status(200).json({ fail: "Nie udało się usunąć faktury" });
   }
 });
 
@@ -90,7 +89,7 @@ app.get('/', async (req, res) => {
     res.send(tableHTML);
   } catch (error) {
     console.error('Błąd podczas obsługi ścieżk:', error);
-    res.status(400).send('Wystąpił błąd podczas pobierania danych.');
+    res.status(200).send('Wystąpił błąd podczas pobierania danych.');
   }
 });
 
@@ -99,13 +98,12 @@ app.post('/resetPassword', async (req, res) => {
 
   const get_user = await user.checkEmail(email);
   if (get_user) {
-    const check = passwordReset.add(email);
-    if (check) {
+    if (passwordReset.add(email)) {
       return res.status(200).send({ success: "Email wysłany" });
     }
-    return res.status(500).send({ fail: "Email nie został wysłany" });
+    return res.status(200).send({ fail: "Email nie został wysłany" });
   }
-  return res.status(404).send({ fail: "Email nie znaleziony" });
+  return res.status(200).send({ fail: "Email nie znaleziony" });
 });
 
 app.post('/setNewPassword', async (req, res) => {
@@ -117,12 +115,10 @@ app.post('/setNewPassword', async (req, res) => {
   let fail = {
     token: [],
     password: [],
-    confirmPassword: [],
   };
 
   if (!await passwordReset.checkToken(token)) {
-    fail.token.push("Nie można zmienić hasła, spróbuj ponownie.");
-    return res.status(400).json({ fail });
+    return res.status(200).json({ fail: "Nie można zmienić hasła, spróbuj ponownie." });
   }
 
   validation.check(fail.password, password) ? err = true : null;
@@ -130,100 +126,117 @@ app.post('/setNewPassword', async (req, res) => {
   validation.min(fail.password, password, 8) ? err = true : null;
   validation.max(fail.password, password, 20) ? err = true : null;
 
-  validation.check(fail.confirmPassword, confirmPassword) ? err = true : null;
-  validation.compare(fail.confirmPassword, confirmPassword, password) ? err = true : null;
+  validation.check(fail.password, confirmPassword) ? err = true : null;
+  validation.compare(fail.password, confirmPassword, password) ? err = true : null;
 
   if (err) {
-    return res.status(400).json({ fail }); 
+    return res.status(200).json({ fail }); 
   }
+  try{
+    const get_email = await passwordReset.getEmailByToken(token);
+    const get_user = await user.checkEmail(get_email);
+    if (get_user) {
+      if (await user.passwordCompare(get_user.passwordHash, password)) {
+        fail.password.push("Hasło nie może być takie samo jak stare hasło.");
+        return res.status(200).json({ fail }); 
+      }
 
-  const get_email = await passwordReset.getEmailByToken(token);
-  const get_user = await user.checkEmail(get_email);
-  if (get_user) {
-    if (await user.passwordCompare(get_user.passwordHash, password)) {
-      fail.password.push("Hasło nie może być takie samo jak stare hasło.");
-      return res.status(400).json({ fail }); 
+      passwordReset.removeToken(get_email);
+      await user.changePassword(get_user, password);
+      return res.status(200).json({ success: "Hasło pomyślnie zmienione" });
     }
 
-    passwordReset.removeToken(get_email);
-    await user.changePassword(get_user, password);
-    return res.status(200).json({ success: "Hasło pomyślnie zmienione" });
+    return res.status(200).json({ fail: "Nie udało się zmienić hasła" });
+  }catch(error){
+    return res.status(500);
   }
-
-  return res.status(400).json({ fail: "Nie udało się zmienić hasła" });
 });
 
 app.post('/active', async (req, res) => {
   const token = req.body.token;
+  try{
+    if (!await active.checkToken(token)) {
+      return res.status(200).json({ fail: "Link nie jest aktualny." });
+    }
 
-  if (!await active.checkToken(token)) {
-    return res.status(400).json({ fail: "Link nie jest aktualny." });
+    const email = await active.getEmailByToken(token);
+    if (email && await user.active(email)) {
+      active.removeToken(email);
+      return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
+    }
+
+    return res.status(200).json({ fail: "Konto nie istnieje" });
+  }catch(error){
+    return res.status(500);
   }
-
-  const email = await active.getEmailByToken(token);
-  if (email && await user.active(email)) {
-    active.removeToken(email);
-    return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
-  }
-
-  return res.status(400).json({ fail: "Konto nie istnieje" });
 });
 
 app.post('/reactivate', async (req, res) => {
   const email = req.body.email;
   const get_user = await user.checkEmail(email);
-
-  if (get_user && get_user.emailActivated_at == null) {
-    const check = active.add(email);
-    if (check) {
-      return res.status(200).json({ success: "Email został wysłany" });
+  try{
+    if (get_user && get_user.emailActivated_at == null) {
+      const check = active.add(email);
+      if (check) {
+        return res.status(200).json({ success: "Email został wysłany" });
+      }
+      return res.status(200).json({ fail: "Email nie został wysłany" });
     }
-    return res.status(400).json({ fail: "Email nie został wysłany" });
-  }
 
-  return res.status(400).json({ fail: "Użytkownik nie został utworzony" });
+    return res.status(200).json({ fail: "Użytkownik nie został utworzony" });
+  }catch(error){
+    return res.status(500);
+  }
 });
 
 app.post('/auth', async (req, res) => {
   const id = req.body.user;
   if (!id){
-    return res.status(400).send({fail:"Niepoprawne dane"});
+    return res.status(200).send({fail:"Niepoprawne dane"});
   }
-  const get_user = await user.auth(id);
-  if(!get_user){
-    return res.status(204).send({fail:"Użytkownik nie istnieje"});
-  }
+  try{
+    const get_user = await user.auth(id);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
 
-  let data = {}
-  if(req.body.details){
-    data.details = get_user
-  }
-  if(req.body.active && get_user.emailActivated_at == null){
-    data.active = true
-  }else{
-    if(req.body.invoices){
-      data.invoices = await invoice.findAll(get_user._id.toString());
+    let data = {}
+    if(req.body.details){
+      data.details = get_user
     }
-    if(req.body.nip){
-      data.nipArray = await invoice.getNIPArray(get_user._id.toString());
+    if(req.body.active && get_user.emailActivated_at == null){
+      data.active = true
+    }else{
+      if(req.body.invoices){
+        data.invoices = await invoice.findAll(get_user._id.toString());
+      }
+      if(req.body.nip){
+        data.nipArray = await invoice.getNIPArray(get_user._id.toString());
+      }
     }
+    return res.status(200).send(data);
+  }catch(error){
+    return res.status(500);
   }
-  return res.status(200).send(data);
 });
 
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  const get_user = await user.checkEmail(email);
-  if (!get_user) {
-    return res.status(204).send({fail:"Konto nie istnieje"});
+  try{
+    const get_user = await user.checkEmail(email);
+    if (!get_user) {
+      return res.status(200).send({fail:"Konto nie istnieje"});
+    }
+    const passwordHash = get_user.passwordHash;
+    if (await user.passwordCompare(passwordHash, password)){
+      return res.status(200).send({success:get_user._id});
+    }
+    return res.status(200).send({fail:"Niepoprawne hasło."});
+  }catch(error){
+    return res.status(500);
   }
-  const passwordHash = get_user.passwordHash;
-  if (await user.passwordCompare(passwordHash, password)){
-    return res.status(200).send({success:get_user._id});
-  }
-  res.status(204).send({fail:"Niepoprawne hasło."});
 });
 
 app.post('/register', async (req, res) => {
@@ -314,7 +327,7 @@ app.post('/register', async (req, res) => {
     errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
     errors.accountNumber.length > 0?err=true:null;
     if (err){
-      res.status(204).json({ errors });
+      res.status(200).json({ errors });
       return;
     }
   }
@@ -323,14 +336,13 @@ app.post('/register', async (req, res) => {
     get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
   }catch(error){
     console.error(error)
-    return res.status(500).send({fail:"Użytkownik nie został utworzony"});
+    return res.status(500);
   }
 
-  const check = active.add(email);
-  if (check){
+  if (active.add(email)){
     return res.status(200).send({success:get_user._id});
   }
-  return res.status(500).send({fail:"Email nie został wysłany"});
+  return res.status(500)
 });
 
 app.post('/invoice', async(req,res) => {
@@ -393,7 +405,7 @@ app.post('/invoice', async(req,res) => {
     ){err=true}
 
     if (err){
-      res.status(204).json({ errors });
+      res.status(200).json({ errors });
       return;
     }
   }
@@ -409,7 +421,7 @@ app.post('/invoice', async(req,res) => {
     req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc
   }catch(error){
     console.error(error)
-    return res.status(500).json({ fail: 'Dane klienta są niepoprawne' });
+    return res.status(500);
   }
 
   const date = new Date()
@@ -429,54 +441,51 @@ app.post('/invoice', async(req,res) => {
     invoice.add(req.body)
   }catch(error){
     console.error(error)
-    return res.status(500).json({ fail: 'Nie dodano faktury' });
+    return res.status(500);
   }
   
   return res.status(200).json({ success: 'Dodano fakturę' });
 })
 
-app.post('/addService', async(req,res) => {
-  {
-    let err = false;
-    let errors = {
-      name:[],
-      jm:[],
-      qantity:[],
-      price:[],
-      vat:[],
-    };
-    validation.check(errors.name,req.body.name);
-    validation.text(errors.name,req.body.name);
-
-    validation.check(errors.jm,req.body.jm);
-    if (!(req.body.jm in ['Usługa', 'm2'])){
-      errors.jm.push("Błędna jednostka miary")
-    }
-
-    validation.check(errors.qantity,req.body.qantity);
-    validation.number(errors.qantity,req.body.qantity);
-
-    validation.check(errors.price,req.body.price);
-    validation.number(errors.price,req.body.price);
-
-    validation.check(errors.vat,req.body.vat);
-    if (!(req.body.vat in ['23', '8', '5'])){
-      errors.vat.push("Błędna wartość vat")
-    }
-    
-    if(
-      errors.name.length > 0 ||
-      errors.jm.length > 0 ||
-      errors.qantity.length > 0 ||
-      errors.price.length > 0 ||
-      errors.vat.length > 0
-    ){err=true}
-
-    if (err){
-      return res.status(204).json({ errors });
-    }
+app.post('/addService', (req,res) => {
+  let errors = {
+    name:[],
+    jm:[],
+    quantity:[],
+    price:[],
+    vat:[],
+  };
+  validation.check(errors.name,req.body.NAME);
+  validation.text(errors.name,req.body.NAME);
+  
+  validation.check(errors.jm,req.body.JM);
+  if (!['Usługa', 'm2'].includes(req.body.JM)){
+    errors.jm.push("Błędna jednostka miary")
   }
-  return res.status(200).json({ success:true });
+
+  validation.check(errors.quantity,req.body.QUANTITY);
+  validation.number(errors.quantity,req.body.QUANTITY);
+
+  validation.check(errors.price,req.body.PRICE);
+  validation.number(errors.price,req.body.PRICE);
+
+  validation.check(errors.vat,req.body.VAT);
+  if (![23, 8, 5].includes(req.body.VAT)){
+    errors.vat.push("Błędna wartość vat")
+  }
+  
+  if(
+    errors.name.length > 0 ||
+    errors.jm.length > 0 ||
+    errors.quantity.length > 0 ||
+    errors.price.length > 0 ||
+    errors.vat.length > 0
+  ){
+    res.status(200).send({ errors });
+    return;
+  }
+
+  return res.status(200).send({ success: 'Poprawne dane' });
 })
 
 app.listen(port, () => {
