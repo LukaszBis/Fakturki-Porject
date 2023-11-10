@@ -227,7 +227,7 @@ const InvoiceForm = () => {
         })
         .then((data) => {
             if(data.success){
-                AddNewRow
+                AddNewRow()
             }else{
                 console.log(data.errors);
             }
@@ -243,8 +243,8 @@ const InvoiceForm = () => {
         setRows([...rows,{ID:id, NAME:name, JM:jm, QUANTITY:quantity, PRICE:price, VALUEN:valuen, VAT:vat, VATPRICE:vatprice, VALUEB:valueb}])
 
         setName("")
-        setQuantity(0)
-        setPrice(0)
+        setQuantity(1)
+        setPrice(0.01)
 
         sum = sum + valueb
         setTotalPrice(sum)
