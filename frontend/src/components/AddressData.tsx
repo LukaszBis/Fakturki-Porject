@@ -44,8 +44,8 @@ const AddressData: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
+            if (response.status == 500) {
+                throw new Error('Błąd serwera');
             }
             return response.json();
         })

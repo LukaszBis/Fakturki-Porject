@@ -68,10 +68,17 @@ const RegistrationPage: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (response.status == 200) {
-              document.location.href = '/HomePage';
+            if (response.status == 500) {
+              throw new Error('Nie udalo sie zarejestrowac');
             }
             return response.json();
+        })
+        .then((data) => {
+          if(data.success){
+            document.location.href = '/HomePage';
+          }else{
+            console.log("Jest blad")
+          }
         })
         .catch((error) => {
             console.log(error);
@@ -121,8 +128,8 @@ const RegistrationPage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Register failed');
+        if (response.status == 500) {
+          throw new Error('Błąd serwera');
         }
         return response.json();
       })
