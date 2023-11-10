@@ -90,6 +90,7 @@ const InvoiceForm = () => {
                 user: user,
                 active: true,
                 details: true,
+                nip: true
             };
             console.log(requestBody)
             fetch(apiUrl, {
@@ -124,9 +125,11 @@ const InvoiceForm = () => {
                   )
                   setAccount(tmpaccount)
                   setSeller(details.firstName + " " + details.lastName)
-                  setNipArray(details.nipArray)
+                  
                   // AddNewRow()
                   console.log(detailsTable)
+                }else if(data.nipArray){
+                    setNipArray(details.nipArray)
                 }else{
                     document.location.href = '/welcome';
                 }
