@@ -31,7 +31,7 @@ function password(arr, value) {
     
     return false;
 }
-function number(arr, value) {
+function date(arr, value) {
     if (value instanceof Date && !isNaN(value)){
         return false;
     }else{
@@ -39,7 +39,7 @@ function number(arr, value) {
         return true
     }
 }
-function date(arr, value) {
+function number(arr, value) {
     if (!Number(value)){
         arr.push("Wartość musi być liczbą.");
         return true;
@@ -94,4 +94,4 @@ async function nip(arr, nip) {
     }
 }
 
-module.exports = { check, text, email, password, number, equal, min, max, compare, nip };
+module.exports = { check, text, email, password, date, number, equal, min, max, compare, nip };

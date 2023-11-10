@@ -379,7 +379,7 @@ app.post('/invoice', async(req,res) => {
     if (req.body.services.length == 0){
       errors.services.push("Błędna metoda płatności")
     }
-    
+
     if(
       errors.clientNIP.length > 0 ||
       errors.dateIssuance.length > 0 ||
@@ -433,6 +433,50 @@ app.post('/invoice', async(req,res) => {
   }
   
   return res.status(200).json({ success: 'Dodano fakturę' });
+})
+
+app.post('/addService', async(req,res) => {
+  {
+    let err = false;
+    let errors = {
+      name:[],
+      jm:[],
+      qantity:[],
+      price:[],
+      vat:[],
+    };
+    validation.check(errors.name,req.body.name);
+    validation.text(errors.name,req.body.name);
+
+    validation.check(errors.jm,req.body.jm);
+    if (!(req.body.jm in ['Usługa', 'm2'])){
+      errors.jm.push("Błędna jednostka miary")
+    }
+
+    validation.check(errors.qantity,req.body.qantity);
+    validation.number(errors.qantity,req.body.qantity);
+
+    validation.check(errors.price,req.body.price);
+    validation.number(errors.price,req.body.price);
+
+    validation.check(errors.vat,req.body.vat);
+    if (!(req.body.vat in ['23', '8', '5'])){
+      errors.vat.push("Błędna wartość vat")
+    }
+    
+    if(
+      errors.name.length > 0 ||
+      errors.jm.length > 0 ||
+      errors.qantity.length > 0 ||
+      errors.price.length > 0 ||
+      errors.vat.length > 0
+    ){err=true}
+
+    if (err){
+      return res.status(204).json({ errors });
+    }
+  }
+  return res.status(200).json({ success:true });
 })
 
 app.listen(port, () => {
