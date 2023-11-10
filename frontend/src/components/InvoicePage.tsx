@@ -359,7 +359,7 @@ const InvoiceForm = () => {
             }
           });
       };
-console.log(date)
+console.log(client)
     return (
         <>
         <div className={styles.formContainer}>
@@ -390,9 +390,10 @@ console.log(date)
                                         <TextField {...params} 
                                             // label="Klient" 
                                             value={client}
-                                            onChange={(e) => setClient(e.target.value)}/>
+                                            onChange={(e) => setClient(e.target.value)}
+                                        />
                                     }
-                                    
+                                    onInputChange={(_, newInputValue) => setClient(newInputValue)}
                                 />
                             </Stack>
                         </label>
