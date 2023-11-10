@@ -193,10 +193,6 @@
     width: 18.5em !important;
 }
 
-.bank .inputText input{
-    background-color: rgb(59, 59, 59);
-}
-
 .bank p{
     text-align: left;
     margin-bottom: 0;  
@@ -214,10 +210,6 @@
 
 .wystawil input{
     width: 10em;
-}
-
-.wystawil .inputText input{
-    background-color: rgb(59, 59, 59);
 }
 
 .wystawil p{
