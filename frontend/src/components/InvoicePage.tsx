@@ -44,7 +44,7 @@ const InvoiceForm = () => {
     const [place, setPlace] = useState("")
     const [payDate, setPayDate] = useState("")
     const [payType, setPayType] = useState("")
-    const [account, setAccount] = useState("12 3456 7890 1234 5678 9012 3456")
+    const [account, setAccount] = useState("")
     // const [tmpaccount, settmpAccount] = useState("")
     const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
