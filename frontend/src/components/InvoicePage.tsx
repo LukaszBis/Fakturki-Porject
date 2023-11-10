@@ -197,6 +197,40 @@ const InvoiceForm = () => {
         )
     }
 
+    const handleAddService = () => {
+        const apiUrl = 'http://localhost:8080/addService';
+
+        const requestBody = {
+            NAME:name, 
+            JM:jm, 
+            QANTITY:quantity, 
+            PRICE:price, 
+            VAT:vat
+        };
+    
+        console.log(requestBody)
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then((response) => {
+            if (response.status == 500) {
+              throw new Error('Nie dodano faktury');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if(data.success) {
+                AddNewRow()
+            }else {
+              console.log(data.errors);
+            }
+          });
+      };
+
     function AddNewRow(){
         valuen = quantity * price
         vatprice = valuen * (vat / 100)
@@ -526,7 +560,7 @@ console.log(date)
                                 </InputGroup>
                             </label>
                             
-                            <button onClick={AddNewRow}>Dodaj nową pozycję</button>
+                            <button onClick={handleAddService}>Dodaj nową pozycję</button>
                         </div>
                         <div className={styles.WartoscContainer}>
                             {/* <p>Wartość brutto:</p> */}

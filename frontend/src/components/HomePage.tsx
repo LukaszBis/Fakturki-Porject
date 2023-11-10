@@ -46,7 +46,7 @@ const advances: Invoice[] = [
 ];
 
 const HomePage: React.FC = () => {
-  const [selectedTab, setSelectedTab] = useState('invoices');
+  const [selectedTab, setSelectedTab] = useState('invoice');
   const [, setDisplayedContent] = useState<Invoice[]>(invoices);
   // const [invoiceTmp, ] = useState([])
   const [invoiceTable, setInvoiceTable] = useState(invoice)
