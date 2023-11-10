@@ -224,7 +224,11 @@ const InvoiceForm = () => {
             return response.json();
         })
         .then((data) => {
-            console.log(data.errors);
+            if(data.success){
+                AddNewRow
+            }else{
+                console.log(data.errors);
+            }
         });
       };
 
