@@ -109,30 +109,35 @@ const InvoiceForm = () => {
             .then((data) => {
                 if(data.active){
                   console.log("Aktywuj adres email")
-                }else if(data.details){
-    
-                    details = data.details
-                    setdetailsTable(details)
-                  console.log(details)
-                  settmpAccount(
-                    details.accountNumber.substring(0,2)+' '+
-                    details.accountNumber.substring(2,6)+' '+
-                    details.accountNumber.substring(6,10)+' '+
-                    details.accountNumber.substring(10,14)+' '+
-                    details.accountNumber.substring(14,18)+' '+
-                    details.accountNumber.substring(18,22)+' '+
-                    details.accountNumber.substring(22,26)
-                  )
-                  setAccount(tmpaccount)
-                  setSeller(details.firstName + " " + details.lastName)
-                  
-                  // AddNewRow()
-                  console.log(detailsTable)
-                }else if(data.nipArray){
-                    setNipArray(details.nipArray)
                 }else{
-                    document.location.href = '/welcome';
+                    if(data.details){
+        
+                        details = data.details
+                        setdetailsTable(details)
+                      console.log("detale:", details)
+                      settmpAccount(
+                        details.accountNumber.substring(0,2)+' '+
+                        details.accountNumber.substring(2,6)+' '+
+                        details.accountNumber.substring(6,10)+' '+
+                        details.accountNumber.substring(10,14)+' '+
+                        details.accountNumber.substring(14,18)+' '+
+                        details.accountNumber.substring(18,22)+' '+
+                        details.accountNumber.substring(22,26)
+                      )
+                      setAccount(tmpaccount)
+                      setSeller(details.firstName + " " + details.lastName)
+                      
+                      // AddNewRow()
+                      console.log(detailsTable)
+                    }
+                    if(data.nipArray){
+                        console.log("nipy:", data.nipArray)
+                        setNipArray(data.nipArray)
+                    }
                 }
+                // else{
+                //     document.location.href = '/welcome';
+                // }
             })
             .catch((error) => {
                 console.log(error);

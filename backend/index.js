@@ -198,13 +198,15 @@ app.post('/auth', async (req, res) => {
   if(req.body.details){
     data.details = get_user
   }
-  if(req.body.nip){
-    data.nipArray = [1234567891,4567892314]
-  }
   if(req.body.active && get_user.emailActivated_at == null){
     data.active = true
-  }else if(req.body.invoices){
-    data.invoices = await invoice.findAll(get_user._id.toString());
+  }else{
+    if(req.body.invoices){
+      data.invoices = await invoice.findAll(get_user._id.toString());
+    }
+    if(req.body.nip){
+      data.nipArray = [1234567891,4567892314]
+    }
   }
   return res.status(200).send(data);
 });
