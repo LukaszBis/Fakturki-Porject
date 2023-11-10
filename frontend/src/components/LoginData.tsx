@@ -47,10 +47,10 @@ const LoginData: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('Nie ma autoryzacji');
-            }
-            return response.json();
+          if (response.status == 500) {
+              throw new Error('Błąd serwera');
+          }
+          return response.json();
         })
         .then((data) => {
           if(data.active){
@@ -121,8 +121,8 @@ const LoginData: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('Reset password failed: User not found');
+      if (response.status == 500) {
+        throw new Error('Błąd serwera');
       }
       return response.json();
     })

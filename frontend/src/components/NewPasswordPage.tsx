@@ -32,8 +32,8 @@ const NewPasswordPage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Set New Password  failed');
+        if (response.status == 500) {
+          throw new Error('Błąd serwera');
         }
         return response.json();
       })

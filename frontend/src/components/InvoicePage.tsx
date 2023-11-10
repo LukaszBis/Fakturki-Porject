@@ -35,7 +35,8 @@ const InvoiceForm = () => {
     const [name, setName] = useState("")
     const [jm, setJm] = useState("Usługa")
     const [quantity, setQuantity] = useState(1)
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState(0.01)
+    console.log(price)
     const [vat, setVat] = useState(23)
     const [client, setClient] = useState("")
     const [dateIssuance, setDateIssuance] = useState(defaultValue)
@@ -101,8 +102,8 @@ const InvoiceForm = () => {
                 body: JSON.stringify(requestBody),
             })
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Nie ma autoryzacji');
+                if (response.status == 500) {
+                    throw new Error('Błąd serwera');
                 }
                 return response.json();
             })
@@ -216,9 +217,9 @@ const InvoiceForm = () => {
           },
           body: JSON.stringify(requestBody),
         })
-        .then((response) => {
-            if (response.status == 200) {
-                AddNewRow()
+          .then((response) => {
+            if (!response.ok) {
+                throw new Error('Błąd serwera');
             }
             return response.json();
         })
@@ -510,6 +511,7 @@ console.log(date)
                                         value={quantity}
                                         isInvalid={validatedValues.quantity}
                                         onChange={(e) => setQuantity(parseFloat(e.target.value))}
+                                        min={1}
                                     />
                                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                         {feedbackValues.quantity}
@@ -521,11 +523,22 @@ console.log(date)
                                 {/* <input type='number' value={price} onChange={(e) => setPrice(parseFloat(e.target.value))}/> */}
                                 <InputGroup className={styles.inputText} hasValidation>
                                     <Form.Control
-                                        type="number"
+                                        type="text"
                                         id="price"
                                         value={price}
                                         isInvalid={validatedValues.price}
-                                        onChange={(e) => setPrice(parseFloat(e.target.value))}
+                                        onChange={(e) => {
+                                            const inputValue = e.target.value;
+
+                                            // Usuń wszystkie niepotrzebne znaki, pozostawiając jedynie cyfry i kropki
+                                            const sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+
+                                            //czy liczba miejsc po przecinku nie przekracza dwóch
+                                            if (/^\d*\.?\d{0,2}$/.test(sanitizedValue) || sanitizedValue === '') {
+                                                setPrice(parseFloat(sanitizedValue) || 0.01);
+                                            }
+                                        }}
+                                        min={1}
                                     />
                                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                         {feedbackValues.price}

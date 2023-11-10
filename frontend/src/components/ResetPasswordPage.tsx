@@ -29,7 +29,7 @@ const ResetPasswordPage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
+        if (response.status == 500) {
           throw new Error('Reset password failed: User not found');
         }
         return response.json();

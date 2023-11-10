@@ -33,10 +33,17 @@ const LoginPage: React.FC = () => {
             body: JSON.stringify(requestBody),
         })
         .then((response) => {
-            if (response.status == 200) {
-              document.location.href = '/HomePage';
+            if (response.status == 500) {
+              throw new Error('Nie udalo sie zalogowac');
             }
             return response.json();
+        })
+        .then((data) => {
+          if(data.success){
+            document.location.href = '/HomePage';
+          }else{
+            console.log("Jest blad")
+          }
         })
         .catch((error) => {
             console.log(error);
@@ -60,8 +67,8 @@ const LoginPage: React.FC = () => {
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Login failed');
+        if (response.status == 500) {
+          throw new Error('Błąd serwera');
         }
         return response.json();
       })
