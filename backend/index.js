@@ -198,6 +198,9 @@ app.post('/auth', async (req, res) => {
   if(req.body.details){
     data.details = get_user
   }
+  if(req.body.nip){
+    data.nipArray = [1234567891,4567892314]
+  }
   if(req.body.active && get_user.emailActivated_at == null){
     data.active = true
   }else if(req.body.invoices){
@@ -329,6 +332,53 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/invoice', async(req,res) => {
+  {
+    let err = false;
+    let errors = {
+      clientNIP:[],
+      dateIssuance:[],
+      dateSell:[],
+      place:[],
+      services:[],
+      payType:[],
+      payDate:[],
+      account:[],
+      seller:[]
+    };
+    validation.check(errors.clientNIP,req.body.client);
+    validation.number(errors.clientNIP,req.body.client);
+    validation.equal(errors.clientNIP,req.body.client,10);
+    await validation.nip(errors.clientNIP,req.body.client);
+    errors.clientNIP.length == 0?await user.NIPUnique(errors.clientNIP,req.body.client):null
+    errors.clientNIP.length > 0?err=true:null;
+    
+    // validation.check(errors.street,street);
+    // validation.text(errors.city,city);
+    // validation.number(errors.phoneNumber,phoneNumber);
+    // validation.equal(errors.phoneNumber,phoneNumber,9);
+    // errors.street.length > 0?err=true:null;
+
+
+    if (err){
+      res.status(204).json({ errors });
+      return;
+    }
+  }
+
+  const bir = new Bir()
+  await bir.login()
+  try{
+    const clientData = await bir.search({ nip: req.body.client })
+    req.body.clientName = clientData.nazwa
+    req.body.clientNIP = clientData.nip
+    req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
+    clientData.nrLokalu?req.body.clientStreet+=' '+clientData.nrLokalu:null
+    req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc
+  }catch(error){
+    console.error(error)
+    return res.status(500).json({ fail: 'Dane klienta są niepoprawne' });
+  }
+
   const date = new Date()
   const month = date.getMonth();
   const fixedMonth = String(month + 1).padStart(2, '0');
@@ -342,19 +392,6 @@ app.post('/invoice', async(req,res) => {
   req.body.name = `FS ${checkUser.counter+1}/${fixedMonth}/${year}`
   user.increseCounter(checkUser)
 
-  try{
-    const bir = new Bir()
-    await bir.login()
-    const clientData = await bir.search({ nip: req.body.client })
-    req.body.clientName = clientData.nazwa
-    req.body.clientNIP = clientData.nip
-    req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
-    clientData.nrLokalu?req.body.clientStreet+=' '+clientData.nrLokalu:null
-    req.body.clientCity = clientData.kodPocztowy+' '+clientData.miejscowosc  
-  }catch(error){
-    console.error(error)
-    return res.status(500).json({ fail: 'Dane klienta są niepoprawne' });
-  }
   try{
     invoice.add(req.body)
   }catch(error){
