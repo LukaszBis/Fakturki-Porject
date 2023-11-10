@@ -227,7 +227,7 @@ const InvoiceForm = () => {
         })
         .then((data) => {
             if(data.success){
-                AddNewRow
+                AddNewRow()
             }else{
                 console.log(data.errors);
             }
