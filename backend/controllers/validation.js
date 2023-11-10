@@ -32,6 +32,14 @@ function password(arr, value) {
     return false;
 }
 function number(arr, value) {
+    if (value instanceof Date && !isNaN(value)){
+        return false;
+    }else{
+        arr.push("Wartość nie jest datą.");
+        return true
+    }
+}
+function date(arr, value) {
     if (!Number(value)){
         arr.push("Wartość musi być liczbą.");
         return true;
