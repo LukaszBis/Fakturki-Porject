@@ -247,7 +247,7 @@ const InvoiceForm = () => {
         setPrice(0.01)
 
         sum = sum + valueb
-        setTotalPrice(sum)
+        setTotalPrice(Math.ceil((sum) * 100) / 100)
         id++
     }
 
