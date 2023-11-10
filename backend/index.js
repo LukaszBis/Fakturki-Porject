@@ -351,15 +351,46 @@ app.post('/invoice', async(req,res) => {
     validation.number(errors.clientNIP,req.body.client);
     validation.equal(errors.clientNIP,req.body.client,10);
     await validation.nip(errors.clientNIP,req.body.client);
-    errors.clientNIP.length == 0?await user.NIPUnique(errors.clientNIP,req.body.client):null
-    errors.clientNIP.length > 0?err=true:null;
     
-    // validation.check(errors.street,street);
-    // validation.text(errors.city,city);
-    // validation.number(errors.phoneNumber,phoneNumber);
-    // validation.equal(errors.phoneNumber,phoneNumber,9);
-    // errors.street.length > 0?err=true:null;
+    validation.check(errors.dateIssuance,req.body.dateIssuance);
+    validation.date(errors.dateIssuance,req.body.dateIssuance);
+    
+    validation.check(errors.dateSell,req.body.dateSell);
+    validation.date(errors.dateSell,req.body.dateSell);
+    
+    validation.check(errors.dateSell,req.body.payDate);
+    validation.date(errors.dateSell,req.body.payDate);
 
+    validation.check(errors.place,req.body.place);
+    validation.text(errors.place,req.body.place);
+
+    validation.check(errors.account,req.body.account);
+    validation.number(errors.account,req.body.account);
+    validation.equal(errors.account,req.body.account,26);
+
+    validation.check(errors.seller,req.body.seller);
+    validation.text(errors.seller,req.body.seller);
+
+    validation.check(errors.payType,req.body.payType);
+    if (!(req.body.payType in ['Przelew', 'Gotówka'])){
+      errors.payType.push("Błędna metoda płatności")
+    }
+
+    if (req.body.services.length == 0){
+      errors.services.push("Błędna metoda płatności")
+    }
+    
+    if(
+      errors.clientNIP.length > 0 ||
+      errors.dateIssuance.length > 0 ||
+      errors.dateSell.length > 0 ||
+      errors.dateSell.length > 0 ||
+      errors.place.length > 0 ||
+      errors.account.length > 0 ||
+      errors.seller.length > 0 ||
+      errors.payType.length > 0 ||
+      errors.services.length > 0
+    ){err=true}
 
     if (err){
       res.status(204).json({ errors });
