@@ -376,6 +376,7 @@ app.post('/invoice', async(req,res) => {
     validation.check(errors.place,req.body.place);
     validation.text(errors.place,req.body.place);
 
+    req.body.account = req.body.account.trim()
     validation.check(errors.account,req.body.account);
     validation.number(errors.account,req.body.account);
     validation.equal(errors.account,req.body.account,26);
@@ -405,6 +406,7 @@ app.post('/invoice', async(req,res) => {
     ){err=true}
 
     if (err){
+      console.log(errors)
       res.status(200).json({ errors });
       return;
     }

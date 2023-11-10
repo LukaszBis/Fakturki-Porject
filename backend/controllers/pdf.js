@@ -12,6 +12,8 @@ async function generateHtml(id) {
     const dateIssuance = `${String(get_invoice.dateIssuance.getDate()).padStart(2, '0')}.${String(get_invoice.dateIssuance.getMonth() + 1).padStart(2, '0')}.${get_invoice.dateIssuance.getFullYear()}`
     const dateSell = `${String(get_invoice.dateSell.getDate()).padStart(2, '0')}.${String(get_invoice.dateSell.getMonth() + 1).padStart(2, '0')}.${get_invoice.dateSell.getFullYear()}`
     const payDate = `${String(get_invoice.payDate.getDate()).padStart(2, '0')}.${String(get_invoice.payDate.getMonth() + 1).padStart(2, '0')}.${get_invoice.payDate.getFullYear()}`
+    const account = get_invoice.account.trim();
+    const formattedAccount = account.replace(/(.{2})(.{2})/g, "$1 $2")
 
     const bir = new Bir()
     await bir.login()
@@ -245,7 +247,7 @@ async function generateHtml(id) {
             </p>
             <p>
                 <span>Numer konta</span><br>
-                <span>${get_user.accountNumber}</span>
+                <span>${formattedAccount}</span>
             </p>
         </div>
         <div>
