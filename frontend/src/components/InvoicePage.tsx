@@ -44,8 +44,8 @@ const InvoiceForm = () => {
     const [place, setPlace] = useState("")
     const [payDate, setPayDate] = useState("")
     const [payType, setPayType] = useState("")
-    const [account, setAccount] = useState("")
-    const [tmpaccount, settmpAccount] = useState("")
+    const [account, setAccount] = useState("12 3456 7890 1234 5678 9012 3456")
+    // const [tmpaccount, settmpAccount] = useState("")
     const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
     const [detailsTable, setdetailsTable] = useState(details)
@@ -116,16 +116,18 @@ const InvoiceForm = () => {
                         details = data.details
                         setdetailsTable(details)
                       console.log("detale:", details)
-                      settmpAccount(
-                        details.accountNumber.substring(0,2)+' '+
-                        details.accountNumber.substring(2,6)+' '+
-                        details.accountNumber.substring(6,10)+' '+
-                        details.accountNumber.substring(10,14)+' '+
-                        details.accountNumber.substring(14,18)+' '+
-                        details.accountNumber.substring(18,22)+' '+
-                        details.accountNumber.substring(22,26)
-                      )
-                      setAccount(tmpaccount)
+
+                      const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
+                        details.accountNumber.substring(2,6) +' '+
+                        details.accountNumber.substring(6,10) +' '+
+                        details.accountNumber.substring(10,14) +' '+
+                        details.accountNumber.substring(14,18) +' '+
+                        details.accountNumber.substring(18,22) +' '+
+                        details.accountNumber.substring(22,26);
+
+                        setAccount(accounttmpnumber)
+                        console.log(accounttmpnumber)
+                    //   setAccount(tmpaccount)
                       setSeller(details.firstName + " " + details.lastName)
                       
                       // AddNewRow()
@@ -644,6 +646,7 @@ console.log(date)
                                     value={account}
                                     isInvalid={validatedValues.account}
                                     onChange={(e) => setAccount(e.target.value)}
+                                    readOnly={true}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                     {feedbackValues.account}
@@ -665,6 +668,7 @@ console.log(date)
                                     value={seller}
                                     isInvalid={validatedValues.seller}
                                     onChange={(e) => setSeller(e.target.value)}
+                                    readOnly={true}
                                 />
                                 <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                     {feedbackValues.seller}

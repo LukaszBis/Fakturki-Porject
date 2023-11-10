@@ -95,7 +95,7 @@
 } */
 
 .WspolnyContainer select{
-    width: 12em;
+    width: 14em;
     border: 0px;
     border-radius: 0.8em;
     padding-left: 0.6em;
@@ -189,9 +189,13 @@
     width: 80%;
 }
 
-/* .bank input{
-    width: 100%;
-} */
+.bank .inputText{
+    width: 18.5em !important;
+}
+
+.bank .inputText input{
+    background-color: rgb(59, 59, 59);
+}
 
 .bank p{
     text-align: left;
@@ -212,6 +216,10 @@
     width: 10em;
 }
 
+.wystawil .inputText input{
+    background-color: rgb(59, 59, 59);
+}
+
 .wystawil p{
     text-align: left;
     margin-bottom: 0;  
@@ -224,7 +232,7 @@ input::-webkit-inner-spin-button {
 }
 
 .inputText {
-    width: 13em;
+    width: 15em;
     padding-bottom: 1em;
 }
 
