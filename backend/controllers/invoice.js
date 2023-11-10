@@ -113,4 +113,12 @@ async function getById(id){
     }
 }
 
-module.exports = { add,remove,findAll,count,getById };
+async function getNIPArray(id) {
+    try {
+        return [...new Set((await Invoice.find({ userId: id }).exec()).map(item => item.clientNIP))];
+    } catch (error) {
+        console.error('Błąd podczas pobierania faktur:', error);
+    }
+}
+
+module.exports = { add,remove,findAll,count,getById,getNIPArray };
