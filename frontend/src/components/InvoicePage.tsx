@@ -348,7 +348,7 @@ console.log(date)
                                 <Autocomplete
                                     className={styles.inputAuto}
                                     freeSolo
-                                    options={nipArray.map((option:any) => option.nip)}
+                                    options={nipArray.map((option:any) => option)}
                                     renderInput={(params) => 
                                         <TextField {...params} 
                                             // label="Klient" 

@@ -87,11 +87,9 @@ const HomePage: React.FC = () => {
           }else if(data.invoices){
             invoice = data.invoices
             setInvoiceTable(invoice)
-            console.log(invoice._id)
+            console.log("invoice id:", invoice[0]._id)
             // AddNewRow()
             console.log(invoiceTable)
-          }else{
-            document.location.href = '/welcome';
           }
         })
         .catch((error) => {

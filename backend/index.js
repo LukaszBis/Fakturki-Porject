@@ -205,7 +205,7 @@ app.post('/auth', async (req, res) => {
       data.invoices = await invoice.findAll(get_user._id.toString());
     }
     if(req.body.nip){
-      data.nipArray = [1234567891,4567892314]
+      data.nipArray = await invoice.getNIPArray(get_user._id.toString());
     }
   }
   return res.status(200).send(data);
