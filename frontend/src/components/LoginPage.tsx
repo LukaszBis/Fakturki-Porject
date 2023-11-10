@@ -7,12 +7,10 @@ import Form from 'react-bootstrap/Form';
 import fakturki from "../assets/fakturki.png";
 import Cookies from "js-cookie";
 
-let failFeedback:string;
-
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const [loggedInUser, setLoggedInUser] = useState(null);
+  const [failFeedback, setFailFeedback] = useState("");
   
   const [validated, setValidated] = useState(false);
 
@@ -77,9 +75,9 @@ const LoginPage: React.FC = () => {
           Cookies.set('user', data.success, { expires: 7 });
           setValidated(false);
           document.location.href = '/HomePage';
-        }else {
+        }else{
           setValidated(true);
-          failFeedback = data.fail;
+          setFailFeedback(data.fail)
         }
       });
     };
