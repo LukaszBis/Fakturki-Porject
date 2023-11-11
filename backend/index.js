@@ -489,7 +489,7 @@ app.post('/addService', (req,res) => {
 
 
 
-app.post('/loginData', (req,res) => {
+app.post('/loginData', async (req,res) => {
   const id = req.body.user;
   if (!id){
     return res.status(500)
@@ -503,7 +503,7 @@ app.post('/loginData', (req,res) => {
     return res.status(500)
   }
   const email = req.body.email
-  const password = req.body.
+  const password = req.body.password
 })
 
 app.post('/personalData', (req,res) => {
