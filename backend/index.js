@@ -117,7 +117,8 @@ app.post('/setNewPassword', async (req, res) => {
     password: [],
   };
 
-  if (!await passwordReset.checkToken(token)) {
+  const get_token = await passwordReset.checkToken(token)
+  if (!get_token) {
     return res.status(200).json({ fail: "Nie można zmienić hasła, spróbuj ponownie." });
   }
 
@@ -154,39 +155,32 @@ app.post('/setNewPassword', async (req, res) => {
 
 app.post('/active', async (req, res) => {
   const token = req.body.token;
-  try{
-    if (!await active.checkToken(token)) {
-      return res.status(200).json({ fail: "Link nie jest aktualny." });
-    }
-
-    const email = await active.getEmailByToken(token);
-    if (email && await user.active(email)) {
-      active.removeToken(email);
-      return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
-    }
-
-    return res.status(200).json({ fail: "Konto nie istnieje" });
-  }catch(error){
-    return res.status(500);
+  const get_token = await active.checkToken(token)
+  if (!get_token) {
+    return res.status(200).json({ fail: "Link nie jest aktualny." });
   }
+
+  const email = await active.getEmailByToken(token);
+  if (email && await user.active(email)) {
+    active.removeToken(email);
+    return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
+  }
+
+  return res.status(200).json({ fail: "Konto nie istnieje" });
 });
 
 app.post('/reactivate', async (req, res) => {
   const email = req.body.email;
   const get_user = await user.checkEmail(email);
-  try{
-    if (get_user && get_user.emailActivated_at == null) {
-      const check = active.add(email);
-      if (check) {
-        return res.status(200).json({ success: "Email został wysłany" });
-      }
-      return res.status(200).json({ fail: "Email nie został wysłany" });
+  if (get_user && get_user.emailActivated_at == null) {
+    const check = active.add(email);
+    if (check) {
+      return res.status(200).json({ success: "Email został wysłany" });
     }
-
-    return res.status(200).json({ fail: "Użytkownik nie został utworzony" });
-  }catch(error){
-    return res.status(500);
+    return res.status(200).json({ fail: "Email nie został wysłany" });
   }
+
+  return res.status(200).json({ fail: "Użytkownik nie został utworzony" });
 });
 
 app.post('/auth', async (req, res) => {
