@@ -429,7 +429,7 @@ const InvoiceForm = () => {
                 });
                 setFeedbackValues({
                     ...feedbackValues, 
-                    client: data.errors.client[0]
+                    client: data.errors.clientNIP[0]
                 });
                 // feedbackValues.client = data.errors.client[0]
               }else{
