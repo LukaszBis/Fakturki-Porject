@@ -16,7 +16,7 @@ const LoginData: React.FC = () => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [emailActivated_at, setEmailActivated_at] = useState('');
+  const [emailActivated_at, setEmailActivated_at] = useState(false);
  
 
 //   const [validated, setValidated] = useState(false);
@@ -55,9 +55,9 @@ const LoginData: React.FC = () => {
         .then((data) => {
           if(data.active){
             console.log("Aktywuj adres email")
+            setEmailActivated_at(data.active)
           }else if(data.details){
             setEmail(data.details.email)
-            setEmailActivated_at(data.details.emailActivated_at)
           }else{
             document.location.href = '/welcome';
           }
@@ -157,7 +157,7 @@ const LoginData: React.FC = () => {
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
-                {emailActivated_at!= null?null:<button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
+                {emailActivated_at ? <button onClick={handleReactivate}>Wyślij potwierdzenie</button> : null}
                 <div className={styles.form_group}>
                     <label htmlFor="password">Bieżące hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>

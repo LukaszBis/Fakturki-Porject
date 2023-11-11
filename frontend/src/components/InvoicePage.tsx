@@ -50,7 +50,7 @@ const InvoiceForm = () => {
     const [totalPrice, setTotalPrice] = useState(0)
     const [detailsTable, setdetailsTable] = useState(details)
     const [nipArray, setNipArray] = useState(details)
-    const [validatedValues, /*setValidatedValues*/] = useState({
+    const [validatedValues, setValidatedValues] = useState({
         client: false,
         dateIssuance: false,
         dateSell: false,
@@ -63,9 +63,10 @@ const InvoiceForm = () => {
         jm: false,
         quantity: false,
         price: false,
-        vat: false
+        vat: false,
+        services: false
     })
-    const [feedbackValues, /*setFeedbackValues*/] = useState({
+    const [feedbackValues, setFeedbackValues] = useState({
         client: '',
         dateIssuance: '',
         dateSell: '',
@@ -78,7 +79,8 @@ const InvoiceForm = () => {
         jm: '',
         quantity: '',
         price: '',
-        vat: ''
+        vat: '',
+        services: ''
     })
         
 
@@ -230,6 +232,90 @@ const InvoiceForm = () => {
                 AddNewRow()
             }else{
                 console.log(data.errors);
+                if(data.errors.name != "") {
+                    setValidatedValues({
+                        ...validatedValues, 
+                        name: true
+                    });
+                    setFeedbackValues({
+                        ...feedbackValues, 
+                        name: data.errors.name[0]
+                    });
+                    // feedbackValues.client = data.errors.client[0]
+                    }else{
+                    setValidatedValues({
+                        ...validatedValues, 
+                        name: false
+                    });
+                }
+
+                if(data.errors.jm != "") {
+                    setValidatedValues({
+                        ...validatedValues, 
+                        jm: true
+                    });
+                    setFeedbackValues({
+                        ...feedbackValues, 
+                        jm: data.errors.jm[0]
+                    });
+                    // feedbackValues.client = data.errors.client[0]
+                    }else{
+                    setValidatedValues({
+                        ...validatedValues, 
+                        jm: false
+                    });
+                }
+
+                if(data.errors.quantity != "") {
+                    setValidatedValues({
+                        ...validatedValues, 
+                        quantity: true
+                    });
+                    setFeedbackValues({
+                        ...feedbackValues, 
+                        quantity: data.errors.quantity[0]
+                    });
+                    // feedbackValues.client = data.errors.client[0]
+                    }else{
+                    setValidatedValues({
+                        ...validatedValues, 
+                        quantity: false
+                    });
+                }
+
+                if(data.errors.price != "") {
+                    setValidatedValues({
+                        ...validatedValues, 
+                        price: true
+                    });
+                    setFeedbackValues({
+                        ...feedbackValues, 
+                        price: data.errors.price[0]
+                    });
+                    // feedbackValues.client = data.errors.client[0]
+                    }else{
+                    setValidatedValues({
+                        ...validatedValues, 
+                        price: false
+                    });
+                }
+
+                if(data.errors.vat != "") {
+                    setValidatedValues({
+                        ...validatedValues, 
+                        vat: true
+                    });
+                    setFeedbackValues({
+                        ...feedbackValues, 
+                        vat: data.errors.vat[0]
+                    });
+                    // feedbackValues.client = data.errors.client[0]
+                    }else{
+                    setValidatedValues({
+                        ...validatedValues, 
+                        vat: false
+                    });
+                }
             }
         });
       };
@@ -335,8 +421,8 @@ const InvoiceForm = () => {
             }else {
               console.log(data.errors);
 
-            /* przygotowane do sprawdzania validacji i feedbacku
-              if(data.errors.email != "") {
+            // przygotowane do sprawdzania validacji i feedbacku
+              if(data.errors.clientNIP != "") {
                 setValidatedValues({
                     ...validatedValues, 
                     client: true
@@ -352,9 +438,161 @@ const InvoiceForm = () => {
                     client: false
                 });
               }
-              */
+
+              if(data.errors.dateIssuance != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateIssuance: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    dateIssuance: data.errors.dateIssuance[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateIssuance: false
+                });
+              }
+
+              if(data.errors.dateSell != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateSell: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    dateSell: data.errors.dateSell[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateSell: false
+                });
+              }
 
 
+              if(data.errors.place != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    place: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    place: data.errors.place[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    place: false
+                });
+              }
+
+
+              if(data.errors.dateSell != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateSell: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    dateSell: data.errors.dateSell[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    dateSell: false
+                });
+              }
+
+              if(data.errors.services != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    services: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    services: data.errors.services[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    services: false
+                });
+              }
+
+              if(data.errors.payType != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    payType: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    payType: data.errors.payType[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    payType: false
+                });
+              }
+
+              if(data.errors.payDate != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    payDate: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    payDate: data.errors.payDate[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    payDate: false
+                });
+              }
+
+              if(data.errors.account != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    account: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    account: data.errors.account[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    account: false
+                });
+              }
+
+              if(data.errors.seller != "") {
+                setValidatedValues({
+                    ...validatedValues, 
+                    seller: true
+                });
+                setFeedbackValues({
+                    ...feedbackValues, 
+                    seller: data.errors.seller[0]
+                });
+                // feedbackValues.client = data.errors.client[0]
+              }else{
+                setValidatedValues({
+                    ...validatedValues, 
+                    seller: false
+                });
+              }
 
             }
           });

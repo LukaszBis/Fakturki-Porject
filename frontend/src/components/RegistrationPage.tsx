@@ -135,95 +135,99 @@ const RegistrationPage: React.FC = () => {
       })
       .then((data) => {
           console.log(data.errors);
-          if(data.errors.email != "") {
+          if(data.success){
+            document.location.href = '/login';
+          }else{
+            if(data.errors.email != "") {
             setValidatedEmail(true);
             emailFeedback = data.errors.email[0]
-          }else{
-            setValidatedEmail(false);
-          }
+            }else{
+              setValidatedEmail(false);
+            }
 
-          if(data.errors.password != "") {
-            setValidatedPassword(true);
-            passwordFeedback = data.errors.password[0]
-          }else{
-            setValidatedPassword(false);
-          }
+            if(data.errors.password != "") {
+              setValidatedPassword(true);
+              passwordFeedback = data.errors.password[0]
+            }else{
+              setValidatedPassword(false);
+            }
 
-          if(data.errors.confirmPassword != "") {
-            setValidatedConfirmPassword(true);
-            confirmPasswordFeedback = data.errors.confirmPassword[0]
-          }else{
-            setValidatedConfirmPassword(false);
-          }
+            if(data.errors.confirmPassword != "") {
+              setValidatedConfirmPassword(true);
+              confirmPasswordFeedback = data.errors.confirmPassword[0]
+            }else{
+              setValidatedConfirmPassword(false);
+            }
 
-          if(data.errors.firstName != "") {
-            setValidatedFirstName(true);
-            firstNameFeedback = data.errors.firstName[0]
-          }else{
-            setValidatedFirstName(false);
-          }
+            if(data.errors.firstName != "") {
+              setValidatedFirstName(true);
+              firstNameFeedback = data.errors.firstName[0]
+            }else{
+              setValidatedFirstName(false);
+            }
 
-          if(data.errors.lastName != "") {
-            setValidatedLastName(true);
-            lastNameFeedback = data.errors.lastName[0]
-          }else{
-            setValidatedLastName(false);
-          }
+            if(data.errors.lastName != "") {
+              setValidatedLastName(true);
+              lastNameFeedback = data.errors.lastName[0]
+            }else{
+              setValidatedLastName(false);
+            }
 
-          if(data.errors.phoneNumber != "") {
-            setValidatedPhoneNumber(true);
-            phoneNumberFeedback = data.errors.phoneNumber[0]
-          }else{
-            setValidatedPhoneNumber(false);
-          }
+            if(data.errors.phoneNumber != "") {
+              setValidatedPhoneNumber(true);
+              phoneNumberFeedback = data.errors.phoneNumber[0]
+            }else{
+              setValidatedPhoneNumber(false);
+            }
 
-          if(data.errors.postalCode != "") {
-            setValidatedPostalCode(true);
-            postalCodeFeedback = data.errors.postalCode[0]
-          }else{
-            setValidatedPostalCode(false);
-          }
+            if(data.errors.postalCode != "") {
+              setValidatedPostalCode(true);
+              postalCodeFeedback = data.errors.postalCode[0]
+            }else{
+              setValidatedPostalCode(false);
+            }
 
-          if(data.errors.city != "") {
-            setValidatedCity(true);
-            cityFeedback = data.errors.city[0]
-          }else{
-            setValidatedCity(false);
-          }
+            if(data.errors.city != "") {
+              setValidatedCity(true);
+              cityFeedback = data.errors.city[0]
+            }else{
+              setValidatedCity(false);
+            }
 
-          if(data.errors.street != "") {
-            setValidatedStreet(true);
-            streetFeedback = data.errors.street[0]
-          }else{
-            setValidatedStreet(false);
-          }
+            if(data.errors.street != "") {
+              setValidatedStreet(true);
+              streetFeedback = data.errors.street[0]
+            }else{
+              setValidatedStreet(false);
+            }
 
-          if(data.errors.buildingNumber != "") {
-            setValidatedBuildingNumber(true);
-            buildingNumberFeedback = data.errors.buildingNumber[0]
-          }else{
-            setValidatedBuildingNumber(false);
-          }
+            if(data.errors.buildingNumber != "") {
+              setValidatedBuildingNumber(true);
+              buildingNumberFeedback = data.errors.buildingNumber[0]
+            }else{
+              setValidatedBuildingNumber(false);
+            }
 
-          if(data.errors.apartmentNumber != "") {   // nie ma backend
-            setValidatedApartmentNumber(true);
-            apartmentNumberFeedback = data.errors.apartmentNumber[0]
-          }else{
-            setValidatedApartmentNumber(false);
-          }
+            if(data.errors.apartmentNumber != "") {   // nie ma backend
+              setValidatedApartmentNumber(true);
+              apartmentNumberFeedback = data.errors.apartmentNumber[0]
+            }else{
+              setValidatedApartmentNumber(false);
+            }
 
-          if(data.errors.NIP != "") {
-            setValidatedNIP(true);
-            NIPFeedback = data.errors.NIP[0]
-          }else{
-            setValidatedNIP(false);
-          }
+            if(data.errors.NIP != "") {
+              setValidatedNIP(true);
+              NIPFeedback = data.errors.NIP[0]
+            }else{
+              setValidatedNIP(false);
+            }
 
-          if(data.errors.accountNumber != "") {
-            setValidatedAccountNumber(true);
-            accountNumberFeedback = data.errors.accountNumber[0]
-          }else{
-            setValidatedAccountNumber(false);
+            if(data.errors.accountNumber != "") {
+              setValidatedAccountNumber(true);
+              accountNumberFeedback = data.errors.accountNumber[0]
+            }else{
+              setValidatedAccountNumber(false);
+            }
           }
       });
   };
