@@ -365,27 +365,23 @@ app.post('/invoice', async(req,res) => {
     await validation.nip(errors.clientNIP,req.body.client);
     
     validation.check(errors.dateIssuance,req.body.dateIssuance);
-    validation.date(errors.dateIssuance,req.body.dateIssuance);
     
     validation.check(errors.dateSell,req.body.dateSell);
-    validation.date(errors.dateSell,req.body.dateSell);
     
     validation.check(errors.dateSell,req.body.payDate);
-    validation.date(errors.dateSell,req.body.payDate);
 
     validation.check(errors.place,req.body.place);
     validation.text(errors.place,req.body.place);
 
-    req.body.account = req.body.account.trim()
+    req.body.account = req.body.account.replace(/\s/g, '')
     validation.check(errors.account,req.body.account);
-    validation.number(errors.account,req.body.account);
     validation.equal(errors.account,req.body.account,26);
 
     validation.check(errors.seller,req.body.seller);
     validation.text(errors.seller,req.body.seller);
 
     validation.check(errors.payType,req.body.payType);
-    if (!(req.body.payType in ['Przelew', 'Gotówka'])){
+    if (!['Przelew', 'Gotówka'].includes(req.body.payType)){
       errors.payType.push("Błędna metoda płatności")
     }
 
@@ -489,6 +485,40 @@ app.post('/addService', (req,res) => {
 
   return res.status(200).send({ success: 'Poprawne dane' });
 })
+
+
+
+
+app.post('/loginData', (req,res) => {
+  const id = req.body.user;
+  if (!id){
+    return res.status(500)
+  }
+  try{
+    const get_user = await user.auth(id);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
+  }catch{
+    return res.status(500)
+  }
+  const email = req.body.email
+  const password = req.body.
+})
+
+app.post('/personalData', (req,res) => {
+  
+})
+
+app.post('/addressData', (req,res) => {
+  
+})
+
+app.post('/companyData', (req,res) => {
+  
+})
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

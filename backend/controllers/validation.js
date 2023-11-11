@@ -1,12 +1,12 @@
 function check(arr, value) {
-    if (value == null || (!Number(value) && value != '0' && value.trim() == '')){
+    if (value == null || (!Number(value) && value != '0' && value.replace(/\s/g, '') == '')){
         arr.push("Warość nie może być pusta");
         return true;
     }
     return false;
 }
 function text(arr, value) {
-    const pattern = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/;
+    const pattern = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+$/;
     if (!pattern.test(value)){
         arr.push("Wartość może składać się tylko z liter.");
         return true;
@@ -47,7 +47,8 @@ function number(arr, value) {
     return false;
 }
 function equal(arr, value, number) {
-    if (value.length != number){
+    console.log(value,value.replace(/\s/g, ''),value.replace(/\s/g, '').length,number)
+    if (value.replace(/\s/g, '').length != number){
         arr.push("Wartość musi składać się z "+number+" znaków");
         return true;
     }
