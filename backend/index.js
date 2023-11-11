@@ -504,18 +504,19 @@ app.post('/loginData', async (req,res) => {
   }
   const email = req.body.email
   const password = req.body.password
+  return "asd";
 })
 
 app.post('/personalData', (req,res) => {
-  
+  return "asd";
 })
 
 app.post('/addressData', (req,res) => {
-  
+  return "asd";
 })
 
 app.post('/companyData', (req,res) => {
-  
+  return "asd";
 })
 
 
