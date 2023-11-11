@@ -57,17 +57,17 @@ const LoginData: React.FC = () => {
           if(data.active){
             console.log("Aktywuj adres email")
             setEmailActivated_at(data.active)
-          }else if(data.details){
+          }
+          if(data.details){
+            console.log(data.details)
             setEmail(data.details.email)
-          }else{
-            document.location.href = '/welcome';
           }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      // document.location.href = '/welcome';
+      document.location.href = '/welcome';
     }
   }, []);
 

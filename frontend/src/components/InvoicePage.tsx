@@ -36,7 +36,7 @@ const InvoiceForm = () => {
     const [jm, setJm] = useState("Usługa")
     const [quantity, setQuantity] = useState(1)
     const [price, setPrice] = useState(0.01)
-    console.log(price)
+    // console.log(price)
     const [vat, setVat] = useState(23)
     const [client, setClient] = useState("")
     const [dateIssuance, setDateIssuance] = useState(defaultValue)
@@ -48,7 +48,7 @@ const InvoiceForm = () => {
     // const [tmpaccount, settmpAccount] = useState("")
     const [seller, setSeller] = useState(details.firstName)
     const [totalPrice, setTotalPrice] = useState(0)
-    const [detailsTable, setdetailsTable] = useState(details)
+    const [, setdetailsTable] = useState(details)
     const [nipArray, setNipArray] = useState(details)
     const [validatedValues, setValidatedValues] = useState({
         client: false,
@@ -95,7 +95,7 @@ const InvoiceForm = () => {
                 details: true,
                 nip: true
             };
-            console.log(requestBody)
+            // console.log(requestBody)
             fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -117,7 +117,7 @@ const InvoiceForm = () => {
         
                         details = data.details
                         setdetailsTable(details)
-                      console.log("detale:", details)
+                    //   console.log("detale:", details)
 
                       const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
                         details.accountNumber.substring(2,6) +' '+
@@ -128,15 +128,15 @@ const InvoiceForm = () => {
                         details.accountNumber.substring(22,26);
 
                         setAccount(accounttmpnumber)
-                        console.log(accounttmpnumber)
+                        // console.log(accounttmpnumber)
                     //   setAccount(tmpaccount)
                       setSeller(details.firstName + " " + details.lastName)
                       
                       // AddNewRow()
-                      console.log(detailsTable)
+                    //   console.log(detailsTable)
                     }
                     if(data.nipArray){
-                        console.log("nipy:", data.nipArray)
+                        // console.log("nipy:", data.nipArray)
                         setNipArray(data.nipArray)
                     }
                 }
@@ -158,7 +158,7 @@ const InvoiceForm = () => {
             (_, index) => id !=index
         )
         setRows(copyrows)
-        console.log(rows)
+        // console.log(rows)
     }
 
     const Row = (props:any) => {
@@ -213,7 +213,7 @@ const InvoiceForm = () => {
             VAT:vat
         };
     
-        console.log(requestBody)
+        // console.log(requestBody)
         fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -233,88 +233,88 @@ const InvoiceForm = () => {
             }else{
                 console.log(data.errors);
                 if(data.errors.name != "") {
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         name: true
-                    });
-                    setFeedbackValues({
-                        ...feedbackValues, 
+                    }));
+                    setFeedbackValues((prev) => ({
+                        ...prev, 
                         name: data.errors.name[0]
-                    });
+                    }));
                     // feedbackValues.client = data.errors.client[0]
                     }else{
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         name: false
-                    });
+                    }));
                 }
 
                 if(data.errors.jm != "") {
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         jm: true
-                    });
-                    setFeedbackValues({
-                        ...feedbackValues, 
+                    }));
+                    setFeedbackValues((prev) => ({
+                        ...prev, 
                         jm: data.errors.jm[0]
-                    });
+                    }));
                     // feedbackValues.client = data.errors.client[0]
                     }else{
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         jm: false
-                    });
+                    }));
                 }
 
                 if(data.errors.quantity != "") {
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         quantity: true
-                    });
-                    setFeedbackValues({
-                        ...feedbackValues, 
+                    }));
+                    setFeedbackValues((prev) => ({
+                        ...prev, 
                         quantity: data.errors.quantity[0]
-                    });
+                    }));
                     // feedbackValues.client = data.errors.client[0]
                     }else{
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         quantity: false
-                    });
+                    }));
                 }
 
                 if(data.errors.price != "") {
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         price: true
-                    });
-                    setFeedbackValues({
-                        ...feedbackValues, 
+                    }));
+                    setFeedbackValues((prev) => ({
+                        ...prev, 
                         price: data.errors.price[0]
-                    });
+                    }));
                     // feedbackValues.client = data.errors.client[0]
                     }else{
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         price: false
-                    });
+                    }));
                 }
 
                 if(data.errors.vat != "") {
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         vat: true
-                    });
-                    setFeedbackValues({
-                        ...feedbackValues, 
+                    }));
+                    setFeedbackValues((prev) => ({
+                        ...prev, 
                         vat: data.errors.vat[0]
-                    });
+                    }));
                     // feedbackValues.client = data.errors.client[0]
                     }else{
-                    setValidatedValues({
-                        ...validatedValues, 
+                    setValidatedValues((prev) => ({
+                        ...prev, 
                         vat: false
-                    });
+                    }));
                 }
             }
         });
@@ -400,7 +400,7 @@ const InvoiceForm = () => {
             aditionalValues:aditionalValues
         };
     
-        console.log(requestBody)
+        // console.log(requestBody)
         fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -423,181 +423,185 @@ const InvoiceForm = () => {
 
             // przygotowane do sprawdzania validacji i feedbacku
               if(data.errors.clientNIP != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     client: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     client: data.errors.clientNIP[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     client: false
-                });
+                }));
               }
 
               if(data.errors.dateIssuance != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateIssuance: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     dateIssuance: data.errors.dateIssuance[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateIssuance: false
-                });
+                }));
               }
 
-              if(data.errors.dateSell != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+              if(data.errors.dateSell.length != 0) {
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateSell: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     dateSell: data.errors.dateSell[0]
-                });
+                }));
+                console.log(data.errors.dateSell)
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateSell: false
-                });
+                }));
               }
 
 
-              if(data.errors.place != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+              if(data.errors.place.length != 0) {
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     place: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     place: data.errors.place[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     place: false
-                });
+                }));
               }
 
 
               if(data.errors.dateSell != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateSell: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     dateSell: data.errors.dateSell[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     dateSell: false
-                });
+                }));
               }
 
               if(data.errors.services != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     services: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     services: data.errors.services[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     services: false
-                });
+                }));
               }
 
               if(data.errors.payType != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     payType: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     payType: data.errors.payType[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     payType: false
-                });
+                }));
               }
 
               if(data.errors.payDate != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     payDate: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     payDate: data.errors.payDate[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     payDate: false
-                });
+                }));
               }
 
               if(data.errors.account != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     account: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     account: data.errors.account[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     account: false
-                });
+                }));
               }
 
               if(data.errors.seller != "") {
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     seller: true
-                });
-                setFeedbackValues({
-                    ...feedbackValues, 
+                }));
+                setFeedbackValues((prev) => ({
+                    ...prev, 
                     seller: data.errors.seller[0]
-                });
+                }));
                 // feedbackValues.client = data.errors.client[0]
               }else{
-                setValidatedValues({
-                    ...validatedValues, 
+                setValidatedValues((prev) => ({
+                    ...prev, 
                     seller: false
-                });
+                }));
               }
 
             }
           });
       };
-console.log(client)
+      console.log(validatedValues.dateIssuance)
+      console.log(validatedValues.place)
+    //   console.log(feedbackValues);
+// console.log(client)
     return (
         <>
         <div className={styles.formContainer}>
@@ -634,6 +638,7 @@ console.log(client)
                                     onInputChange={(_, newInputValue) => setClient(newInputValue)}
                                 />
                             </Stack>
+                            <p className={styles.errClient}>{validatedValues.client?feedbackValues.client:null}</p>
                         </label>
                     </div>
                     <div className={styles.firstContainerDates}>
@@ -801,7 +806,8 @@ console.log(client)
                                     <Form.Select
                                         id="vat"
                                         value={vat}
-                                        isInvalid={validatedValues.vat}
+                                        // isInvalid={validatedValues.vat}
+                                        isInvalid={validatedValues.services?true:validatedValues.vat?true:false}
                                         onChange={(e) => setVat(parseFloat(e.target.value))}
                                     >
                                         <option value="23">23%</option>
@@ -810,6 +816,7 @@ console.log(client)
                                     </Form.Select>
                                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                                         {feedbackValues.vat}
+                                        {feedbackValues.services}
                                     </Form.Control.Feedback>
                                 </InputGroup>
                             </label>

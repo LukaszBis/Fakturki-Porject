@@ -362,7 +362,7 @@ app.post('/invoice', async(req,res) => {
     
     validation.check(errors.dateSell,req.body.dateSell);
     
-    validation.check(errors.dateSell,req.body.payDate);
+    validation.check(errors.payDate,req.body.payDate);
 
     validation.check(errors.place,req.body.place);
     validation.text(errors.place,req.body.place);
