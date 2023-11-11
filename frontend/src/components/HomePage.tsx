@@ -148,6 +148,36 @@ const HomePage: React.FC = () => {
         }
       });
   };
+
+  const handleDelete = (id:any) => {
+    const apiUrl = 'http://localhost:8080/invoiceDelete';
+    
+    const requestBody = {
+      id:id
+    };
+
+    console.log(requestBody)
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Błąd serwera');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if(data.success) {
+          console.log(data.success);
+        }else {
+          console.log("Nie działa");
+        }
+      });
+  };
   
   return (
     <>
@@ -207,8 +237,9 @@ const HomePage: React.FC = () => {
                         </td>
                         {/* <td className={styles.sddButton} id={styles.leftBorder}><button className={styles.sendButton} onClick={(_) => handleSend(inv._id)}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button></td> */}
                         <td className={styles.sddButton} id={styles.colorGreen}><a href={`http://localhost:8080/downloadPdf?id=${inv._id}`}><button className={styles.downloadButton}><i className="fa-solid fa-download fa-sm"></i></button></a></td>
-                        <td className={styles.sddButton} id={styles.colorRed}><a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}><button className={styles.deleteButton}><i className="fa-solid fa-trash fa-sm"></i></button></a></td>
+                        <td className={styles.sddButton} id={styles.colorRed}><button className={styles.deleteButton} onClick={(_) => handleDelete(inv._id)}><i className="fa-solid fa-trash fa-sm"></i></button></td>
                       </tr>
+                      // <a href={`http://localhost:8080/invoiceDelete?id=${inv._id}`}></a>
                     )) : selectedTab === 'receipts' ?
                     receipts.map((inv:any) => (
                       <tr key={inv.id}>
