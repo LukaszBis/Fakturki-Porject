@@ -36,3 +36,11 @@
 .apartmentNumber {
     margin-left: 1.8em;
 }
+
+.successMessage{
+    color: #1d7933;
+    font-size: small;
+    margin-top: -2em;
+    margin-bottom: 0.2em;
+    text-align: center;
+}

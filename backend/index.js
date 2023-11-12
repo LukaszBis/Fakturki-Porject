@@ -380,7 +380,7 @@ app.post('/invoice', async(req,res) => {
     }
 
     if (req.body.services.length == 0){
-      errors.services.push("Błędna metoda płatności")
+      errors.services.push("Tabela nie może być pusta")
     }
 
     if(
@@ -483,34 +483,258 @@ app.post('/addService', (req,res) => {
 
 
 
-app.post('/loginData', async (req,res) => {
+app.post('/setUserSettings/loginData', async (req,res) => {
   const id = req.body.user;
   if (!id){
     return res.status(500)
   }
+  let get_user = null;
   try{
-    const get_user = await user.auth(id);
+    get_user = await user.auth(id);
     if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      return res.status(500)
     }
   }catch{
     return res.status(500)
   }
   const email = req.body.email
   const password = req.body.password
-  return "asd";
+  const newPassword = req.body.newPassword
+  const confirmPassword = req.body.confirmPassword
+  
+  let errors = {
+    email:[],
+    password:[],
+    newPassword:[],
+    confirmPassword:[],
+  };
+  let updated = {};
+  if (email != get_user.email){
+    validation.check(errors.email,email);
+    validation.email(errors.email,email);
+    await user.emailUnique(errors.email,email);
+    if(errors.email.length == 0){
+      console.log("email update!")
+      get_user.email = email;
+      await get_user.save()
+      updated.email = true;
+    }
+  }
+  
+  if (password != '' || newPassword != '' || confirmPassword != ''){
+    if (!validation.check(errors.password,password)){//hasło nie jest puste
+      if (!user.passwordCompare(get_user.passwordHash, password)){
+        errors.password.push("Podane hasło jest niepoprawne.");
+      }
+    }
+    if (!validation.check(errors.newPassword,newPassword)){
+      validation.password(errors.newPassword,newPassword);
+      validation.min(errors.newPassword,newPassword,8);
+      validation.max(errors.newPassword,newPassword,20);
+    }
+    if (!validation.check(errors.confirmPassword,confirmPassword)){
+      validation.compare(errors.confirmPassword,confirmPassword,newPassword);
+    }
+    if(
+      errors.password.length == 0 &&
+      errors.newPassword.length == 0 &&
+      errors.confirmPassword.length == 0
+    ){
+      await user.changePassword(get_user, newPassword);
+      updated.password = true;
+    }
+  }
+
+  return res.status(200).json({ errors,updated });
 })
 
-app.post('/personalData', (req,res) => {
-  return "asd";
+app.post('/setUserSettings/personalData', async (req,res) => {
+  const id = req.body.user;
+  if (!id){
+    return res.status(500)
+  }
+  let get_user = null;
+  try{
+    get_user = await user.auth(id);
+    if(!get_user){
+      return res.status(500)
+    }
+  }catch{
+    return res.status(500)
+  }
+  const firstName = req.body.firstName
+  const lastName = req.body.lastName
+  const phoneNumber = req.body.phoneNumber
+
+  let errors = {
+    firstName:[],
+    lastName:[],
+    phoneNumber:[],
+  };
+  let updated = {};
+
+  if(firstName != get_user.firstName){
+    validation.check(errors.firstName,firstName);
+    validation.text(errors.firstName,firstName);
+    if(errors.firstName.length == 0){
+      get_user.firstName = firstName;
+      await get_user.save()
+      updated.firstName = true;
+    }
+  }
+
+  if(lastName != get_user.lastName){
+    validation.check(errors.lastName,lastName);
+    validation.text(errors.lastName,lastName);
+    if(errors.lastName.length == 0){
+      get_user.lastName = lastName;
+      await get_user.save()
+      updated.lastName = true;
+    }
+  }
+
+  if(phoneNumber != get_user.phoneNumber){
+    validation.check(errors.phoneNumber,phoneNumber);
+    validation.number(errors.phoneNumber,phoneNumber);
+    validation.equal(errors.phoneNumber,phoneNumber,9);
+    if(errors.phoneNumber.length == 0){
+      get_user.phoneNumber = phoneNumber;
+      await get_user.save()
+      updated.phoneNumber = true;
+    }
+  }
+  console.log(errors,updated)
+  return res.status(200).json({ errors,updated });
 })
 
-app.post('/addressData', (req,res) => {
-  return "asd";
+app.post('/setUserSettings/addressData', async (req,res) => {
+  const id = req.body.user;
+  if (!id){
+    return res.status(500)
+  }
+  let get_user = null;
+  try{
+    get_user = await user.auth(id);
+    if(!get_user){
+      return res.status(500)
+    }
+  }catch{
+    return res.status(500)
+  }
+  const postalCode = req.body.postalCode
+  const city = req.body.city
+  const street = req.body.street
+  const buildingNumber = req.body.buildingNumber
+  const apartmentNumber = req.body.apartmentNumber
+  
+  let errors = {
+    postalCode:[],
+    city:[],
+    street:[],
+    buildingNumber:[],
+    apartmentNumber:[],
+  };
+  let updated = {};
+
+  if(postalCode != get_user.postalCode){
+    validation.check(errors.postalCode,postalCode);
+    if(errors.postalCode.length == 0){
+      get_user.postalCode = postalCode;
+      await get_user.save()
+      updated.postalCode = true;
+    }
+  }
+  
+  if(city != get_user.city){
+    validation.check(errors.city,city);
+    validation.text(errors.city,city);
+    if(errors.city.length == 0){
+      get_user.city = city;
+      await get_user.save()
+      updated.city = true;
+    }
+  }
+  
+  if(street != get_user.street){
+    validation.check(errors.street,street);
+    validation.text(errors.street,street);
+    if(errors.street.length == 0){
+      get_user.street = street;
+      await get_user.save()
+      updated.street = true;
+    }
+  }
+  
+  if(buildingNumber != get_user.buildingNumber){
+    validation.check(errors.buildingNumber,buildingNumber);
+    if(errors.buildingNumber.length == 0){
+      get_user.buildingNumber = buildingNumber;
+      await get_user.save()
+      updated.buildingNumber = true;
+    }
+  }
+
+  if(apartmentNumber != get_user.apartmentNumber){
+    validation.check(errors.apartmentNumber,apartmentNumber);
+    if(errors.apartmentNumber.length == 0){
+      get_user.apartmentNumber = apartmentNumber;
+      await get_user.save()
+      updated.apartmentNumber = true;
+    }
+  }
+    
+  return res.status(200).json({ errors,updated });
 })
 
-app.post('/companyData', (req,res) => {
-  return "asd";
+app.post('/setUserSettings/companyData', async (req,res) => {
+  const id = req.body.user;
+  if (!id){
+    return res.status(500)
+  }
+  let get_user = null;
+  try{
+    get_user = await user.auth(id);
+    if(!get_user){
+      return res.status(500)
+    }
+  }catch{
+    return res.status(500)
+  }
+  const NIP = req.body.NIP
+  const accountNumber = req.body.accountNumber
+  
+  let errors = {
+    NIP:[],
+    accountNumber:[]
+  };
+  let updated = {};
+
+  if(NIP != get_user.NIP){
+    validation.check(errors.NIP,NIP);
+    validation.number(errors.NIP,NIP);
+    validation.equal(errors.NIP,NIP,10);
+    await validation.nip(errors.NIP,NIP);
+    errors.NIP.length == 0?await user.NIPUnique(errors.NIP,NIP):null
+    if(errors.NIP.length == 0){
+      get_user.NIP = NIP;
+      await get_user.save()
+      updated.NIP = true;
+    }
+  }
+
+  if(accountNumber != get_user.accountNumber){
+    validation.check(errors.accountNumber,accountNumber);
+    validation.number(errors.accountNumber,accountNumber);
+    validation.equal(errors.accountNumber,accountNumber,26);
+    errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
+    if(errors.accountNumber.length == 0){
+      get_user.accountNumber = accountNumber;
+      await get_user.save()
+      updated.accountNumber = true;
+    }
+  }
+
+  return res.status(200).json({ errors,updated });
 })
 
 
