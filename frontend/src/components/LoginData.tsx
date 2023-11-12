@@ -104,7 +104,7 @@ const LoginData: React.FC = () => {
         console.log("Email updated");
         setEmailChanged(true);
       }
-      else if(data.errors.email[0])
+      else if(data.errors.email.length > 0)
       {
         //data.errors.email tablica błędów
         console.log(data.errors.email[0]);
@@ -178,8 +178,7 @@ const LoginData: React.FC = () => {
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
-                  {emailChanged && <div className={styles.successMessage}>Email został zmieniony</div>}
-                  {emailActivated_at ? null : <button onClick={handleReactivate} className={styles.buttonConfirm}>Wyślij potwierdzenie</button>}
+                {emailActivated_at ? <button onClick={handleReactivate}>Wyślij potwierdzenie</button> : null}
                 <div className={styles.form_group}>
                     <label htmlFor="password">Bieżące hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>

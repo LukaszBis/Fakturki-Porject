@@ -517,7 +517,7 @@ app.post('/setUserSettings/loginData', async (req,res) => {
       console.log("email update!")
       get_user.email = email;
       await get_user.save()
-      updated.email = "Adres email został pomyślnie zmieniony";
+      updated.email = true;
     }
   }
   
@@ -540,20 +540,12 @@ app.post('/setUserSettings/loginData', async (req,res) => {
       errors.newPassword.length == 0 &&
       errors.confirmPassword.length == 0
     ){
-      updated.password = "Hasło zostało pomyślnie zmienione";
+      await user.changePassword(get_user, newPassword);
+      updated.password = true;
     }
   }
 
-  if(
-    errors.email.length > 0 ||
-    errors.password.length > 0 ||
-    errors.newPassword.length > 0 ||
-    errors.confirmPassword.length > 0
-  ){
-    return res.status(200).json({ errors });
-  }else{
-    return res.status(200).json({ updated });
-  }
+  return res.status(200).json({ errors,updated });
 })
 
 app.post('/setUserSettings/personalData', async (req,res) => {
@@ -573,40 +565,46 @@ app.post('/setUserSettings/personalData', async (req,res) => {
   const firstName = req.body.firstName
   const lastName = req.body.lastName
   const phoneNumber = req.body.phoneNumber
-  
-  {
-    let errors = {
-      firstName:[],
-      lastName:[],
-      phoneNumber:[],
-    };
-    let updated = {};
-  
-    if(firstName != get_user.firstName){
-      validation.check(errors.firstName,firstName);
-      validation.text(errors.firstName,firstName);
-    }
-  
-    if(firstName != get_user.firstName){
-      validation.check(errors.lastName,lastName);
-      validation.text(errors.lastName,lastName);
-    }
-  
-    if(firstName != get_user.firstName){
-      validation.check(errors.phoneNumber,phoneNumber);
-      validation.number(errors.phoneNumber,phoneNumber);
-      validation.equal(errors.phoneNumber,phoneNumber,9);
-    }
-  
-    if(
-      errors.firstName.length > 0 ||
-      errors.lastName.length > 0 ||
-      errors.phoneNumber.length > 0
-    ){
-      return res.status(200).json({ errors });
+
+  let errors = {
+    firstName:[],
+    lastName:[],
+    phoneNumber:[],
+  };
+  let updated = {};
+
+  if(firstName != get_user.firstName){
+    validation.check(errors.firstName,firstName);
+    validation.text(errors.firstName,firstName);
+    if(errors.firstName.length == 0){
+      get_user.firstName = firstName;
+      await get_user.save()
+      updated.firstName = true;
     }
   }
-  return "asd";
+
+  if(lastName != get_user.lastName){
+    validation.check(errors.lastName,lastName);
+    validation.text(errors.lastName,lastName);
+    if(errors.lastName.length == 0){
+      get_user.lastName = lastName;
+      await get_user.save()
+      updated.lastName = true;
+    }
+  }
+
+  if(phoneNumber != get_user.phoneNumber){
+    validation.check(errors.phoneNumber,phoneNumber);
+    validation.number(errors.phoneNumber,phoneNumber);
+    validation.equal(errors.phoneNumber,phoneNumber,9);
+    if(errors.phoneNumber.length == 0){
+      get_user.phoneNumber = phoneNumber;
+      await get_user.save()
+      updated.phoneNumber = true;
+    }
+  }
+  console.log(errors,updated)
+  return res.status(200).json({ errors,updated });
 })
 
 app.post('/setUserSettings/addressData', async (req,res) => {
@@ -629,36 +627,63 @@ app.post('/setUserSettings/addressData', async (req,res) => {
   const buildingNumber = req.body.buildingNumber
   const apartmentNumber = req.body.apartmentNumber
   
-  {
-    let errors = {
-      postalCode:[],
-      city:[],
-      street:[],
-      buildingNumber:[],
-      apartmentNumber:[],
-    };
-    let updated = {};
-  
+  let errors = {
+    postalCode:[],
+    city:[],
+    street:[],
+    buildingNumber:[],
+    apartmentNumber:[],
+  };
+  let updated = {};
+
+  if(postalCode != get_user.postalCode){
     validation.check(errors.postalCode,postalCode);
-    
-    validation.check(errors.city,city);
-    validation.text(errors.city,city);
-    
-    validation.check(errors.street,street);
-    validation.text(errors.street,street);
-    
-    validation.check(errors.buildingNumber,buildingNumber);
-    
-    if(
-      errors.postalCode.length > 0 ||
-      errors.city.length > 0 ||
-      errors.street.length > 0 ||
-      errors.buildingNumber.length > 0
-    ){
-      return res.status(200).json({ errors });
+    if(errors.postalCode.length == 0){
+      get_user.postalCode = postalCode;
+      await get_user.save()
+      updated.postalCode = true;
     }
   }
-  return "asd";
+  
+  if(city != get_user.city){
+    validation.check(errors.city,city);
+    validation.text(errors.city,city);
+    if(errors.city.length == 0){
+      get_user.city = city;
+      await get_user.save()
+      updated.city = true;
+    }
+  }
+  
+  if(street != get_user.street){
+    validation.check(errors.street,street);
+    validation.text(errors.street,street);
+    if(errors.street.length == 0){
+      get_user.street = street;
+      await get_user.save()
+      updated.street = true;
+    }
+  }
+  
+  if(buildingNumber != get_user.buildingNumber){
+    validation.check(errors.buildingNumber,buildingNumber);
+    if(errors.buildingNumber.length == 0){
+      get_user.buildingNumber = buildingNumber;
+      await get_user.save()
+      updated.buildingNumber = true;
+    }
+  }
+
+  if(apartmentNumber != get_user.apartmentNumber){
+    validation.check(errors.apartmentNumber,apartmentNumber);
+    if(errors.apartmentNumber.length == 0){
+      get_user.apartmentNumber = apartmentNumber;
+      await get_user.save()
+      updated.apartmentNumber = true;
+    }
+  }
+    
+  return res.status(200).json({ errors,updated });
 })
 
 app.post('/setUserSettings/companyData', async (req,res) => {
@@ -678,31 +703,38 @@ app.post('/setUserSettings/companyData', async (req,res) => {
   const NIP = req.body.NIP
   const accountNumber = req.body.accountNumber
   
-  {
-    let errors = {
-      NIP:[],
-      accountNumber:[]
-    };
-    let updated = {};
+  let errors = {
+    NIP:[],
+    accountNumber:[]
+  };
+  let updated = {};
+
+  if(NIP != get_user.NIP){
     validation.check(errors.NIP,NIP);
     validation.number(errors.NIP,NIP);
     validation.equal(errors.NIP,NIP,10);
     await validation.nip(errors.NIP,NIP);
     errors.NIP.length == 0?await user.NIPUnique(errors.NIP,NIP):null
-  
+    if(errors.NIP.length == 0){
+      get_user.NIP = NIP;
+      await get_user.save()
+      updated.NIP = true;
+    }
+  }
+
+  if(accountNumber != get_user.accountNumber){
     validation.check(errors.accountNumber,accountNumber);
     validation.number(errors.accountNumber,accountNumber);
     validation.equal(errors.accountNumber,accountNumber,26);
     errors.accountNumber.length == 0?await user.accountNumberUnique(errors.accountNumber,accountNumber):null;
-    
-    if(
-      errors.NIP.length > 0 ||
-      errors.accountNumber.length > 0
-    ){
-      return res.status(200).json({ errors });
+    if(errors.accountNumber.length == 0){
+      get_user.accountNumber = accountNumber;
+      await get_user.save()
+      updated.accountNumber = true;
     }
   }
-  return "asd";
+
+  return res.status(200).json({ errors,updated });
 })
 
 
