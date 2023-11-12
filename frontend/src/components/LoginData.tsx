@@ -16,13 +16,15 @@ const LoginData: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailActivated_at, setEmailActivated_at] = useState(false);
+  const [emailChanged, setEmailChanged] = useState(false);
+  const [passwordChanged, setPasswordChanged] = useState(false);
  
 
 //   const [validated, setValidated] = useState(false);
 //   const [validatedEmail, setValidatedEmail] = useState(false);
 //   const [validatedPassword, setValidatedPassword] = useState(false);
 //   const [validatedNewPassword, setValidatedNewPassword] = useState(false);
-//   const [validatedConfirmPassword, setValidatedConfirmPassword] = useState(false);
+  // const [validatedConfirmPassword, setValidatedConfirmPassword] = useState(false);
   
   
   useEffect( () => {
@@ -100,11 +102,27 @@ const LoginData: React.FC = () => {
       {
         //data.updated.email true jeśli email został zmieniony
         console.log("Email updated");
+        setEmailChanged(true);
       }
       else if(data.errors.email[0])
       {
         //data.errors.email tablica błędów
         console.log(data.errors.email[0]);
+        emailFeedback = data.errors.email[0];
+      }
+      if(data.updated.password){
+        console.log("Hasło zostało pomyślnie zmienione");
+        setPasswordChanged(true);
+      }else{
+        if(data.errors.password[0]){
+          passwordFeedback = data.errors.password[0]
+        }
+        if(data.errors.newPassword[0]){
+          newPasswordFeedback = data.errors.newPassword[0]
+        }
+        if(data.errors.confirmPassword[0]){
+          confirmPasswordFeedback = data.errors.confirmPassword[0]
+        }
       }
     });
   };
@@ -160,7 +178,8 @@ const LoginData: React.FC = () => {
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
-                {emailActivated_at ? null : <button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
+                  {emailChanged && <div className={styles.successMessage}>Email został zmieniony</div>}
+                  {emailActivated_at ? null : <button onClick={handleReactivate} className={styles.buttonConfirm}>Wyślij potwierdzenie</button>}
                 <div className={styles.form_group}>
                     <label htmlFor="password">Bieżące hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>
@@ -176,6 +195,7 @@ const LoginData: React.FC = () => {
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
+                  {passwordChanged && <div className={styles.successMessage}>Hasło zostało zmienione</div>}
                 <div className={styles.form_group}>
                     <label htmlFor="newPassword">Nowe hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>

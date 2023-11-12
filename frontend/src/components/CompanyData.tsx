@@ -12,6 +12,8 @@ let accountNumberFeedback:string;
 const CompanyData: React.FC = () => {
   const [NIP, setNIP] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
+  const [NIPChanged, setNIPChanged] = useState(false);
+  const [accountNumberChanged, setAccountNumberChanged] = useState(false);
  
 
 //   const [validated, setValidated] = useState(false);
@@ -79,22 +81,34 @@ const CompanyData: React.FC = () => {
       },
       body: JSON.stringify(requestBody),
     })
-    // .then((response) => {
-    //   if (!response.ok) {
-    //     throw new Error('Reset password failed: User not found');
-    //   }
-    //   return response.json();
-    // })
-    // .then((data) => {
-    //   if(data.success) 
-    //   {
-    //     console.log('Correct email:', data.success);
-    //   }
-    //   else
-    //   {
-    //     console.log('Correct email:', data.fail);
-    //   }
-    // });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Reset password failed: User not found');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if(data.updated.NIP) 
+      {
+        console.log("NIP updated");
+        setNIPChanged(true);
+      }
+      else if(data.errors.NIP[0])
+      {
+        console.log(data.errors.NIP[0]);
+        NIPFeedback = data.errors.NIP[0];
+      }
+      if(data.updated.accountNumber) 
+      {
+        console.log("Account number updated");
+        setAccountNumberChanged(true);
+      }
+      else if(data.errors.accountNumber[0])
+      {
+        console.log(data.errors.accountNumber[0]);
+        accountNumberFeedback = data.errors.accountNumber[0];
+      }
+    });
   };
 
   return (
@@ -116,6 +130,7 @@ const CompanyData: React.FC = () => {
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
+                  {NIPChanged && <div className={styles.successMessage}>NIP został zmieniony</div>}
                 <div className={styles.form_group}>
                   <label htmlFor="accountNumber">Nr konta</label><br />
                   <InputGroup className={styles.inputText} hasValidation>
@@ -131,6 +146,7 @@ const CompanyData: React.FC = () => {
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
+                  {accountNumberChanged && <div className={styles.successMessage}>Numer konta został zmieniony</div>}
                 {<button onClick={handleGetInfoUserPage} className={styles.buttonEdit}>Zmień</button>}
             </div>
         </div>
