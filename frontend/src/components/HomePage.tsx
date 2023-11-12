@@ -51,6 +51,7 @@ const HomePage: React.FC = () => {
   // const [invoiceTmp, ] = useState([])
   const [invoiceTable, setInvoiceTable] = useState(invoice)
   const [email, setEmail] = useState("")
+  const [active, setActive] = useState(true)
 
   // function AddNewRow(){
   //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
@@ -83,6 +84,7 @@ const HomePage: React.FC = () => {
         .then((data) => {
           console.log(data)
           if(data.active){
+            setActive(false)
             console.log("Aktywuj adres email")
           }else if(data.invoices){
             invoice = data.invoices
@@ -220,7 +222,7 @@ const HomePage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedTab === 'invoice' ? 
+                  {!active ? null : selectedTab === 'invoice' ? 
                     invoice.map((inv:any) => (
                       <tr key={inv._id}>
                         <td>{inv.dateIssuance.split("T")[0]}</td>
@@ -286,9 +288,10 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className={styles.addInvoice}>
-            <button className={styles.addInvoiceButton}>
+            {active?<button className={styles.addInvoiceButton}>
               <Link to="/invoice">Dodaj nową fakturę</Link>
-            </button>
+              </button>:null}
+            
           </div>
         </div>
       </div>
