@@ -12,7 +12,6 @@ let confirmPasswordFeedback:string;
 
 const LoginData: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [newemail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -154,7 +153,7 @@ const LoginData: React.FC = () => {
                         id="email"
                         value={email}
                         // isInvalid={validatedEmail}
-                        onChange={(e) => setNewEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                         {emailFeedback}

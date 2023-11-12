@@ -13,7 +13,6 @@ let apartmentNumberFeedback:string;
 
 
 const AddressData: React.FC = () => {
-  const [user, setUser] = useState<undefined | string>('');
   const [postalCode, setPostalCode] = useState('');
   const [city, setCity] = useState('');
   const [street, setStreet] = useState('');
@@ -25,7 +24,7 @@ const AddressData: React.FC = () => {
   
   
   useEffect( () => {
-    setUser(Cookies.get('user'));
+    const user = Cookies.get('user');
     const details = true;
     const active = true;
     if(user){
@@ -73,6 +72,7 @@ const AddressData: React.FC = () => {
 
   
   const handleGetInfoUserPage = () => {
+    const user = Cookies.get('user');
     const apiUrl = 'http://localhost:8080/setUserSettings/addressData';
 
     const requestBody = {
