@@ -66,9 +66,11 @@ const PersonalData: React.FC = () => {
 
   
   const handleGetInfoUserPage = () => {
+    const user = Cookies.get('user');
     const apiUrl = 'http://localhost:8080/setUserSettings/personalData';
 
     const requestBody = {
+      user: user,
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber

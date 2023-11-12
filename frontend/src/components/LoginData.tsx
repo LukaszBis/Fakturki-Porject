@@ -10,7 +10,6 @@ let passwordFeedback:string;
 let newPasswordFeedback:string;
 let confirmPasswordFeedback:string;
 
-
 const LoginData: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +29,7 @@ const LoginData: React.FC = () => {
     const user = Cookies.get('user');
     const details = true;
     const active = true;
-    if(user){
+    if(user != ''){
         const apiUrl = 'http://localhost:8080/auth';
         
         const requestBody = {
@@ -57,6 +56,7 @@ const LoginData: React.FC = () => {
             console.log("Aktywuj adres email")
             setEmailActivated_at(data.active)
           }else if(data.details){
+            console.log(data.details)
             setEmail(data.details.email)
           }else{
             document.location.href = '/welcome';
@@ -72,9 +72,11 @@ const LoginData: React.FC = () => {
 
   
   const handleGetInfoUserPage = () => {
+    const user = Cookies.get('user');
     const apiUrl = 'http://localhost:8080/setUserSettings/loginData';
 
     const requestBody = {
+      user: user,
       email: email,
       password: password,
       newPassword: newPassword,
@@ -95,13 +97,15 @@ const LoginData: React.FC = () => {
       return response.json();
     })
     .then((data) => {
-      if(data.success) 
+      if(data.updated.email) 
       {
-        console.log('Correct email:', data.success);
+        //data.updated.email true jeśli email został zmieniony
+        console.log("Email updated");
       }
-      else
+      else if(data.errors.email[0])
       {
-        console.log('Correct email:', data.fail);
+        //data.errors.email tablica błędów
+        console.log(data.errors.email[0]);
       }
     });
   };

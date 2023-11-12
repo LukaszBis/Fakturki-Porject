@@ -10,6 +10,7 @@ let accountNumberFeedback:string;
 
 
 const CompanyData: React.FC = () => {
+  const [user, setUser] = useState<undefined | string>('');
   const [NIP, setNIP] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
  
@@ -18,7 +19,7 @@ const CompanyData: React.FC = () => {
   
   
   useEffect( () => {
-    const user = Cookies.get('user');
+    setUser(Cookies.get('user'));
     const details = true;
     const active = true;
     if(user){
@@ -66,6 +67,7 @@ const CompanyData: React.FC = () => {
     const apiUrl = 'http://localhost:8080/setUserSettings/companyData';
 
     const requestBody = {
+      user: user,
       NIP: NIP,
       accountNumber: accountNumber
     };
