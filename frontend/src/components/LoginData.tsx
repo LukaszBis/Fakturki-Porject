@@ -12,6 +12,7 @@ let confirmPasswordFeedback:string;
 
 const LoginData: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [newemail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,18 +56,17 @@ const LoginData: React.FC = () => {
           if(data.active){
             console.log("Aktywuj adres email")
             setEmailActivated_at(data.active)
-          }else if(data.details){
+          }
+          if(data.details){
             console.log(data.details)
             setEmail(data.details.email)
-          }else{
-            document.location.href = '/welcome';
           }
         })
         .catch((error) => {
             console.log(error);
         });
     }else{
-      // document.location.href = '/welcome';
+      document.location.href = '/welcome';
     }
   }, []);
 
@@ -154,14 +154,14 @@ const LoginData: React.FC = () => {
                         id="email"
                         value={email}
                         // isInvalid={validatedEmail}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setNewEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
                         {emailFeedback}
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
-                {emailActivated_at ? <button onClick={handleReactivate}>Wyślij potwierdzenie</button> : null}
+                {emailActivated_at ? null : <button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
                 <div className={styles.form_group}>
                     <label htmlFor="password">Bieżące hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>
