@@ -158,7 +158,7 @@ const LoginData: React.FC = () => {
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
-                {emailActivated_at ? <button onClick={handleReactivate}>Wyślij potwierdzenie</button> : null}
+                {emailActivated_at ? null : <button onClick={handleReactivate}>Wyślij potwierdzenie</button>}
                 <div className={styles.form_group}>
                     <label htmlFor="password">Bieżące hasło</label><br />
                     <InputGroup className={styles.inputText} hasValidation>
