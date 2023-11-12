@@ -24,15 +24,13 @@ const PersonalData: React.FC = () => {
   
   useEffect( () => {
     const user = Cookies.get('user');
-    const details = true;
-    const active = true;
     if(user){
         const apiUrl = 'http://localhost:8080/auth';
         
         const requestBody = {
             user: user,
-            details: details,
-            active: active,
+            details: true,
+            active: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {
