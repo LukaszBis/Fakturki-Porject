@@ -89,6 +89,7 @@ async function nip(arr, nip) {
         if (!response.data) {
             arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
         }
+        console.log(response.data);
         return response.data
     } catch (error) {
         arr.push("Przedsiębiorstwo o podanym NIP nie istnieje");
