@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
                   }
                 </tbody>
               </Table>
-              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<a href='http://localhost:8080/userSettings'>tutaj</a>:null}
+              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<Link to="/userSettings">tutaj</Link>:null}
             </div>
           </div>
 
