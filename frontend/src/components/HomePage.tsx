@@ -210,7 +210,10 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className={styles.invoiceTable}>
-            <h2>Lista {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
+            {active?
+              <h2>Lista 
+              {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>  
+              :null}
             <div className="table-responsive">
               {active? 
               <Table striped bordered>
@@ -285,7 +288,7 @@ const HomePage: React.FC = () => {
                   }
                 </tbody>
               </Table>
-              :"Potwierdź email w ustawieniach aby móc w pełni korzystać z funckji"}
+              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<a href='http://localhost:8080/userSettings'>tutaj</a>:null}
             </div>
           </div>
 
