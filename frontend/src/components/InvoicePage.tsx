@@ -607,14 +607,13 @@ const InvoiceForm = () => {
     return (
         <>
         <div className={styles.formContainer}>
-        
             <div className={styles.invoiceForm}>
-            <div className={styles.banner}>
-                <span className={styles.optionsButton}>
-                    <Link to="/homePage"><i className="fa-solid fa-arrow-left fa-2xl"></i></Link>
-                </span>
-                <img src={logo} alt="Fakturki" className={styles.logo} />
-            </div>
+                <div className={styles.banner}>
+                    <span className={styles.optionsButton}>
+                        <Link to="/homePage"><i className="fa-solid fa-arrow-left fa-2xl"></i></Link>
+                    </span>
+                    <img src={logo} alt="Fakturki" className={styles.logo} />
+                </div>
                 <div className={styles.firstContainer}>
                     <div className={styles.firstContainerName}>
                         <label>
