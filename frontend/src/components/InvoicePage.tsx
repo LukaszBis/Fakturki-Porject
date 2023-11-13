@@ -119,7 +119,7 @@ const InvoiceForm = () => {
         
                         details = data.details
                         setdetailsTable(details)
-                    //   console.log("detale:", details)
+                      console.log("detale:", details)
 
                       const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
                         details.accountNumber.substring(2,6) +' '+
@@ -133,6 +133,7 @@ const InvoiceForm = () => {
                         // console.log(accounttmpnumber)
                     //   setAccount(tmpaccount)
                       setSeller(details.firstName + " " + details.lastName)
+                      setPlace(details.city)
                       
                       // AddNewRow()
                     //   console.log(detailsTable)

@@ -52,6 +52,7 @@ const HomePage: React.FC = () => {
   const [invoiceTable, setInvoiceTable] = useState(invoice)
   const [email, setEmail] = useState("")
   const [active, setActive] = useState(true)
+  const [company, setCompanyName] = useState("")
 
   // function AddNewRow(){
   //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
@@ -66,6 +67,7 @@ const HomePage: React.FC = () => {
             user: user,
             active: true,
             invoices: true,
+            details: true
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -86,12 +88,17 @@ const HomePage: React.FC = () => {
           if(data.active){
             setActive(false)
             console.log("Aktywuj adres email")
-          }else if(data.invoices){
-            invoice = data.invoices
-            setInvoiceTable(invoice)
-            console.log("invoice id:", invoice[0]._id)
-            // AddNewRow()
-            console.log(invoiceTable)
+          }else{
+            if(data.invoices){
+              invoice = data.invoices
+              setInvoiceTable(invoice)
+              console.log("invoice id:", invoice[0]._id)
+              // AddNewRow()
+              console.log(invoiceTable)
+            }
+            if(data.details){
+              setCompanyName(data.details.companyName)
+            }
           }
         })
         .catch((error) => {
@@ -187,8 +194,8 @@ const HomePage: React.FC = () => {
         <div className={styles.banner}>
         <img src={logo_home} alt="Fakturki" className={styles.logo} />
           <div className={styles.companyName}>
-            {/* miejsce na nazwe firmy */}
-            Fuszerka Sp. z o.o. 
+            {company}
+            {/* Fuszerka Sp. z o.o.  */}
           </div>
           <span className={styles.optionsButton}>
             <Link to="/userSettings"><i className="fa-regular fa-circle-user"></i></Link>
