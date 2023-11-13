@@ -17,6 +17,7 @@ db.once('open', () => {
 });
 
 const userSchema = new mongoose.Schema({
+    company: String,
     email: String,
     passwordHash: String,
     firstName: String,
@@ -36,11 +37,12 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-async function add(firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP, accountNumber) {
+async function add(company, firstName, email, password, postalCode, street, lastName, phoneNumber, city, buildingNumber, apartmentNumber, NIP, accountNumber) {
     let user;
     try {
         const passwordHash = await bcrypt.hash(password, 10);
         user = new User({ 
+            company,
             email, 
             passwordHash, 
             firstName, 

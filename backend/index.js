@@ -346,9 +346,22 @@ app.post('/register', async (req, res) => {
       return;
     }
   }
+
+  
+  const bir = new Bir()
+  await bir.login()
+  let company;
+  try{
+    const clientData = await bir.search({ nip: NIP })
+    company = clientData.nazwa
+  }catch(error){
+    console.error(error)
+    return res.status(500);
+  }
+
   let get_user
   try{
-    get_user = await user.add(firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
+    get_user = await user.add(company, firstName, email, password, postalCode, street, lastName, Number(phoneNumber), city, buildingNumber, apartmentNumber, Number(NIP), accountNumber);
   }catch(error){
     console.error(error)
     return res.status(500);
