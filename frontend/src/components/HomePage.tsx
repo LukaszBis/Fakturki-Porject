@@ -231,7 +231,7 @@ const HomePage: React.FC = () => {
                       <tr key={inv._id}>
                         <td>{inv.dateIssuance.split("T")[0]}</td>
                         <td>{inv.name}</td>
-                        <td>{inv.client}</td>
+                        <td>{inv.clientNIP}</td>
                         <td>{inv.totalPrice}</td>
                         <td className={styles.sddButton} id={styles.leftBorder}>
                         <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
                   }
                 </tbody>
               </Table>
-              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<a href='http://localhost:8080/userSettings'>tutaj</a>:null}
+              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<Link to="/userSettings">Przejdź do ustawień</Link>:null}
             </div>
           </div>
 
