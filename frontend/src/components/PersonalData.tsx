@@ -22,15 +22,55 @@ const PersonalData: React.FC = () => {
 //   const [validated, setValidated] = useState(false);
   
   
-  useEffect( () => {
-    const user = Cookies.get('user');
-    if(user){
-        const apiUrl = 'http://localhost:8080/auth';
+  // useEffect( () => {
+  //   const user = Cookies.get('user');
+  //   if(user){
+  //       const apiUrl = 'http://localhost:8080/auth';
+        
+  //       const requestBody = {
+  //           user: user,
+  //           details: true,
+  //           active: true,
+  //       };
+  //       console.log(requestBody)
+  //       fetch(apiUrl, {
+  //           method: 'POST',
+  //           headers: {
+  //           'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify(requestBody),
+  //       })
+  //       .then((response) => {
+  //         if (response.status == 500) {
+  //             throw new Error('Błąd serwera');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         if(data.active){
+  //           console.log("Aktywuj adres email")
+  //         }else if(data.details){
+  //           setFirstName(data.details.firstName)
+  //           setLastName(data.details.lastName)
+  //           setPhoneNumber(data.details.phoneNumber)
+  //         }else{
+  //           document.location.href = '/welcome';
+  //         }
+  //       })
+  //       .catch((error) => {
+  //           console.log(error);
+  //       });
+  //   }else{
+  //     // document.location.href = '/welcome';
+  //   }
+  // }, []);
+
+    useEffect( () => {
+        const apiUrl = 'http://localhost:8080/userSettings';
         
         const requestBody = {
-            user: user,
+            user: Cookies.get('user'),
             details: true,
-            active: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -47,24 +87,15 @@ const PersonalData: React.FC = () => {
           return response.json();
         })
         .then((data) => {
-          if(data.active){
-            console.log("Aktywuj adres email")
-          }else if(data.details){
-            setFirstName(data.details.firstName)
-            setLastName(data.details.lastName)
-            setPhoneNumber(data.details.phoneNumber)
-          }else{
-            document.location.href = '/welcome';
-          }
+          console.log(data.details)
+          setFirstName(data.details.firstName)
+          setLastName(data.details.lastName)
+          setPhoneNumber(data.details.phoneNumber)
         })
         .catch((error) => {
             console.log(error);
         });
-    }else{
-      // document.location.href = '/welcome';
-    }
   }, []);
-
   
   const handleGetInfoUserPage = () => {
     const user = Cookies.get('user');

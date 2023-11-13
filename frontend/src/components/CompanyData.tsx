@@ -20,14 +20,11 @@ const CompanyData: React.FC = () => {
   
   
   useEffect( () => {
-    const user = Cookies.get('user');
-    if(user){
-        const apiUrl = 'http://localhost:8080/auth';
+        const apiUrl = 'http://localhost:8080/userSettings';
         
         const requestBody = {
-            user: user,
+            user: Cookies.get('user'),
             details: true,
-            active: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -44,21 +41,12 @@ const CompanyData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-          if(data.active){
-            console.log("Aktywuj adres email")
-          }else if(data.details){
-            setNIP(data.details.NIP)
-            setAccountNumber(data.details.accountNumber)
-          }else{
-            document.location.href = '/welcome';
-          }
+          setNIP(data.details.NIP)
+          setAccountNumber(data.details.accountNumber)
         })
         .catch((error) => {
             console.log(error);
         });
-    }else{
-      // document.location.href = '/welcome';
-    }
   }, []);
 
   

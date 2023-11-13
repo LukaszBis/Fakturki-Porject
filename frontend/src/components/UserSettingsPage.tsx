@@ -23,8 +23,8 @@ const UserSettingsPage: React.FC = () => {
         
         const requestBody = {
             user: user,
-            details: true,
-            active: true,
+            // details: true,
+            // active: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {

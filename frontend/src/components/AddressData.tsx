@@ -29,14 +29,11 @@ const AddressData: React.FC = () => {
   
   
   useEffect( () => {
-    const user = Cookies.get('user');
-    if(user){
-        const apiUrl = 'http://localhost:8080/auth';
+        const apiUrl = 'http://localhost:8080/userSettings';
         
         const requestBody = {
-            user: user,
+            user: Cookies.get('user'),
             details: true,
-            active: true,
         };
         console.log(requestBody)
         fetch(apiUrl, {
@@ -53,24 +50,15 @@ const AddressData: React.FC = () => {
             return response.json();
         })
         .then((data) => {
-          if(data.active){
-            console.log("Aktywuj adres email")
-          }else if(data.details){
-            setPostalCode(data.details.postalCode)
-            setCity(data.details.city)
-            setStreet(data.details.street)
-            setBuildingNumber(data.details.buildingNumber)
-            setApartmentNumber(data.details.apartmentNumber)
-          }else{
-            document.location.href = '/welcome';
-          }
+          setPostalCode(data.details.postalCode)
+          setCity(data.details.city)
+          setStreet(data.details.street)
+          setBuildingNumber(data.details.buildingNumber)
+          setApartmentNumber(data.details.apartmentNumber)
         })
         .catch((error) => {
             console.log(error);
         });
-    }else{
-      // document.location.href = '/welcome';
-    }
   }, []);
 
   

@@ -27,13 +27,54 @@ const LoginData: React.FC = () => {
   // const [validatedConfirmPassword, setValidatedConfirmPassword] = useState(false);
   
   
+  // useEffect( () => {
+  //   const user = Cookies.get('user');
+  //   if(user != ''){
+  //       const apiUrl = 'http://localhost:8080/auth';
+        
+  //       const requestBody = {
+  //           user: user,
+  //           details: true,
+  //           active: true,
+  //       };
+  //       console.log(requestBody)
+  //       fetch(apiUrl, {
+  //           method: 'POST',
+  //           headers: {
+  //           'Content-Type': 'application/json',
+  //           },
+  //           body: JSON.stringify(requestBody),
+  //       })
+  //       .then((response) => {
+  //         if (response.status == 500) {
+  //             throw new Error('Błąd serwera');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         if(data.active){
+  //           console.log("Aktywuj adres email")
+  //           setEmailActivated_at(data.active)
+  //         }
+  //         if(data.details){
+  //           console.log(data.details)
+  //           setEmail(data.details.email)
+  //         }
+  //       })
+  //       .catch((error) => {
+  //           console.log(error);
+  //       });
+  //   }else{
+  //     document.location.href = '/welcome';
+  //   }
+  // }, []);
+
+
   useEffect( () => {
-    const user = Cookies.get('user');
-    if(user != ''){
-        const apiUrl = 'http://localhost:8080/auth';
+        const apiUrl = 'http://localhost:8080/userSettings';
         
         const requestBody = {
-            user: user,
+            user: Cookies.get('user'),
             details: true,
             active: true,
         };
@@ -64,11 +105,7 @@ const LoginData: React.FC = () => {
         .catch((error) => {
             console.log(error);
         });
-    }else{
-      document.location.href = '/welcome';
-    }
   }, []);
-
   
   const handleGetInfoUserPage = () => {
     const user = Cookies.get('user');

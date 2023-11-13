@@ -214,6 +214,27 @@ app.post('/auth', async (req, res) => {
   }
 });
 
+////////////////////////////////
+app.post('/userSettings', async (req, res) => {
+  try{
+    const get_user = await user.auth(req.body.user);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
+    let data = {}
+    if(req.body.details){
+      data.details = get_user
+    }
+    if(req.body.active && get_user.emailActivated_at == null){
+      data.active = true
+    }
+    return res.status(200).send(data);
+  }catch(error){
+    return res.status(500);
+  }
+});
+////////////////////////////////
+
 app.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
