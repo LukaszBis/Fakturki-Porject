@@ -7,6 +7,8 @@ import { Form, InputGroup } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
+import { Link } from 'react-router-dom';
+import logo from "../assets/fakturki.png"
 
 var date = new Date()
 // date = today.getFullYear() + '.' + (today.getMonth() + 1) + '.' + today.getDate();
@@ -605,7 +607,14 @@ const InvoiceForm = () => {
     return (
         <>
         <div className={styles.formContainer}>
+        
             <div className={styles.invoiceForm}>
+            <div className={styles.banner}>
+                <span className={styles.optionsButton}>
+                    <Link to="/homePage"><i className="fa-solid fa-arrow-left fa-2xl"></i></Link>
+                </span>
+                <img src={logo} alt="Fakturki" className={styles.logo} />
+            </div>
                 <div className={styles.firstContainer}>
                     <div className={styles.firstContainerName}>
                         <label>

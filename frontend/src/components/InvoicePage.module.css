@@ -19,7 +19,7 @@
 .firstContainer{
     overflow: hidden;
     background-color: rgba(36, 36, 36, 0.85);
-    border-radius: 20px;
+    border-radius: 0 0 20px 20px;
     padding: 1em;
     margin-bottom: 1em;
 }
@@ -287,4 +287,23 @@ input::-webkit-inner-spin-button {
 
 .DodajContainer .inputText {
     padding: 0;
+}
+
+.banner {
+    border-radius: 20px 20px 0px 0px;
+    background-color: rgba(36, 36, 36, 0.85); 
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center; 
+    padding: 10px 20px;
+    margin-top: 1em;  
+}
+
+.banner img{
+    margin: 0 auto;
+}
+
+.logo {
+    width: 20em;
+    height: auto;
 }
