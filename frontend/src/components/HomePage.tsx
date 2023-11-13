@@ -212,7 +212,7 @@ const HomePage: React.FC = () => {
           <div className={styles.invoiceTable}>
             {active?
               <h2>Lista 
-              {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>  
+              {selectedTab === 'invoice' ? ' Faktur' : selectedTab === 'receipts' ? ' Paragonów' : ' Zaliczek'}</h2>  
               :null}
             <div className="table-responsive">
               {active? 
@@ -231,7 +231,7 @@ const HomePage: React.FC = () => {
                       <tr key={inv._id}>
                         <td>{inv.dateIssuance.split("T")[0]}</td>
                         <td>{inv.name}</td>
-                        <td>{inv.client}</td>
+                        <td>{inv.clientNIP}</td>
                         <td>{inv.totalPrice}</td>
                         <td className={styles.sddButton} id={styles.leftBorder}>
                         <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
@@ -288,7 +288,7 @@ const HomePage: React.FC = () => {
                   }
                 </tbody>
               </Table>
-              :"Potwierdź email w aby móc w pełni korzystać z funkcji "}{!active?<Link to="/userSettings">tutaj</Link>:null}
+              :"Potwierdź email, aby móc w pełni korzystać z funkcji "}{!active?<Link to="/userSettings">tutaj</Link>:null}
             </div>
           </div>
 
