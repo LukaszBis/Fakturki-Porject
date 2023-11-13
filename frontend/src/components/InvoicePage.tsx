@@ -400,7 +400,7 @@ const InvoiceForm = () => {
             aditionalValues:aditionalValues
         };
     
-        // console.log(requestBody)
+        console.log(requestBody)
         fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -598,8 +598,8 @@ const InvoiceForm = () => {
             }
           });
       };
-      console.log(validatedValues.dateIssuance)
-      console.log(validatedValues.place)
+    //   console.log(validatedValues.dateIssuance)
+    //   console.log(validatedValues.place)
     //   console.log(feedbackValues);
 // console.log(client)
     return (
