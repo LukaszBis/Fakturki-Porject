@@ -212,6 +212,7 @@ const HomePage: React.FC = () => {
           <div className={styles.invoiceTable}>
             <h2>Lista {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>
             <div className="table-responsive">
+              {active? 
               <Table striped bordered>
                 <thead>
                   <tr>
@@ -222,7 +223,7 @@ const HomePage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {!active ? null : selectedTab === 'invoice' ? 
+                  {selectedTab === 'invoice' ? 
                     invoice.map((inv:any) => (
                       <tr key={inv._id}>
                         <td>{inv.dateIssuance.split("T")[0]}</td>
@@ -284,6 +285,7 @@ const HomePage: React.FC = () => {
                   }
                 </tbody>
               </Table>
+              :"Potwierdź email w ustawieniach aby móc w pełni korzystać z funckji"}
             </div>
           </div>
 
