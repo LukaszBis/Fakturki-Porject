@@ -212,7 +212,7 @@ const HomePage: React.FC = () => {
           <div className={styles.invoiceTable}>
             {active?
               <h2>Lista 
-              {selectedTab === 'invoice' ? 'Faktur' : selectedTab === 'receipts' ? 'Paragonów' : 'Zaliczek'}</h2>  
+              {selectedTab === 'invoice' ? ' Faktur' : selectedTab === 'receipts' ? ' Paragonów' : ' Zaliczek'}</h2>  
               :null}
             <div className="table-responsive">
               {active? 
