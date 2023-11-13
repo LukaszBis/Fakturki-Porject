@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
   const [invoiceTable, setInvoiceTable] = useState(invoice)
   const [email, setEmail] = useState("")
   const [active, setActive] = useState(true)
-  const [company, setCompanyName] = useState("")
+  const [company, setCompany] = useState("")
 
   // function AddNewRow(){
   //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
               console.log(invoiceTable)
             }
             if(data.details){
-              setCompanyName(data.details.companyName)
+              setCompany(data.details.company)
             }
           }
         })

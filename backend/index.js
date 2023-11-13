@@ -352,7 +352,7 @@ app.post('/register', async (req, res) => {
   await bir.login()
   let company;
   try{
-    const clientData = await bir.search({ nip: req.body.client })
+    const clientData = await bir.search({ nip: NIP })
     company = clientData.nazwa
   }catch(error){
     console.error(error)
