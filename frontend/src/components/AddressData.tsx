@@ -5,11 +5,11 @@ import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Cookies from "js-cookie";
 
-let postalCodeFeedback:string;
-let cityFeedback:string;
-let streetFeedback:string;
-let buildingNumberFeedback:string;
-let apartmentNumberFeedback:string;
+// let postalCodeFeedback:string;
+// let cityFeedback:string;
+// let streetFeedback:string;
+// let buildingNumberFeedback:string;
+// let apartmentNumberFeedback:string;
 
 
 const AddressData: React.FC = () => {
@@ -23,6 +23,20 @@ const AddressData: React.FC = () => {
   const [streetChanged, setStreetChanged] = useState(false);
   const [buildingNumberChanged, setBuildingNumberChanged] = useState(false);
   const [apartmentNumberChanged, setApartmentNumberChanged] = useState(false);
+  const [feedbackValues, setFeedbackValues] = useState({
+    postalCode: '',
+    city: '',
+    street: '',
+    buildingNumber: '',
+    apartmentNumber: ''
+})
+const [validatedValues, setValidatedValues] = useState({
+  postalCode: false,
+  city: false,
+  street: false,
+  buildingNumber: false,
+  apartmentNumber: false
+})
  
 
 //   const [validated, setValidated] = useState(false);
@@ -94,50 +108,111 @@ const AddressData: React.FC = () => {
         console.log("Postal code updated");
         setPostalCodeChanged(true);
       }
-      else if(data.errors.postalCode[0])
-      {
-        console.log(data.errors.postalCode[0]);
-        postalCodeFeedback = data.errors.postalCode[0];
-      }
       if(data.updated.city) 
       {
         console.log("City updated");
         setCityChanged(true);
-      }
-      else if(data.errors.city[0])
-      {
-        console.log(data.errors.city[0]);
-        cityFeedback = data.errors.city[0];
       }
       if(data.updated.street) 
       {
         console.log("Street updated");
         setStreetChanged(true);
       }
-      else if(data.errors.street[0])
-      {
-        console.log(data.errors.street[0]);
-        streetFeedback = data.errors.street[0];
-      }
       if(data.updated.buildingNumber) 
       {
         console.log("Building number updated");
         setBuildingNumberChanged(true);
-      }
-      else if(data.errors.buildingNumber[0])
-      {
-        console.log(data.errors.buildingNumber[0]);
-        buildingNumberFeedback = data.errors.buildingNumber[0];
       }
       if(data.updated.apartmentNumber) 
       {
         console.log("Apartment number updated");
         setApartmentNumberChanged(true);
       }
-      else if(data.errors.apartmentNumber[0])
-      {
-        console.log(data.errors.apartmentNumber[0]);
-        apartmentNumberFeedback = data.errors.apartmentNumber[0];
+
+      if(data.errors.postalCode != "") {
+        setValidatedValues((prev) => ({
+            ...prev, 
+            postalCode: true
+        }));
+        setFeedbackValues((prev) => ({
+            ...prev, 
+            postalCode: data.errors.postalCode[0]
+        }));
+        // feedbackValues.client = data.errors.client[0]
+        }else{
+        setValidatedValues((prev) => ({
+            ...prev, 
+            postalCode: false
+        }));
+
+        if(data.errors.city != "") {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              city: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              city: data.errors.city[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+          }else{
+          setValidatedValues((prev) => ({
+              ...prev, 
+              city: false
+          }));
+        }
+    
+        if(data.errors.street != "") {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              street: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              street: data.errors.street[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+          }else{
+          setValidatedValues((prev) => ({
+              ...prev, 
+              street: false
+          }));
+        }
+
+        if(data.errors.buildingNumber != "") {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              buildingNumber: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              buildingNumber: data.errors.buildingNumber[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+          }else{
+          setValidatedValues((prev) => ({
+              ...prev, 
+              buildingNumber: false
+          }));
+        }
+
+        if(data.errors.apartmentNumber != "") {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              apartmentNumber: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              apartmentNumber: data.errors.apartmentNumber[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+          }else{
+          setValidatedValues((prev) => ({
+              ...prev, 
+              apartmentNumber: false
+          }));
+        }
+
       }
     });
   };
@@ -154,11 +229,11 @@ const AddressData: React.FC = () => {
                       type="text"
                       id="postalCode"
                       value={postalCode}
-                      //   isInvalid={validatedPostalCode}
+                      isInvalid={validatedValues.postalCode}
                       onChange={(e) => setPostalCode(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {postalCodeFeedback}
+                      {feedbackValues.postalCode}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -170,11 +245,11 @@ const AddressData: React.FC = () => {
                       type="text"
                       id="city"
                       value={city}
-                      //   isInvalid={validatedCity}
+                        isInvalid={validatedValues.city}
                       onChange={(e) => setCity(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {cityFeedback}
+                      {feedbackValues.city}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -186,11 +261,11 @@ const AddressData: React.FC = () => {
                       type="text"
                       id="street"
                       value={street}
-                      //   isInvalid={validatedStreet}
+                        isInvalid={validatedValues.street}
                       onChange={(e) => setStreet(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {streetFeedback}
+                      {feedbackValues.street}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -205,11 +280,11 @@ const AddressData: React.FC = () => {
                         type="text"
                         id="buildingNumber"
                         value={buildingNumber}
-                        //   isInvalid={validatedBuildingNumber}
+                          isInvalid={validatedValues.buildingNumber}
                         onChange={(e) => setBuildingNumber(e.target.value)}
                       />
                       <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {buildingNumberFeedback}
+                        {feedbackValues.buildingNumber}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </div>
@@ -223,11 +298,11 @@ const AddressData: React.FC = () => {
                         type="text"
                         id="apartmentNumber"
                         value={apartmentNumber}
-                        //   isInvalid={validatedApartmentNumber}
+                          isInvalid={validatedValues.apartmentNumber}
                         onChange={(e) => setApartmentNumber(e.target.value)}
                       />
                       <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {apartmentNumberFeedback}
+                        {feedbackValues.apartmentNumber}
                       </Form.Control.Feedback>
                     </InputGroup>
                   </div>
