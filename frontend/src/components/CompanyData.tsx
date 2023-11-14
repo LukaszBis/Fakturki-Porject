@@ -5,8 +5,8 @@ import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Cookies from "js-cookie";
 
-let NIPFeedback:string;
-let accountNumberFeedback:string;
+// let NIPFeedback:string;
+// let accountNumberFeedback:string;
 
 
 const CompanyData: React.FC = () => {
@@ -14,7 +14,14 @@ const CompanyData: React.FC = () => {
   const [accountNumber, setAccountNumber] = useState('');
   const [NIPChanged, setNIPChanged] = useState(false);
   const [accountNumberChanged, setAccountNumberChanged] = useState(false);
- 
+  const [feedbackValues, setFeedbackValues] = useState({
+    NIP: '',
+    accountNumber: ''
+  })
+  const [validatedValues, setValidatedValues] = useState({
+    NIP: false,
+    accountNumber: false
+  })
 
 //   const [validated, setValidated] = useState(false);
   
@@ -79,20 +86,45 @@ const CompanyData: React.FC = () => {
         console.log("NIP updated");
         setNIPChanged(true);
       }
-      else if(data.errors.NIP[0])
-      {
-        console.log(data.errors.NIP[0]);
-        NIPFeedback = data.errors.NIP[0];
-      }
       if(data.updated.accountNumber) 
       {
         console.log("Account number updated");
         setAccountNumberChanged(true);
       }
-      else if(data.errors.accountNumber[0])
-      {
-        console.log(data.errors.accountNumber[0]);
-        accountNumberFeedback = data.errors.accountNumber[0];
+      if(data.errors){
+        console.log(data.errors)
+        if(data.errors.NIP.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              NIP: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              NIP: data.errors.NIP[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            NIP: false
+          }));
+        }
+        if(data.errors.accountNumber.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              accountNumber: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              accountNumber: data.errors.accountNumber[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            accountNumber: false
+          }));
+        }
       }
     });
   };
@@ -108,11 +140,11 @@ const CompanyData: React.FC = () => {
                       type="text"
                       id="NIP"
                       value={NIP}
-                      //   isInvalid={validatedNIP}
+                        isInvalid={validatedValues.NIP}
                       onChange={(e) => setNIP(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {NIPFeedback}
+                      {feedbackValues.NIP}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>
@@ -124,11 +156,11 @@ const CompanyData: React.FC = () => {
                       type="text"
                       id="accountNumber"
                       value={accountNumber}
-                      //   isInvalid={validatedAccountNumber}
+                        isInvalid={validatedValues.accountNumber}
                       onChange={(e) => setAccountNumber(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {accountNumberFeedback}
+                      {feedbackValues.accountNumber}
                     </Form.Control.Feedback>
                   </InputGroup>
                 </div>

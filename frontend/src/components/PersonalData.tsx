@@ -5,9 +5,9 @@ import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Cookies from "js-cookie";
 
-let firstNameFeedback:string;
-let lastNameFeedback:string;
-let phoneNumberFeedback:string;
+// let firstNameFeedback:string;
+// let lastNameFeedback:string;
+// let phoneNumberFeedback:string;
 
 
 const PersonalData: React.FC = () => {
@@ -17,7 +17,16 @@ const PersonalData: React.FC = () => {
   const [firstNameChanged, setFirstNameChanged] = useState(false);
   const [lastNameChanged, setLastNameChanged] = useState(false);
   const [phoneNumberChanged, setPhoneNumberChanged] = useState(false);
- 
+  const [feedbackValues, setFeedbackValues] = useState({
+    firstName: '',
+    lastName: '',
+    phoneNumber: ''
+  })
+  const [validatedValues, setValidatedValues] = useState({
+    firstName: false,
+    lastName: false,
+    phoneNumber: false
+  })
 
 //   const [validated, setValidated] = useState(false);
   
@@ -127,30 +136,66 @@ const PersonalData: React.FC = () => {
         console.log("Firstname updated");
         setFirstNameChanged(true);
       }
-      else if(data.errors.firstName[0])
-      {
-        console.log(data.errors.firstName[0]);
-        firstNameFeedback = data.errors.firstName[0];
-      }
       if(data.updated.lastName) 
       {
         console.log("Lastname updated");
         setLastNameChanged(true);
-      }
-      else if(data.errors.lastName[0])
-      {
-        console.log(data.errors.lastName[0]);
-        lastNameFeedback = data.errors.lastName[0];
       }
       if(data.updated.phoneNumber) 
       {
         console.log("Phone number updated");
         setPhoneNumberChanged(true);
       }
-      else if(data.errors.phoneNumber[0])
-      {
-        console.log(data.errors.phoneNumber[0]);
-        phoneNumberFeedback = data.errors.phoneNumber[0];
+      if(data.errors){
+        console.log(data.errors)
+        if(data.errors.firstName.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              firstName: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              firstName: data.errors.firstName[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            firstName: false
+          }));
+        }
+        if(data.errors.lastName.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              lastName: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              lastName: data.errors.lastName[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            lastName: false
+          }));
+        }
+        if(data.errors.phoneNumber.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              phoneNumber: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              phoneNumber: data.errors.phoneNumber[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            phoneNumber: false
+          }));
+        }
       }
     });
   };
@@ -166,11 +211,11 @@ const PersonalData: React.FC = () => {
                     type="text"
                     id="firstName"
                     value={firstName}
-                    //   isInvalid={validatedFirstName}
+                      isInvalid={validatedValues.firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                   <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {firstNameFeedback}
+                    {feedbackValues.firstName}
                   </Form.Control.Feedback>
                 </InputGroup>
               </div>
@@ -182,11 +227,11 @@ const PersonalData: React.FC = () => {
                     type="text"
                     id="lastName"
                     value={lastName}
-                    //   isInvalid={validatedLastName}
+                      isInvalid={validatedValues.lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                   <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                    {lastNameFeedback}
+                    {feedbackValues.lastName}
                   </Form.Control.Feedback>
                 </InputGroup>
               </div>
@@ -198,11 +243,11 @@ const PersonalData: React.FC = () => {
                       type="text"
                       id="phoneNumber"
                       value={phoneNumber}
-                      //   isInvalid={validatedPhoneNumber}
+                        isInvalid={validatedValues.phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                      {phoneNumberFeedback}
+                      {feedbackValues.phoneNumber}
                     </Form.Control.Feedback>
                   </InputGroup>
               </div>

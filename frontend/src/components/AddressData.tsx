@@ -103,6 +103,7 @@ const [validatedValues, setValidatedValues] = useState({
       return response.json();
     })
     .then((data) => {
+      console.log(data.errors)
       if(data.updated.postalCode) 
       {
         console.log("Postal code updated");
@@ -128,8 +129,8 @@ const [validatedValues, setValidatedValues] = useState({
         console.log("Apartment number updated");
         setApartmentNumberChanged(true);
       }
-
-      if(data.errors.postalCode != "") {
+      
+      if(data.errors.postalCode.length != 0) {
         setValidatedValues((prev) => ({
             ...prev, 
             postalCode: true
@@ -139,84 +140,83 @@ const [validatedValues, setValidatedValues] = useState({
             postalCode: data.errors.postalCode[0]
         }));
         // feedbackValues.client = data.errors.client[0]
-        }else{
+      }else{
+        setValidatedValues((prev) => ({
+          ...prev, 
+          postalCode: false
+        }));
+      }
+      if(data.errors.city.length != 0) {
         setValidatedValues((prev) => ({
             ...prev, 
-            postalCode: false
+            city: true
         }));
-
-        if(data.errors.city != "") {
+        setFeedbackValues((prev) => ({
+            ...prev, 
+            city: data.errors.city[0]
+        }));
+        // feedbackValues.client = data.errors.client[0]
+      }else{
           setValidatedValues((prev) => ({
-              ...prev, 
-              city: true
+            ...prev, 
+            city: false
           }));
-          setFeedbackValues((prev) => ({
-              ...prev, 
-              city: data.errors.city[0]
-          }));
-          // feedbackValues.client = data.errors.client[0]
-          }else{
-          setValidatedValues((prev) => ({
-              ...prev, 
-              city: false
-          }));
-        }
-    
-        if(data.errors.street != "") {
-          setValidatedValues((prev) => ({
-              ...prev, 
-              street: true
-          }));
-          setFeedbackValues((prev) => ({
-              ...prev, 
-              street: data.errors.street[0]
-          }));
-          // feedbackValues.client = data.errors.client[0]
-          }else{
-          setValidatedValues((prev) => ({
-              ...prev, 
-              street: false
-          }));
-        }
-
-        if(data.errors.buildingNumber != "") {
-          setValidatedValues((prev) => ({
-              ...prev, 
-              buildingNumber: true
-          }));
-          setFeedbackValues((prev) => ({
-              ...prev, 
-              buildingNumber: data.errors.buildingNumber[0]
-          }));
-          // feedbackValues.client = data.errors.client[0]
-          }else{
-          setValidatedValues((prev) => ({
-              ...prev, 
-              buildingNumber: false
-          }));
-        }
-
-        if(data.errors.apartmentNumber != "") {
-          setValidatedValues((prev) => ({
-              ...prev, 
-              apartmentNumber: true
-          }));
-          setFeedbackValues((prev) => ({
-              ...prev, 
-              apartmentNumber: data.errors.apartmentNumber[0]
-          }));
-          // feedbackValues.client = data.errors.client[0]
-          }else{
-          setValidatedValues((prev) => ({
-              ...prev, 
-              apartmentNumber: false
-          }));
-        }
-
       }
+    
+      if(data.errors.street.length != 0) {
+        setValidatedValues((prev) => ({
+            ...prev, 
+            street: true
+        }));
+        setFeedbackValues((prev) => ({
+            ...prev, 
+            street: data.errors.street[0]
+        }));
+        // feedbackValues.client = data.errors.client[0]
+      }else{
+        setValidatedValues((prev) => ({
+            ...prev, 
+            street: false
+        }));
+      }
+
+      if(data.errors.buildingNumber.length != 0) {
+        setValidatedValues((prev) => ({
+            ...prev, 
+            buildingNumber: true
+        }));
+        setFeedbackValues((prev) => ({
+            ...prev, 
+            buildingNumber: data.errors.buildingNumber[0]
+        }));
+        // feedbackValues.client = data.errors.client[0]
+      }else{
+        setValidatedValues((prev) => ({
+          ...prev, 
+          buildingNumber: false
+        }));
+      }
+
+      if(data.errors.apartmentNumber.length != 0) {
+        setValidatedValues((prev) => ({
+            ...prev, 
+            apartmentNumber: true
+        }));
+        setFeedbackValues((prev) => ({
+            ...prev, 
+            apartmentNumber: data.errors.apartmentNumber[0]
+        }));
+        // feedbackValues.client = data.errors.client[0]
+      }else{
+        setValidatedValues((prev) => ({
+          ...prev, 
+          apartmentNumber: false
+        }));
+      }
+
     });
   };
-
+console.log(feedbackValues)
   return (
     <>
         <div className={styles.form_container}>

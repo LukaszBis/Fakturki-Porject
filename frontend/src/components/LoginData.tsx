@@ -5,10 +5,10 @@ import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Cookies from "js-cookie";
 
-let emailFeedback:string;
-let passwordFeedback:string;
-let newPasswordFeedback:string;
-let confirmPasswordFeedback:string;
+// let emailFeedback:string;
+// let passwordFeedback:string;
+// let newPasswordFeedback:string;
+// let confirmPasswordFeedback:string;
 
 const LoginData: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,18 @@ const LoginData: React.FC = () => {
   const [emailActivated_at, setEmailActivated_at] = useState(false);
   const [emailChanged, setEmailChanged] = useState(false);
   const [passwordChanged, setPasswordChanged] = useState(false);
- 
+  const [feedbackValues, setFeedbackValues] = useState({
+    email: '',
+    password: '',
+    newPassword: '',
+    confirmPassword: ''
+  })
+  const [validatedValues, setValidatedValues] = useState({
+    email: false,
+    password: false,
+    newPassword: false,
+    confirmPassword: false
+  })
 
 //   const [validated, setValidated] = useState(false);
 //   const [validatedEmail, setValidatedEmail] = useState(false);
@@ -139,24 +150,75 @@ const LoginData: React.FC = () => {
         console.log("Email updated");
         setEmailChanged(true);
       }
-      else if(data.errors.email.length > 0)
-      {
-        //data.errors.email tablica błędów
-        console.log(data.errors.email[0]);
-        emailFeedback = data.errors.email[0];
-      }
       if(data.updated.password){
         console.log("Hasło zostało pomyślnie zmienione");
         setPasswordChanged(true);
-      }else{
-        if(data.errors.password[0]){
-          passwordFeedback = data.errors.password[0]
+      }
+      if(data.errors){
+        console.log(data.errors)
+        if(data.errors.email.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              email: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              email: data.errors.email[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            email: false
+          }));
         }
-        if(data.errors.newPassword[0]){
-          newPasswordFeedback = data.errors.newPassword[0]
+        if(data.errors.password.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              password: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              password: data.errors.password[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            password: false
+          }));
         }
-        if(data.errors.confirmPassword[0]){
-          confirmPasswordFeedback = data.errors.confirmPassword[0]
+        if(data.errors.confirmPassword.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              confirmPassword: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              confirmPassword: data.errors.confirmPassword[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            confirmPassword: false
+          }));
+        }
+        if(data.errors.newPassword.length != 0) {
+          setValidatedValues((prev) => ({
+              ...prev, 
+              newPassword: true
+          }));
+          setFeedbackValues((prev) => ({
+              ...prev, 
+              newPassword: data.errors.newPassword[0]
+          }));
+          // feedbackValues.client = data.errors.client[0]
+        }else{
+          setValidatedValues((prev) => ({
+            ...prev, 
+            newPassword: false
+          }));
         }
       }
     });
@@ -205,11 +267,11 @@ const LoginData: React.FC = () => {
                         type="email"
                         id="email"
                         value={email}
-                        // isInvalid={validatedEmail}
+                        isInvalid={validatedValues.email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {emailFeedback}
+                        {feedbackValues.email}
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
@@ -222,11 +284,11 @@ const LoginData: React.FC = () => {
                         type="password"
                         id="password"
                         value={password}
-                        // isInvalid={validatedPassword}
+                        isInvalid={validatedValues.password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {passwordFeedback}
+                        {feedbackValues.password}
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
@@ -238,11 +300,11 @@ const LoginData: React.FC = () => {
                         type="password"
                         id="newPassword"
                         value={newPassword}
-                        // isInvalid={validatedNewPassword}
+                        isInvalid={validatedValues.newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {newPasswordFeedback}
+                        {feedbackValues.newPassword}
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>
@@ -253,11 +315,11 @@ const LoginData: React.FC = () => {
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
-                        // isInvalid={validatedConfirmPassword}
+                        isInvalid={validatedValues.confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <Form.Control.Feedback className={styles.ErrorInput} type='invalid'>
-                        {confirmPasswordFeedback}
+                        {feedbackValues.confirmPassword}
                     </Form.Control.Feedback>
                     </InputGroup>
                 </div>

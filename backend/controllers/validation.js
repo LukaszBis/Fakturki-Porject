@@ -25,7 +25,7 @@ function password(arr, value) {
     const pattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).+$/;
 
     if (!pattern.test(value)){
-        arr.push("Hasło musi składać zwierać przynajmniej jedną dużą literę, jedną małą literę, jedną cyfre, jeden znak specjalny.");
+        arr.push("Hasło musi zawierać przynajmniej jedną dużą literę, jedną małą literę, jedną cyfre, jeden znak specjalny.");
         return true;
     }
     
