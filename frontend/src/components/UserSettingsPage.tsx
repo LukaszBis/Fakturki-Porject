@@ -4,10 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";
 import logo from "../assets/fakturki.png"
-import LoginData from './LoginData';
-import PersonalData from './PersonalData';
-import AddressData from './AddressData';
-import CompanyData from './CompanyData';
+import LoginData from '../layouts/LoginData';
+import PersonalData from '../layouts/PersonalData';
+import AddressData from '../layouts/AddressData';
+import CompanyData from '../layouts/CompanyData';
 
 const UserSettingsPage: React.FC = () => {
   const [activeView, setActiveView] = useState('Dane logowania');

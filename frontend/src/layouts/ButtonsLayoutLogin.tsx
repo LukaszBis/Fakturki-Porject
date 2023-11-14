@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import styles from '../components/welcomePage.module.css';
+import styles from '../css/welcomePage.module.css';
 import Cookies from "js-cookie";
 
 const handleLogOff = () => {

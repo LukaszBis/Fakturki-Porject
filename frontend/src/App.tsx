@@ -9,10 +9,10 @@ import WelcomePage from './components/welcomePage';
 import UserSettings from './components/UserSettingsPage';
 import ConfirmEmail from './components/ConfirmEmailPage';
 import Invoice from './components/InvoicePage';
-import LoginData from './components/LoginData';
-import PersonalData from './components/PersonalData';
-import AddressData from './components/AddressData';
-import CompanyData from './components/CompanyData';
+import LoginData from './layouts/LoginData';
+import PersonalData from './layouts/PersonalData';
+import AddressData from './layouts/AddressData';
+import CompanyData from './layouts/CompanyData';
 
 
 
