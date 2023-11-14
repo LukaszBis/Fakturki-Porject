@@ -23,7 +23,7 @@ a:hover {
 
 .color {
   background-image: url('./assets/background.jpg');
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-position: center;
   background-size: cover;
   color: white;
