@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './UserSettingsPage.module.css';
+import styles from '../css/UserSettingsPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";

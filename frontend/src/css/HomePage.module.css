@@ -148,3 +148,26 @@ table tr:nth-child(odd) td:not(.sddButton) {
 #colorRed :hover{
   color: rgb(255, 0, 0);
 }
+
+[role='tooltip'].mypopup-content{
+  width: 210px !important;
+}
+
+.popupdiv{
+  background-color: #1a1a1a;
+  justify-content: center;
+  text-align: center;
+}
+
+.popupdiv p{
+  margin: 0 auto;
+}
+
+.popupdiv input{
+  width: 11em;
+  margin: 0 auto;
+}
+
+.popupdiv button{
+  margin: 0 auto;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo_home from "../assets/logo_home.png";
-import styles from "./HomePage.module.css";
+import styles from "../css/HomePage.module.css";
 import { Link } from 'react-router-dom';
 import Cookies from "js-cookie";
 import Table from 'react-bootstrap/Table';
@@ -241,8 +241,9 @@ const HomePage: React.FC = () => {
                         <td>{inv.clientNIP}</td>
                         <td>{inv.totalPrice}</td>
                         <td className={styles.sddButton} id={styles.leftBorder}>
-                        <Popup trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
-                          <div>
+                        <Popup className="mypopup" trigger={<button className={styles.sendButton}><i className="fa-solid fa-envelope-open-text fa-sm"></i></button>} position="left center">
+                          <div className={styles.popupdiv}>
+                            <p>Podaj email na który chcesz wysłać fakturę</p>
                             <input type='email' onChange={(e) => setEmail(e.target.value)}/><br/>
                             <button onClick={(_) => handleSend(inv._id, email)}>Send</button>
                           </div>

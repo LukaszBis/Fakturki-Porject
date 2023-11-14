@@ -1,6 +1,6 @@
 import fakturki from "../assets/fakturki.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './welcomePage.module.css';
+import styles from '../css/welcomePage.module.css';
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import ButtonsLayoutLogout from "../layouts/ButtonsLayoutLogout.tsx";

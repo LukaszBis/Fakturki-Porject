@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './ResetPasswordPage.module.css';
+import styles from '../css/ResetPasswordPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styles from './ConfirmEmailPage.module.css';
+import styles from '../css/ConfirmEmailPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import fakturki from "../assets/fakturki.png";

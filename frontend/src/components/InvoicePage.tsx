@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import fakturki from "../assets/fakturki.png";
-import styles from './InvoicePage.module.css';
+import styles from '../css/InvoicePage.module.css';
 import Cookies from "js-cookie";
 import { Form, InputGroup } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';

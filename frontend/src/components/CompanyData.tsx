@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './UserSettingsPage.module.css';
+import styles from '../css/UserSettingsPage.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';

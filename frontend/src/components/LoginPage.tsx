@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './LoginPage.module.css';
+import styles from '../css/LoginPage.module.css';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { InputGroup } from 'react-bootstrap';
