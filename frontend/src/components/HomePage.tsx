@@ -126,10 +126,37 @@ const HomePage: React.FC = () => {
 
   const handleLogOff = () => {
     const user = Cookies.get('user');
-    if (user){
-      Cookies.remove('user', { path: '/', domain: 'localhost' });
-      document.location.href = '/welcome';
-    }
+    const apiUrl = 'http://localhost:8080/logout';
+        
+    const requestBody = {
+        user: user
+    };
+    console.log(requestBody)
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      if (response.status == 500) {
+          throw new Error('Błąd serwera');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      if(data.success){
+        Cookies.remove('user', { path: '/', domain: 'localhost' });
+        document.location.href = '/welcome';
+      }else{
+        console.log("Wylogowywanie sie nie powiodlo")
+      }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
   };
   
   const handleSend = (id:any, email:any) => {
