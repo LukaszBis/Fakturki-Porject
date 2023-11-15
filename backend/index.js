@@ -550,6 +550,7 @@ app.post('/setUserSettings/loginData', async (req,res) => {
     if(errors.email.length == 0){
       console.log("email update!")
       get_user.email = email;
+      get_user.emailActivated_at = null;
       await get_user.save()
       updated.email = true;
     }
