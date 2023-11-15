@@ -90,15 +90,20 @@ const HomePage: React.FC = () => {
             console.log("Aktywuj adres email")
           }else{
             if(data.invoices){
-              invoice = data.invoices
-              setInvoiceTable(invoice)
-              console.log("invoice id:", invoice[0]._id)
-              // AddNewRow()
-              console.log(invoiceTable)
+              try{
+                invoice = data.invoices
+                setInvoiceTable(invoice)
+                console.log("invoice id:", invoice[0]._id)
+                // AddNewRow()
+                console.log(invoiceTable)
+              }catch(err){
+                console.log(err)
+              }
             }
-            if(data.details){
-              setCompany(data.details.company)
-            }
+          }
+          if(data.details){
+            console.log(data.details)
+            setCompany(data.details.company)
           }
         })
         .catch((error) => {
