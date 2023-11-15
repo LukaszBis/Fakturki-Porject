@@ -1,27 +1,5 @@
-const mongoose = require('mongoose');
+const db = require("./database");
 const mail = require("./mail");
-// Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
-const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
-// Połączenie z bazą danych
-mongoose.connect(`mongodb://${dbHost}:27017/faktury`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-const db = mongoose.connection;
-db.on('error', (error) => {
-  console.error('Błąd połączenia z bazą danych:', error);
-});
-db.once('open', () => {
-  console.log('Połączono z bazą danych MongoDB');
-});
-
-const passwordResetSchema = new mongoose.Schema({
-    email: String,
-    token: String,
-    created_at: {type: Date, default: new Date()},
-    updated_at: {type: Date, default: new Date()},
-});
-const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
 
 async function add(email) {
     try {
@@ -32,7 +10,7 @@ async function add(email) {
             token = generateToken();
         }
             
-        newToken = new PasswordReset({ 
+        newToken = new db.PasswordReset({ 
             email, 
             token,
         });
@@ -46,7 +24,7 @@ async function add(email) {
     }
 }
 function removeToken(email) {
-    PasswordReset.findOneAndRemove({ email: email })
+    db.PasswordReset.findOneAndRemove({ email: email })
         .then((doc) => {
             if (doc) {
                 console.log('Usunięto element o adresie e-mail:', email);
@@ -71,7 +49,7 @@ function generateToken() {
   }
 async function getTokenByEmail(email) {
     try {
-        const findToken = await PasswordReset.findOne({ email: email }).exec();
+        const findToken = await db.PasswordReset.findOne({ email: email }).exec();
         if (findToken){
             console.log('Znaleziony token:', findToken.token);
         }else{
@@ -84,7 +62,7 @@ async function getTokenByEmail(email) {
 }
 async function getEmailByToken(token) {
     try {
-        const findEmail = await PasswordReset.findOne({ token: token }).exec();
+        const findEmail = await db.PasswordReset.findOne({ token: token }).exec();
         if (findEmail){
             console.log('Znaleziony email:', findEmail.email);
         }else{
@@ -97,7 +75,7 @@ async function getEmailByToken(token) {
 }
 async function checkToken(token) {
     try {
-        const findToken = await PasswordReset.findOne({ token: token }).exec();
+        const findToken = await db.PasswordReset.findOne({ token: token }).exec();
         if (findToken){
             return true;
         }
@@ -108,7 +86,7 @@ async function checkToken(token) {
 }
 async function checkTokens(){
     try {
-        const findToken = await PasswordReset.findOne({ token: token }).exec();
+        const findToken = await db.PasswordReset.findOne({ token: token }).exec();
         if (findToken){
             return true;
         }
@@ -122,7 +100,7 @@ async function checkTokens() {
     time.setMinutes(time.getMinutes() - 10);
   
     try {
-        const wynik = await PasswordReset.deleteMany({ created_at: { $lt: time } });
+        const wynik = await db.PasswordReset.deleteMany({ created_at: { $lt: time } });
         wynik>0?console.log('Usunięto', wynik.deletedCount, 'elementów.'):null;
     } catch (error) {
         console.error('Błąd podczas usuwania elementów:', error);

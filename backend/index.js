@@ -254,6 +254,11 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/logout', async (req, res) => {
+  console.log(req.body.user)
+  return res.send({success: "kox"})
+})
+
 app.post('/register', async (req, res) => {
   //no query instead use body with parser
   const email = req.body.email;

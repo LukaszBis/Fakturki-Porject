@@ -1,66 +1,10 @@
-const mongoose = require('mongoose');
+const db = require("./database");
 const { ObjectId } = require('mongodb');
-const bcrypt = require('bcrypt');
-// Adres hosta bazy danych MongoDB na podstawie nazwy usługi w docker-compose.yml
-const dbHost = 'database'; // To jest nazwa usługi bazy danych w docker-compose.yml
-// Połączenie z bazą danych
-mongoose.connect(`mongodb://${dbHost}:27017/faktury`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-const db = mongoose.connection;
-db.on('error', (error) => {
-  console.error('Błąd połączenia z bazą danych:', error);
-});
-db.once('open', () => {
-  console.log('Połączono z bazą danych MongoDB');
-});
-
-const invoiceSchema = new mongoose.Schema({
-    name: String,
-    userId: String,
-    dateIssuance: Date,
-    dateSell: Date,
-    place: String,
-    payDate: Date,
-    clientName: String,
-    clientNIP: String,
-    clientStreet: String,
-    clientCity: String,
-    payType: String,
-    account: String,
-    seller: String,
-    totalPrice: Number,
-    services: [
-        {
-            ID: Number,
-            NAME: String,
-            JM: String,
-            QUANTITY: Number,
-            PRICE: Number,
-            VALUEN: Number,
-            VAT: Number,
-            VATPRICE: Number,
-            VALUEB: Number,
-        }
-    ],
-    aditionalValues: [
-        {
-            BruttoSum: Number,
-            NettoSum: Number,
-            Vat: Number,
-            VatSum: Number,
-        }
-    ],
-    created_at: {type: Date, default: new Date()},
-    updated_at: {type: Date, default: new Date()},
-});
-const Invoice = mongoose.model('Invoice', invoiceSchema);
 
 async function add(invoice) {
     let newInvoice;
     try {
-        newInvoice = new Invoice(invoice);
+        newInvoice = new db.Invoice(invoice);
         await newInvoice.save();
         console.log('Faktura została dodana do bazy danych.');
     } catch (error) {
@@ -70,7 +14,7 @@ async function add(invoice) {
 }
 
 async function remove(id){
-    Invoice.findByIdAndRemove(id)
+    db.Invoice.findByIdAndRemove(id)
     .then(() => {
         return true;
     })
@@ -82,7 +26,7 @@ async function remove(id){
 
 async function findAll(id) {
     try {
-        return await Invoice.find({ userId: id }).exec();
+        return await db.Invoice.find({ userId: id }).exec();
     } catch (error) {
         console.error('Błąd podczas pobierania faktur:', error);
     }
@@ -90,7 +34,7 @@ async function findAll(id) {
 
 async function count(userid, month, year) {
     try {
-        return await Invoice
+        return await db.Invoice
         .find({
           userId: userid,
           $expr: {
@@ -106,7 +50,7 @@ async function count(userid, month, year) {
 
 async function getById(id){
     try {
-        return Invoice.findOne({_id : new ObjectId(id)}).exec();
+        return db.Invoice.findOne({_id : new ObjectId(id)}).exec();
     } catch (error) {
         console.error('Błąd podczas pobierania faktury:', error);
         throw error;
@@ -115,7 +59,7 @@ async function getById(id){
 
 async function getNIPArray(id) {
     try {
-        return [...new Set((await Invoice.find({ userId: id }).exec()).map(item => item.clientNIP))];
+        return [...new Set((await db.Invoice.find({ userId: id }).exec()).map(item => item.clientNIP))];
     } catch (error) {
         console.error('Błąd podczas pobierania faktur:', error);
     }
