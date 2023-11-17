@@ -35,6 +35,28 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
+const clientSchema = new mongoose.Schema({
+    regon: String,
+    nip: String,
+    statusNip: String,
+    nazwa: String,
+    wojewodztwo: String,
+    powiat: String,
+    gmina: String,
+    miejscowosc: String,
+    kodPocztowy: String,
+    ulica: String,
+    nrNieruchomosci: String,
+    nrLokalu: String,
+    typ: String,
+    silosID: String,
+    dataZakonczeniaDzialalnosci: String,
+    miejscowoscPoczty: String,
+    created_at: {type: Date, default: new Date()},
+    updated_at: {type: Date, default: new Date()},
+});
+const Client = mongoose.model('Client', clientSchema);
+
 const invoiceSchema = new mongoose.Schema({
     name: String,
     userId: String,
@@ -50,46 +72,18 @@ const invoiceSchema = new mongoose.Schema({
     account: String,
     seller: String,
     totalPrice: Number,
-    services: [
-        {
-            ID: Number,
-            NAME: String,
-            JM: String,
-            QUANTITY: Number,
-            PRICE: Number,
-            VALUEN: Number,
-            VAT: Number,
-            VATPRICE: Number,
-            VALUEB: Number,
-        }
-    ],
-    aditionalValues: [
-        {
-            BruttoSum: Number,
-            NettoSum: Number,
-            Vat: Number,
-            VatSum: Number,
-        }
-    ],
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
 });
 const Invoice = mongoose.model('Invoice', invoiceSchema);
 
-const passwordResetSchema = new mongoose.Schema({
+const tokenSchema = new mongoose.Schema({
     email: String,
     token: String,
+    type: String,
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
 });
-const PasswordReset = mongoose.model('PasswordReset', passwordResetSchema);
+const Token = mongoose.model('Token', tokenSchema);
 
-const activeEmailSchema = new mongoose.Schema({
-    email: String,
-    token: String,
-    created_at: {type: Date, default: new Date()},
-    updated_at: {type: Date, default: new Date()},
-});
-const ActiveEmail = mongoose.model('ActiveEmail', activeEmailSchema);
-
-module.exports = { User, Invoice, PasswordReset, ActiveEmail }
+module.exports = { User, Client, Invoice, Token }

@@ -30,18 +30,18 @@ const corsOptions ={
 //this is new \/
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
+const db = require("./controllers/database");
 const user = require("./controllers/user");
 const invoice = require("./controllers/invoice");
 const validation = require("./controllers/validation");
-const passwordReset = require("./controllers/passwordReset");
-const active = require("./controllers/acitve");
+const token = require("./controllers/token");
 const pdf = require("./controllers/pdf");
 const Bir = require('bir1');
 
 
 async function checkTokens(){
-  passwordReset.checkTokens();
-  active.checkTokens();
+  token.removeOld('email', 10);
+  token.removeOld('password', 10);
   setTimeout(function () {
     checkTokens();
   }, 10000);
@@ -98,7 +98,7 @@ app.post('/resetPassword', async (req, res) => {
 
   const get_user = await user.checkEmail(email);
   if (get_user) {
-    if (passwordReset.add(email)) {
+    if (token.addToken('password', email)) {
       return res.status(200).send({ success: "Email wysłany" });
     }
     return res.status(200).send({ fail: "Email nie został wysłany" });
@@ -107,7 +107,7 @@ app.post('/resetPassword', async (req, res) => {
 });
 
 app.post('/setNewPassword', async (req, res) => {
-  const token = req.body.token;
+  const ctoken = req.body.token;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
@@ -117,7 +117,7 @@ app.post('/setNewPassword', async (req, res) => {
     password: [],
   };
 
-  const get_token = await passwordReset.checkToken(token)
+  const get_token = await token.checkToken('password', ctoken)
   if (!get_token) {
     return res.status(200).json({ fail: "Nie można zmienić hasła, spróbuj ponownie." });
   }
@@ -134,7 +134,7 @@ app.post('/setNewPassword', async (req, res) => {
     return res.status(200).json({ fail }); 
   }
   try{
-    const get_email = await passwordReset.getEmailByToken(token);
+    const get_email = await token.getEmailByToken('password', ctoken);
     const get_user = await user.checkEmail(get_email);
     if (get_user) {
       if (await user.passwordCompare(get_user.passwordHash, password)) {
@@ -142,7 +142,7 @@ app.post('/setNewPassword', async (req, res) => {
         return res.status(200).json({ fail }); 
       }
 
-      passwordReset.removeToken(get_email);
+      token.removeToken('password', get_email);
       await user.changePassword(get_user, password);
       return res.status(200).json({ success: "Hasło pomyślnie zmienione" });
     }
@@ -154,15 +154,15 @@ app.post('/setNewPassword', async (req, res) => {
 });
 
 app.post('/active', async (req, res) => {
-  const token = req.body.token;
-  const get_token = await active.checkToken(token)
+  const ctoken = req.body.token;
+  const get_token = await token.checkToken('email', ctoken)
   if (!get_token) {
     return res.status(200).json({ fail: "Link nie jest aktualny." });
   }
 
-  const email = await active.getEmailByToken(token);
+  const email = await token.getEmailByToken('email', ctoken);
   if (email && await user.active(email)) {
-    active.removeToken(email);
+    token.removeToken('email', email);
     return res.status(200).json({ success: "Konto aktywowane pomyślnie" }); 
   }
 
@@ -173,7 +173,7 @@ app.post('/reactivate', async (req, res) => {
   const email = req.body.email;
   const get_user = await user.checkEmail(email);
   if (get_user && get_user.emailActivated_at == null) {
-    const check = active.add(email);
+    const check = token.addToken('email', email);
     if (check) {
       return res.status(200).json({ success: "Email został wysłany" });
     }
@@ -184,12 +184,16 @@ app.post('/reactivate', async (req, res) => {
 });
 
 app.post('/auth', async (req, res) => {
-  const id = req.body.user;
-  if (!id){
+  const ctoken = req.body.user;
+  if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const get_user = await user.auth(id);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(200).send({fail:"Użytkownik nie istnieje"});
     }
@@ -216,8 +220,16 @@ app.post('/auth', async (req, res) => {
 
 ////////////////////////////////
 app.post('/userSettings', async (req, res) => {
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
+  }
   try{
-    const get_user = await user.auth(req.body.user);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(200).send({fail:"Użytkownik nie istnieje"});
     }
@@ -246,7 +258,10 @@ app.post('/login', async (req, res) => {
     }
     const passwordHash = get_user.passwordHash;
     if (await user.passwordCompare(passwordHash, password)){
-      return res.status(200).send({success:get_user._id});
+      await token.addToken('login', email);
+      const ctoken = await token.getTokenByEmail('login', email);
+      console.log(ctoken)
+      return res.status(200).send({success:ctoken});
     }
     return res.status(200).send({fail:"Niepoprawne hasło."});
   }catch(error){
@@ -255,8 +270,14 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/logout', async (req, res) => {
-  console.log(req.body.user)
-  return res.send({success: "kox"})
+  const ctoken = req.body.user;
+  if (ctoken){
+    const email = await token.getEmailByToken('login', ctoken);
+    if (email){
+      token.removeToken('login', email);
+      return res.send({success: "wylogowano"})
+    }
+  }
 })
 
 app.post('/register', async (req, res) => {
@@ -358,6 +379,8 @@ app.post('/register', async (req, res) => {
   let company;
   try{
     const clientData = await bir.search({ nip: NIP })
+    const newClient = new db.Client(clientData);
+    await newClient.save()
     company = clientData.nazwa
   }catch(error){
     console.error(error)
@@ -372,7 +395,7 @@ app.post('/register', async (req, res) => {
     return res.status(500);
   }
 
-  if (active.add(email)){
+  if (token.addToken('email', email)){
     return res.status(200).send({success:get_user._id});
   }
   return res.status(500)
@@ -445,6 +468,8 @@ app.post('/invoice', async(req,res) => {
   await bir.login()
   try{
     const clientData = await bir.search({ nip: req.body.client })
+    const newClient = new db.Client(clientData);
+    await newClient.save()
     req.body.clientName = clientData.nazwa
     req.body.clientNIP = clientData.nip
     req.body.clientStreet = clientData.ulica+' '+clientData.nrNieruchomosci
@@ -523,13 +548,16 @@ app.post('/addService', (req,res) => {
 
 
 app.post('/setUserSettings/loginData', async (req,res) => {
-  const id = req.body.user;
-  if (!id){
-    return res.status(500)
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
   }
-  let get_user = null;
   try{
-    get_user = await user.auth(id);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -589,13 +617,16 @@ app.post('/setUserSettings/loginData', async (req,res) => {
 })
 
 app.post('/setUserSettings/personalData', async (req,res) => {
-  const id = req.body.user;
-  if (!id){
-    return res.status(500)
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
   }
-  let get_user = null;
   try{
-    get_user = await user.auth(id);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -648,13 +679,16 @@ app.post('/setUserSettings/personalData', async (req,res) => {
 })
 
 app.post('/setUserSettings/addressData', async (req,res) => {
-  const id = req.body.user;
-  if (!id){
-    return res.status(500)
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
   }
-  let get_user = null;
   try{
-    get_user = await user.auth(id);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -727,13 +761,16 @@ app.post('/setUserSettings/addressData', async (req,res) => {
 })
 
 app.post('/setUserSettings/companyData', async (req,res) => {
-  const id = req.body.user;
-  if (!id){
-    return res.status(500)
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
   }
-  let get_user = null;
   try{
-    get_user = await user.auth(id);
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
