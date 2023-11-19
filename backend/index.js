@@ -55,21 +55,21 @@ checkTokens();
 
 app.get('/downloadPdf', async (req, res) => {
   const id = req.query.id;
-  const invoice = await invoice.getById(id).name
-  pdf.downloadPdf(res, id, invoice)
+  const invoiceName = await invoice.getById(id)
+  pdf.downloadPdf(res, id, invoiceName.name)
 });
 app.post('/sendPdf', async (req, res) => {
   const email = req.body.email;
   const id = req.body.id;
-  const invoice = await invoice.getById(id).name
-  if (await pdf.sendPdf(email, id, invoice)) {
-    res.status(200).json({ success: "Pomyślnie wysłano fakturę na adres " + req.query.email });
+  const invoiceName = await invoice.getById(id)
+  if (await pdf.sendPdf(email, id, invoiceName.name)) {
+    res.status(200).json({ success: "Pomyślnie wysłano fakturę na adres " + req.body.email });
   } else {
-    res.status(200).json({ fail: "Nie udało się wysłać faktury na adres " + req.query.email });
+    res.status(200).json({ fail: "Nie udało się wysłać faktury na adres " + req.body.email });
   }
 });
 app.post('/invoiceDelete', async (req, res) => {
-  if (invoice.remove(req.query.id)) {
+  if (await invoice.remove(req.body.id)) {
     res.status(200).json({ success: "Pomyślnie usunięto fakturę" });
   } else {
     res.status(200).json({ fail: "Nie udało się usunąć faktury" });

@@ -248,8 +248,40 @@ const HomePage: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        if(data.success) {
+        if(!data.success) {
           console.log(data.success);
+          const invoiceUrl = 'http://localhost:8080/getInvoices';
+          const requestBodyinvoice = {
+            user: Cookies.get('user')
+          };
+          fetch(invoiceUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBodyinvoice),
+          })
+          .then((response) => {
+            if (response.status == 500) {
+                throw new Error('Błąd serwera');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if(data.success){
+              try{
+                console.log(data.success)
+                invoice = data.success
+                setInvoiceTable(invoice)
+              }catch(err){
+                console.log(err)
+              }
+            }
+            console.log(data.fail)
+          })
+          .catch((error) => {
+              console.log(error);
+          });
         }else {
           console.log("Nie działa");
         }
