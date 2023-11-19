@@ -309,8 +309,9 @@ async function downloadPdf(res, id) {
     }
 }
 
-async function sendPdf(res, email, id) {
+async function sendPdf(email, id) {
     try {
+        console.log(id)
         const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {

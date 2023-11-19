@@ -197,7 +197,7 @@ const HomePage: React.FC = () => {
   
   const handleSend = (id:any, email:any) => {
     const apiUrl = 'http://localhost:8080/sendPdf';
-    
+
     const requestBody = {
       id:id,
       email:email
