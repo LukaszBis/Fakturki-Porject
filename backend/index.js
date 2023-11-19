@@ -581,6 +581,8 @@ app.post('/invoice', async(req,res) => {
   const email = await token.getEmailByToken('login', ctoken);
   const checkUser = await user.checkEmail(email);
 
+  req.body.userId = checkUser._id
+
   console.log("Policzone: ",counter)
   if(counter <= 0){
     await user.resetCounter(checkUser)
