@@ -322,7 +322,6 @@ async function sendPdf(email, id) {
             });
     } catch (error) {
       console.error('Błąd podczas obsługi ścieżki :', error);
-      res.status(200).send('Wystąpił błąd podczas pobierania danych.');
     }
 }
 
