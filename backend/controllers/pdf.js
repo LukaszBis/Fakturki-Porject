@@ -309,7 +309,7 @@ async function downloadPdf(res, id) {
     }
 }
 
-async function sendPdf(email, id) {
+async function sendPdf(res, email, id) {
     try {
         const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
