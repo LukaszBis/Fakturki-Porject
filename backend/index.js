@@ -203,7 +203,7 @@ app.post('/auth', async (req, res) => {
   }
 });
 
-app.post('/authOld', async (req, res) => {
+app.post('/getActive', async (req, res) => {
   const ctoken = req.body.user;
   if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
@@ -217,22 +217,70 @@ app.post('/authOld', async (req, res) => {
     if(!get_user){
       return res.status(200).send({fail:"Użytkownik nie istnieje"});
     }
+    if(get_user.emailActivated_at == null){
+      return res.status(200).send({success:false});
+    }
+    return res.status(200).send({success:true});
+  }catch(error){
+    return res.status(500);
+  }
+});
 
-    let data = {}
-    if(req.body.details){
-      data.details = get_user
+app.post('/getDetails', async (req, res) => {
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
+  }
+  try{
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    if(req.body.active && get_user.emailActivated_at == null){
-      data.active = true
-    }else{
-      if(req.body.invoices){
-        data.invoices = await invoice.findAll(get_user._id.toString());
-      }
-      if(req.body.nip){
-        data.nipArray = await invoice.getNIPArray(get_user._id.toString());
-      }
+    const get_user = await user.checkEmail(email);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
     }
-    return res.status(200).send(data);
+    return res.status(200).send({success:get_user});
+  }catch(error){
+    return res.status(500);
+  }
+});
+
+app.post('/getInvoices', async (req, res) => {
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
+  }
+  try{
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
+    return res.status(200).send({success:await invoice.findAll(get_user._id.toString())});
+  }catch(error){
+    return res.status(500);
+  }
+});
+
+app.post('/getNips', async (req, res) => {
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
+  }
+  try{
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
+    return res.status(200).send({success:await invoice.getNIPArray(get_user._id.toString())});
   }catch(error){
     return res.status(500);
   }
