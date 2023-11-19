@@ -573,7 +573,12 @@ app.post('/invoice', async(req,res) => {
   const fixedMonth = String(month + 1).padStart(2, '0');
   const year = date.getFullYear();
   const counter = await invoice.count(req.body.userId,month,year);
-  const checkUser = await user.auth(req.body.userId);
+
+  
+  const ctoken = req.body.userId;
+  const email = await token.getEmailByToken('login', ctoken);
+  const checkUser = await user.checkEmail(email);
+
   console.log("Policzone: ",counter)
   if(counter <= 0){
     await user.resetCounter(checkUser)
