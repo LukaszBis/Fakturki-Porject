@@ -57,7 +57,7 @@ app.get('/downloadPdf', async (req, res) => {
   pdf.downloadPdf(res, req.query.id)
 });
 app.post('/sendPdf', async (req, res) => {
-  if (pdf.sendPdf(req.body.email, req.body.id)) {
+  if (pdf.sendPdf(res, req.body.email, req.body.id)) {
     res.status(200).json({ success: "Pomyślnie wysłano fakturę na adres " + req.query.email });
   } else {
     res.status(200).json({ fail: "Nie udało się wysłać faktury na adres " + req.query.email });
