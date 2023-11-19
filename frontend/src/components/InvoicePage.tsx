@@ -89,67 +89,184 @@ const InvoiceForm = () => {
     useEffect( () => {
         const user = Cookies.get('user');
         if(user){
-            const apiUrl = 'http://localhost:8080/auth';
+            // const apiUrl = 'http://localhost:8080/auth';
             
-            const requestBody = {
-                user: user,
-                active: true,
-                details: true,
-                nip: true
-            };
-            // console.log(requestBody)
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-            })
-            .then((response) => {
-                if (response.status == 500) {
-                    throw new Error('Błąd serwera');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                if(data.active){
-                  console.log("Aktywuj adres email")
-                }else{
-                    if(data.details){
+            // const requestBody = {
+            //     user: user,
+            //     active: true,
+            //     details: true,
+            //     nip: true
+            // };
+            // // console.log(requestBody)
+            // fetch(apiUrl, {
+            //     method: 'POST',
+            //     headers: {
+            //     'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(requestBody),
+            // })
+            // .then((response) => {
+            //     if (response.status == 500) {
+            //         throw new Error('Błąd serwera');
+            //     }
+            //     return response.json();
+            // })
+            // .then((data) => {
+            //     if(data.active){
+            //       console.log("Aktywuj adres email")
+            //     }else{
+                    // if(data.details){
         
-                        details = data.details
-                        setdetailsTable(details)
-                      console.log("detale:", details)
+                    //     details = data.details
+                    //     setdetailsTable(details)
+                    //   console.log("detale:", details)
 
-                      const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
-                        details.accountNumber.substring(2,6) +' '+
-                        details.accountNumber.substring(6,10) +' '+
-                        details.accountNumber.substring(10,14) +' '+
-                        details.accountNumber.substring(14,18) +' '+
-                        details.accountNumber.substring(18,22) +' '+
-                        details.accountNumber.substring(22,26);
+                    //   const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
+                    //     details.accountNumber.substring(2,6) +' '+
+                    //     details.accountNumber.substring(6,10) +' '+
+                    //     details.accountNumber.substring(10,14) +' '+
+                    //     details.accountNumber.substring(14,18) +' '+
+                    //     details.accountNumber.substring(18,22) +' '+
+                    //     details.accountNumber.substring(22,26);
 
-                        setAccount(accounttmpnumber)
-                        // console.log(accounttmpnumber)
-                    //   setAccount(tmpaccount)
-                      setSeller(details.firstName + " " + details.lastName)
-                      setPlace(details.city)
+                    //     setAccount(accounttmpnumber)
+                    //     // console.log(accounttmpnumber)
+                    // //   setAccount(tmpaccount)
+                    //   setSeller(details.firstName + " " + details.lastName)
+                    //   setPlace(details.city)
                       
-                      // AddNewRow()
-                    //   console.log(detailsTable)
-                    }
-                    if(data.nipArray){
-                        // console.log("nipy:", data.nipArray)
-                        setNipArray(data.nipArray)
-                    }
-                }
-                // else{
-                //     document.location.href = '/welcome';
-                // }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                    //   // AddNewRow()
+                    // //   console.log(detailsTable)
+                    // }
+            //         if(data.nipArray){
+            //             // console.log("nipy:", data.nipArray)
+            //             setNipArray(data.nipArray)
+            //         }
+            //     }
+            //     // else{
+            //     //     document.location.href = '/welcome';
+            //     // }
+            // })
+            // .catch((error) => {
+            //     console.log(error);
+            // });
+
+
+
+
+        const authUrl = 'http://localhost:8080/auth';
+        const activeUrl = 'http://localhost:8080/getactive';
+        const nipUrl = 'http://localhost:8080/getnips';
+        const detailsUrl = 'http://localhost:8080/getdetails';
+        
+        const requestBody = {
+            user: user
+        };
+        console.log(requestBody)
+        fetch(authUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+        .then((response) => {
+          if (response.status == 500) {
+              throw new Error('Błąd serwera');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if(data.fail){
+            document.location.href = '/welcome';
+          }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    
+        fetch(activeUrl, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+        })
+        .then((response) => {
+        if (response.status == 500) {
+            throw new Error('Błąd serwera');
+        }
+        return response.json();
+        })
+        .then((data) => {
+        if(!data.success){
+            document.location.href = '/welcome';
+        }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+
+        fetch(detailsUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+          })
+          .then((response) => {
+            if (response.status == 500) {
+                throw new Error('Błąd serwera');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if(data.success){
+                details = data.success
+                setdetailsTable(details)
+                console.log("detale:", details)
+
+                const accounttmpnumber = details.accountNumber.substring(0,2) +' '+ 
+                details.accountNumber.substring(2,6) +' '+
+                details.accountNumber.substring(6,10) +' '+
+                details.accountNumber.substring(10,14) +' '+
+                details.accountNumber.substring(14,18) +' '+
+                details.accountNumber.substring(18,22) +' '+
+                details.accountNumber.substring(22,26);
+
+                setAccount(accounttmpnumber)
+                // console.log(accounttmpnumber)
+            //   setAccount(tmpaccount)
+                setSeller(details.firstName + " " + details.lastName)
+                setPlace(details.city)
+            }
+          })
+          .catch((error) => {
+              console.log(error);
+          });
+
+          fetch(nipUrl, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+          })
+          .then((response) => {
+            if (response.status == 500) {
+                throw new Error('Błąd serwera');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if(data.success){
+                setNipArray(data.success)
+            }
+          })
+          .catch((error) => {
+              console.log(error);
+          });
         }else{
           document.location.href = '/welcome';
         }

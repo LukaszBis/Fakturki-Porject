@@ -75,9 +75,7 @@ const RegistrationPage: React.FC = () => {
         })
         .then((data) => {
           if(data.success){
-            document.location.href = '/HomePage';
-          }else{
-            console.log("Jest blad")
+            document.location.href = '/welcome';
           }
         })
         .catch((error) => {

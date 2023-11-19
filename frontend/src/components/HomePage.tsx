@@ -14,20 +14,6 @@ interface Invoice {
   amount: number;
 }
 
-// interface Invoice { Inferface dla zaliczki
-//   id: number;
-//   number: string;
-//   date: string;
-//   amount: number;
-// }
-
-// interface Invoice { Inferface dla paragonow
-//   id: number;
-//   number: string;
-//   date: string;
-//   amount: number;
-// }
-
 const invoices: Invoice[] = [
 ];
 
@@ -48,29 +34,24 @@ const advances: Invoice[] = [
 const HomePage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('invoice');
   const [, setDisplayedContent] = useState<Invoice[]>(invoices);
-  // const [invoiceTmp, ] = useState([])
   const [invoiceTable, setInvoiceTable] = useState(invoice)
   const [email, setEmail] = useState("")
   const [active, setActive] = useState(true)
   const [company, setCompany] = useState("")
 
-  // function AddNewRow(){
-  //   setInvoiceTable([...invoiceTable,invoiceTmp[0]])
-  // }
-
   useEffect( () => {
     const user = Cookies.get('user');
     if(user){
-        const apiUrl = 'http://localhost:8080/auth';
+        const authUrl = 'http://localhost:8080/auth';
+        const activeUrl = 'http://localhost:8080/getActive';
+        const invoiceUrl = 'http://localhost:8080/getInvoices';
+        const detailsUrl = 'http://localhost:8080/getDetails';
         
         const requestBody = {
-            user: user,
-            active: true,
-            invoices: true,
-            details: true
+            user: user
         };
         console.log(requestBody)
-        fetch(apiUrl, {
+        fetch(authUrl, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -84,34 +65,89 @@ const HomePage: React.FC = () => {
           return response.json();
         })
         .then((data) => {
-          console.log(data)
-          if(data.active){
-            setActive(false)
-            console.log("Aktywuj adres email")
-          }else{
-            if(data.invoices){
-              try{
-                invoice = data.invoices
-                setInvoiceTable(invoice)
-                console.log("invoice id:", invoice[0]._id)
-                // AddNewRow()
-                console.log(invoiceTable)
-              }catch(err){
-                console.log(err)
-              }
-            }
-          }
-          if(data.details){
-            console.log(data.details)
-            setCompany(data.details.company)
+          if(data.fail){
+            document.location.href = '/welcome';
           }
         })
         .catch((error) => {
             console.log(error);
         });
-    }else{
-      document.location.href = '/welcome';
-    }
+    
+    fetch(activeUrl, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      if (response.status == 500) {
+          throw new Error('Błąd serwera');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if(!data.success){
+        setActive(false)
+      }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+    fetch(invoiceUrl, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      if (response.status == 500) {
+          throw new Error('Błąd serwera');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if(data.success){
+        try{
+          console.log(data.success)
+          invoice = data.success
+          setInvoiceTable(invoice)
+        }catch(err){
+          console.log(err)
+        }
+      }
+      console.log(data.fail)
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+    fetch(detailsUrl, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then((response) => {
+      if (response.status == 500) {
+          throw new Error('Błąd serwera');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if(data.success){
+        setCompany(data.success.company)
+      }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  }else{
+    document.location.href = '/welcome';
+  }
   }, []);
 
   useEffect(() => {

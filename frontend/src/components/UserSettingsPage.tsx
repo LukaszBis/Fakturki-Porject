@@ -40,25 +40,11 @@ const UserSettingsPage: React.FC = () => {
           }
           return response.json();
         })
-        // .then((data) => {
-        //     if(!data.success) {
-        //         document.location.href = '/welcome';
-        //     }
-        //     else{
-        //       console.log(data)
-        //       setFirstName(data.details.firstName)
-        //       setLastName(data.details.lastName)
-        //       setEmail(data.details.email)
-        //       setPhoneNumber(data.details.phoneNumber)
-        //       setPostalCode(data.details.postalCode)
-        //       setCity(data.details.city)
-        //       setStreet(data.details.street)
-        //       setBuildingNumber(data.details.buildingNumber)
-        //       setApartmentNumber(data.details.apartmentNumber)
-        //       setNIP(data.details.NIP)
-        //       setEmailActivated_at(data.details.emailActivated_at)
-        //     }
-        // })
+        .then((data) => {
+            if(data.fail) {
+                document.location.href = '/welcome';
+            }
+        })
         .catch((error) => {
             console.log(error);
         });
