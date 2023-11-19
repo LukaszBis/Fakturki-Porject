@@ -200,7 +200,6 @@ async function generateHtml(id) {
                 <th style="width:37px">Kwota VAT</th>
                 <th style="width:37px">Wartość brutto</th>
             </tr>`;
-            let vat = 0
             get_invoice.services.forEach((element, index) => {
                 html += `<tr>
                     <td style="text-align: center;">`+(index+1)+`</td>
@@ -210,7 +209,6 @@ async function generateHtml(id) {
                     <td style="text-align: center;">${element.PRICE}zł</td>
                     <td style="text-align: center;">${element.VALUEN}zł</td>
                     <td style="text-align: center;">${element.VAT}%</td>`
-                vat = element.VAT
                 html += `<td style="text-align: center;">${element.VATPRICE}zł</td>
                         <td style="text-align: center;">${element.VALUEB}zł</td>
                     </tr>`

@@ -71,6 +71,17 @@ const invoiceSchema = new mongoose.Schema({
     payType: String,
     account: String,
     seller: String,
+    services: {
+      type: [
+        {
+          NAME: String,
+          JM: String,
+          QUANTITY: Number,
+          PRICE: Number,
+          VAT: Number,
+        }
+      ],
+    },
     totalPrice: Number,
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
