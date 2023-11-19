@@ -189,15 +189,19 @@ app.post('/auth', async (req, res) => {
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const email = await token.getEmailByToken('login', ctoken);
-    if (!email){
+    if (await token.checkToken('login', ctoken)){
+      const email = await token.getEmailByToken('login', ctoken);
+      if (!email){
+        return res.status(200).send({fail:"Niepoprawne dane"});
+      }
+      const get_user = await user.checkEmail(email);
+      if(!get_user){
+        return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      }
+      return res.status(200).send({success:"Użytkownik zalogowany"});
+    }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
-    if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
-    }
-    return res.status(200).send({success:"Użytkownik zalogowany"});
   }catch(error){
     return res.status(500);
   }
@@ -209,18 +213,22 @@ app.post('/getActive', async (req, res) => {
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const email = await token.getEmailByToken('login', ctoken);
-    if (!email){
+    if (await token.checkToken('login', ctoken)){
+      const email = await token.getEmailByToken('login', ctoken);
+      if (!email){
+        return res.status(200).send({fail:"Niepoprawne dane"});
+      }
+      const get_user = await user.checkEmail(email);
+      if(!get_user){
+        return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      }
+      if(get_user.emailActivated_at == null){
+        return res.status(200).send({success:false});
+      }
+      return res.status(200).send({success:true});
+    }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
-    if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
-    }
-    if(get_user.emailActivated_at == null){
-      return res.status(200).send({success:false});
-    }
-    return res.status(200).send({success:true});
   }catch(error){
     return res.status(500);
   }
@@ -232,15 +240,19 @@ app.post('/getDetails', async (req, res) => {
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const email = await token.getEmailByToken('login', ctoken);
-    if (!email){
+    if (await token.checkToken('login', ctoken)){
+      const email = await token.getEmailByToken('login', ctoken);
+      if (!email){
+        return res.status(200).send({fail:"Niepoprawne dane"});
+      }
+      const get_user = await user.checkEmail(email);
+      if(!get_user){
+        return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      }
+      return res.status(200).send({success:get_user});
+    }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
-    if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
-    }
-    return res.status(200).send({success:get_user});
   }catch(error){
     return res.status(500);
   }
@@ -252,15 +264,19 @@ app.post('/getInvoices', async (req, res) => {
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const email = await token.getEmailByToken('login', ctoken);
-    if (!email){
+    if (await token.checkToken('login', ctoken)){
+      const email = await token.getEmailByToken('login', ctoken);
+      if (!email){
+        return res.status(200).send({fail:"Niepoprawne dane"});
+      }
+      const get_user = await user.checkEmail(email);
+      if(!get_user){
+        return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      }
+      return res.status(200).send({success:await invoice.findAll(get_user._id.toString())});
+    }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
-    if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
-    }
-    return res.status(200).send({success:await invoice.findAll(get_user._id.toString())});
   }catch(error){
     return res.status(500);
   }
@@ -272,15 +288,19 @@ app.post('/getNips', async (req, res) => {
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
   try{
-    const email = await token.getEmailByToken('login', ctoken);
-    if (!email){
+    if (await token.checkToken('login', ctoken)){
+      const email = await token.getEmailByToken('login', ctoken);
+      if (!email){
+        return res.status(200).send({fail:"Niepoprawne dane"});
+      }
+      const get_user = await user.checkEmail(email);
+      if(!get_user){
+        return res.status(200).send({fail:"Użytkownik nie istnieje"});
+      }
+      return res.status(200).send({success:await invoice.getNIPArray(get_user._id.toString())});
+    }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
-    if(!get_user){
-      return res.status(200).send({fail:"Użytkownik nie istnieje"});
-    }
-    return res.status(200).send({success:await invoice.getNIPArray(get_user._id.toString())});
   }catch(error){
     return res.status(500);
   }
