@@ -274,7 +274,7 @@ app.post('/getInvoices', async (req, res) => {
         return res.status(200).send({fail:"Użytkownik nie istnieje"});
       }
       const invoices = await invoice.findAll(get_user._id.toString());
-      console.log(invoices)
+      console.log("user:",get_user, "invoice:",invoices)
       return res.status(200).send({success:invoices});
     }else{
       return res.status(200).send({fail:"Niepoprawne dane"});
