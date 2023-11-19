@@ -288,12 +288,12 @@ async function pdfBuffer(htmlCode) {
     });
 }
 
-async function downloadPdf(res, id) {
+async function downloadPdf(res, id, name) {
     try {
         const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {
-                res.setHeader('Content-Disposition', 'attachment; filename=przykladowy.pdf');
+                res.setHeader('Content-Disposition', 'attachment; filename='+name+'.pdf');
                 res.setHeader('Content-Type', 'application/pdf');
         
                 // Wyślij bufor PDF jako odpowiedź HTTP
@@ -309,12 +309,12 @@ async function downloadPdf(res, id) {
     }
 }
 
-async function sendPdf(res, email, id) {
+async function sendPdf(email, id, name) {
     try {
         const htmlCode = await generateHtml(id);
         pdfBuffer(htmlCode)
             .then((pdfBuffer) => {
-                mail.sendInvoice(email, pdfBuffer);
+                mail.sendInvoice(email, pdfBuffer, name);
                 console.log('Udane wygenerowanie PDF.');
             })
             .catch((error) => {
