@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-async function sendInvoice(email, pdfBuffer) {
+async function sendInvoice(email, pdfBuffer, name) {
   const mailOptions = {
     from: 'TwojeFakturki@gmail.com',
     to: email,
@@ -19,7 +19,7 @@ async function sendInvoice(email, pdfBuffer) {
     `,
     attachments: [
       {
-        filename: 'faktura.pdf',
+        filename: name+'.pdf',
         content: pdfBuffer,
       },
     ],
