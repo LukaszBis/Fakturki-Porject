@@ -197,6 +197,26 @@ app.post('/auth', async (req, res) => {
     if(!get_user){
       return res.status(200).send({fail:"Użytkownik nie istnieje"});
     }
+    return res.status(200).send({success:"Użytkownik zalogowany"});
+  }catch(error){
+    return res.status(500);
+  }
+});
+
+app.post('/authOld', async (req, res) => {
+  const ctoken = req.body.user;
+  if (!ctoken){
+    return res.status(200).send({fail:"Niepoprawne dane"});
+  }
+  try{
+    const email = await token.getEmailByToken('login', ctoken);
+    if (!email){
+      return res.status(200).send({fail:"Niepoprawne dane"});
+    }
+    const get_user = await user.checkEmail(email);
+    if(!get_user){
+      return res.status(200).send({fail:"Użytkownik nie istnieje"});
+    }
 
     let data = {}
     if(req.body.details){
