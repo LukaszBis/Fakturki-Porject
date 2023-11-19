@@ -74,11 +74,14 @@ const invoiceSchema = new mongoose.Schema({
     services: {
       type: [
         {
-          NAME: String,
-          JM: String,
-          QUANTITY: Number,
-          PRICE: Number,
-          VAT: Number,
+          NAME:String,
+          JM:String, 
+          QUANTITY:Number, 
+          PRICE:Number, 
+          VALUEN:Number, 
+          VAT:Number, 
+          VATPRICE:Number, 
+          VALUEB:Number
         }
       ],
     },
