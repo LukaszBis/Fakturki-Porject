@@ -85,6 +85,28 @@ const invoiceSchema = new mongoose.Schema({
         }
       ],
     },
+    aditionalValues: {
+      type: [
+        {
+          Vat: Number,
+          NettoSum: Number,
+          VatSum: Number,
+          BruttoSum: Number
+        },
+        {
+          Vat: Number,
+          NettoSum: Number,
+          VatSum: Number,
+          BruttoSum: Number
+        },
+        {
+          Vat: Number,
+          NettoSum: Number,
+          VatSum: Number,
+          BruttoSum: Number
+        }
+      ],
+    },
     totalPrice: Number,
     created_at: {type: Date, default: new Date()},
     updated_at: {type: Date, default: new Date()},
