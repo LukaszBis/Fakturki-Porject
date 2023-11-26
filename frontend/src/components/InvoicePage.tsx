@@ -16,6 +16,7 @@ const futureDate = date.getDate();
     date.setDate(futureDate);
     const defaultValue = date.toLocaleDateString('en-CA');
 
+    const defaultPrice = 0.01;
 
 var id=1, valuen:number, vatprice:number, valueb:number, sum=0
 
@@ -37,7 +38,8 @@ const InvoiceForm = () => {
     const [name, setName] = useState("")
     const [jm, setJm] = useState("Usługa")
     const [quantity, setQuantity] = useState(1)
-    const [price, setPrice] = useState(0.01)
+    // const [price, setPrice] = useState(0.01)
+    const [price, setPrice] = useState(defaultPrice)
     // console.log(price)
     const [vat, setVat] = useState(23)
     const [client, setClient] = useState("")
@@ -823,16 +825,16 @@ const InvoiceForm = () => {
                 <div className={styles.WspolnyContainer}>
                     <table>
                         <thead>
-                            <td>Lp.</td>
-                            <td>Nazwa</td>
-                            <td>Jm.</td>
-                            <td>Ilośc</td>
-                            <td>Cena netto</td>
-                            <td>Wartość netto (R)</td>
-                            <td>VAT</td>
-                            <td>Kwota VAT</td>
-                            <td>Wartość brutto</td>
-                            <td></td>
+                            <th>Lp.</th>
+                            <th>Nazwa</th>
+                            <th>Jm.</th>
+                            <th>Ilośc</th>
+                            <th>Cena netto</th>
+                            <th>Wartość netto (R)</th>
+                            <th>VAT</th>
+                            <th>Kwota VAT</th>
+                            <th>Wartość brutto</th>
+                            <th></th>
                         </thead>
                         <Table data = {rows}
                             delRow = {handleDelete}/>
