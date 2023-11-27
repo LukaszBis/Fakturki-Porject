@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Sample API
-  description: Documentation for the sample API
+  title: Fakturki API
+  description: Documentation for the "Faktuki" application
   version: 1.0.0
 tags:
   - name: Registration
