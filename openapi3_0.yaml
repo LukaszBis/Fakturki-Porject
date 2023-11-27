@@ -1,0 +1,821 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Documentation for the sample API
+  version: 1.0.0
+tags:
+  - name: Registration
+    description: About Register
+  - name: Login
+    description: About Login
+  - name: Reset Password
+    description: About Reset Password
+  - name: New Password
+    description: About New Passowrd
+  - name: User Settings 
+    description: About User Settings
+  - name: Invoice
+    description: About Invoice
+  - name: Home Page
+    description: About Home Page
+  - name: Confirm Email
+    description: About Confirm Email
+paths:
+  /registration:
+    post:
+      tags: 
+        - Registration
+      summary: User registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses:
+        '200':
+          description: Registration successful
+        '500':
+          description: Unable to register
+
+  /auth:
+    post:
+      tags: 
+        - Registration
+        - Login
+        - Invoice
+        - User Settings
+        - Home Page
+      summary: User authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserAuth'
+      responses:
+        '200':
+          description: Authentication successful
+        '500':
+          description: Authentication failed
+
+  /login:
+    post:
+      tags: 
+        - Login
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Login successful
+        '500':
+          description: Login failed
+  
+
+  /reset:
+    post:
+      tags:
+        - Reset Password
+      summary: Reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResetPassword'
+      responses:
+        '200':
+          description: Reset successful
+        '500':
+          description: Reset failed
+
+  /newPassword:
+    post:
+      tags:
+        - New Password
+      summary: Set new password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNewPassword'
+      responses:
+        '200':
+          description: Password updated successfully
+        '500':
+          description: Password update failed
+
+  /active:
+    post:
+      tags:
+        - Confirm Email
+      summary: Activate account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateAccount'
+      responses:
+        '200':
+          description: Account activated successfully
+        '500':
+          description: Account activation failed
+
+  /userSettings:
+    get:
+      tags:
+        - User Settings 
+      summary: Get user settings
+      responses:
+        '200':
+          description: User settings retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT token for user authentication
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+
+    post:
+      tags:
+        - User Settings 
+      summary: Update user settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettings'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+  /logout:
+    post:
+      tags:
+        - User Settings 
+        - Home Page
+      summary: Logout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/logout'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+  /userSettings/LoginData:
+    post:
+      tags:
+        - User Settings 
+      summary: Get user settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+  /userSettings/PersonalData:
+    post:
+      tags:
+        - User Settings 
+      summary: perosnal data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonalData'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+  
+  /userSettings/CompanyData:
+    post:
+      tags:
+        - User Settings 
+      summary: company data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyData'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+  /userSettings/AddresData:
+    post:
+      tags:
+        - User Settings 
+      summary: adres data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddresData'
+      responses:
+        '200':
+          description: User settings updated successfully
+        '500':
+          description: Update failed
+
+  /reactivate:
+    post:
+      tags:
+        - User Settings
+      summary: Reactivate account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReactivateAccount'
+      responses:
+        '200':
+          description: Account reactivated successfully
+        '500':
+          description: Account reactivation failed
+
+  /invoice:
+    post:
+      tags:
+        - Invoice
+      summary: Create invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '200':
+          description: Invoice created successfully
+        '500':
+          description: Invoice creation failed
+
+    get:
+      tags:
+        - Invoice
+      summary: Inovice
+      responses:
+        '200':
+          description: Data retrieved successfully
+        '500':
+          description: Error retrieving data
+
+  /addService:
+    post:
+      tags:
+        - Invoice
+      summary: add service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '200':
+          description: Invoice created successfully
+        '500':
+          description: Invoice creation failed
+
+  /downloadPdf:
+    post:
+      tags:
+        - Home Page
+      summary: Download PDF
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DownloadPdf'
+      responses:
+        '200':
+          description: PDF downloaded successfully
+        '500':
+          description: PDF download failed
+
+  /sendPdf:
+    post:
+      tags:
+        - Home Page
+      summary: Send PDF via email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendPdf'
+      responses:
+        '200':
+          description: PDF sent successfully
+        '500':
+          description: PDF send failed
+
+  /invoiceDelete:
+    delete:
+      tags:
+        - Home Page
+      summary: Delete invoice
+      parameters:
+        - name: ID
+          in: query
+          description: ID of the invoice to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice deleted successfully
+        '500':
+          description: Invoice deletion failed
+
+  /homePage:
+    get:
+      tags:
+        - Home Page
+      summary: Home Page
+      responses:
+        '200':
+          description: Home Page accessed successfully
+        '500':
+          description: Error accessing Home Page
+
+  /GetInvoice:
+    post:
+      tags:
+        - Home Page
+      summary: get/post invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetInvoice'
+      responses:
+        '200':
+          description: Invoice created successfully
+        '500':
+          description: Invoice creation failed
+
+    get:
+      tags:
+        - Home Page
+      summary: Inovice
+      responses:
+        '200':
+          description: Data retrieved successfully
+        '500':
+          description: Error retrieving data
+
+
+  /getActive:
+    get:
+      tags:
+        - Invoice
+        - Home Page
+      summary: Get Active
+      responses:
+        '200':
+          description: Active data retrieved successfully
+        '500':
+          description: Error retrieving Active data
+    post:
+      tags:
+        - Invoice
+        - Home Page
+      summary: Activate account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCookies'
+      responses:
+        '200':
+          description: Home Page accessed successfully
+        '500':
+          description: Error accessing Home Page
+
+  /getNips:
+    get:
+      tags:
+        - Invoice
+      summary: Get Nips
+      responses:
+        '200':
+          description: Nips retrieved successfully
+        '500':
+          description: Error retrieving Nips
+    post:
+      tags:
+        - Invoice
+      summary:  nips
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCookies'
+      responses:
+        '200':
+          description: Home Page accessed successfully
+        '500':
+          description: Error accessing Home Page
+
+  /getDetails:
+    get:
+      tags:
+        - Invoice
+        - Home Page
+      summary: Get Details
+      responses:
+        '200':
+          description: Details retrieved successfully
+        '500':
+          description: Error retrieving Details
+    post:
+      tags:
+        - Invoice
+        - Home Page
+      summary: details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCookies'
+      responses:
+        '200':
+          description: Home Page accessed successfully
+        '500':
+          description: Error accessing Home Page
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          examples: [10]
+        username:
+          type: string
+          examples: [theUser]
+        firstName:
+          type: string
+          examples: [John]
+        lastName:
+          type: string
+          examples: [James]
+        email:
+          type: string
+          examples: [john@email.com]
+        password:
+          type: string
+          examples: ['12345']
+        phone:
+          type: string
+          examples: ['12345']
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          examples: [1]
+      xml:
+        name: user
+    
+    UserCookies:
+      type: object
+      properties:
+        cookies:
+          type: string
+          format: int64
+          examples: [10]
+    
+    logout:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+    
+    ConfirmEmail:
+      type: object
+      properties:
+        tokenParam:
+          type: string
+          format: int64
+          examples: [10]
+    
+    LoginData:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+        email:
+          type: string
+          format: int64
+          examples: [10]
+        password:
+          type: string
+          format: int64
+          examples: [10]
+        new password:
+          type: string
+          format: int64
+          examples: [10]
+        confirm password:
+          type: string
+          format: int64
+          examples: [10]
+
+    PersonalData:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+        First Name:
+          type: string
+          format: int64
+          examples: [10]
+        Last Name :
+          type: string
+          format: int64
+          examples: [10]
+        Phone Number:
+          type: integer
+          format: int64
+          examples: [10]
+
+    CompanyData:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+        NIP:
+          type: integer
+          format: int64
+          examples: [10]
+        Account Number :
+          type: string
+          format: int64
+          examples: [10]
+    
+    AddresData:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+        postalCode:
+          type: integer
+          format: int64
+          examples: [10]
+        City :
+          type: string
+          format: int64
+          examples: [10]
+        Street :
+          type: string
+          format: int64
+          examples: [10]
+        Building Number :
+          type: integer
+          format: int64
+          examples: [10]
+        Apartment Number :
+          type: integer
+          format: int64
+          examples: [10]
+    
+    Service:
+      type: object
+      properties:
+        NAME:
+          type: string
+          format: int64
+          examples: [10]
+        JM:
+          type: string
+          format: int64
+          examples: [10]
+        QUANTITY:
+          type: integer
+          format: int64
+          examples: [10]
+        PRICE:
+            type: integer
+            format: int64
+            examples: [10]
+        VAT:
+            type: integer
+            format: int64
+            examples: [10]
+
+    UserRegistration:
+      type: object
+      properties:
+        Email:
+          type: string
+        Password:
+          type: string
+        ConfirmPassword:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        PhoneNumber:
+          type: string
+        PostalCode:
+          type: string
+        City:
+          type: string
+        Street:
+          type: string
+        BuildingNo:
+          type: string
+        PremisesNo:
+          type: string
+        NIP:
+          type: string
+        AccountNumber:
+          type: string
+
+    UserAuth:
+      type: object
+      properties:
+        user:
+          type: object
+    
+    GetInvoice:
+      type: object
+      properties:
+        user:
+          type: string
+          format: int64
+          examples: [10]
+
+    UserLogin:
+      type: object
+      properties:
+        Email:
+          type: string
+        Password:
+          type: string
+
+    UserResetPassword:
+      type: object
+      properties:
+        Email:
+          type: string
+
+    UserNewPassword:
+      type: object
+      properties:
+        Password:
+          type: string
+        ConfirmPassword:
+          type: string
+        Token:
+          type: string
+
+    UserSettings:
+      type: object
+      properties:
+        Email:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        PhoneNumber:
+          type: string
+        PostalCode:
+          type: string
+        City:
+          type: string
+        Street:
+          type: string
+        BuildingNo:
+          type: string
+        PremisesNo:
+          type: string
+        NIP:
+          type: string
+
+    Invoice:
+      type: object
+      properties:
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              serviceName:
+                type: string
+              servicePrice:
+                type: number
+        client:
+          type: object
+          properties:
+            clientName:
+              type: string
+            clientEmail:
+              type: string
+        dateIssuance:
+          type: string
+          format: date
+        dateSell:
+          type: string
+          format: date
+        place:
+          type: string
+        payDate:
+          type: string
+          format: date
+        payType:
+          type: string
+        account:
+          type: string
+        seller:
+          type: string
+        totalPrice:
+          type: number
+        userId:
+          type: string
+        aditionalValues:
+          type: object
+
+    DownloadPdf:
+      type: object
+      properties:
+        ID:
+          type: string
+
+    SendPdf:
+      type: object
+      properties:
+        ID:
+          type: string
+        Email:
+          type: string
+
+    InvoiceDelete:
+      type: object
+      properties:
+        ID:
+          type: string
+
+    ActivateAccount:
+      type: object
+      properties:
+        Token:
+          type: string
+
+    ReactivateAccount:
+      type: object
+      properties:
+        Email:
+          type: string
