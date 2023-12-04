@@ -654,12 +654,13 @@ app.post('/setUserSettings/loginData', async (req,res) => {
   if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
+  let get_user;
   try{
     const email = await token.getEmailByToken('login', ctoken);
     if (!email){
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
+    get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -723,12 +724,13 @@ app.post('/setUserSettings/personalData', async (req,res) => {
   if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
+  let get_user;
   try{
     const email = await token.getEmailByToken('login', ctoken);
     if (!email){
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
+    get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -785,12 +787,13 @@ app.post('/setUserSettings/addressData', async (req,res) => {
   if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
+  let get_user;
   try{
     const email = await token.getEmailByToken('login', ctoken);
     if (!email){
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
+    get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
@@ -867,12 +870,13 @@ app.post('/setUserSettings/companyData', async (req,res) => {
   if (!ctoken){
     return res.status(200).send({fail:"Niepoprawne dane"});
   }
+  let get_user;
   try{
     const email = await token.getEmailByToken('login', ctoken);
     if (!email){
       return res.status(200).send({fail:"Niepoprawne dane"});
     }
-    const get_user = await user.checkEmail(email);
+    get_user = await user.checkEmail(email);
     if(!get_user){
       return res.status(500)
     }
