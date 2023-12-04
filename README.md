@@ -1,5 +1,27 @@
 # Fakturki-Project
 
+## Meet the Team
+
+### Łukasz Biś
+- **Role:** Lead Developer
+- **GitHub:** [lukaszbis](https://github.com/LukaszBis)
+
+### Damian Kostek
+- **Role:** UI/UX Designer
+- **GitHub:** [damiankostek](https://github.com/damiankostek)
+
+### Jakub Kurzacz
+- **Role:** Backend
+- **GitHub:** [jakubkurzacz](https://github.com/Quasi00)
+  
+### Marcin Sikora
+- **Role:** FullStack
+- **GitHub:** [marcinsikora](https://github.com/marcinpl1808)
+
+### Tymoteusz Palak
+- **Role:** DevOps
+- **GitHub:** [tymoteuszpalak](https://github.com/tymonq19)
+
 ## Description
 It's inovoice app that we crated as a team in university classes.<br>
 If you want to run the application first you need to download [Docker Desktop](https://www.docker.com/get-started/).<br>
